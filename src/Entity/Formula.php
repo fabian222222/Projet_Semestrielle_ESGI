@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\FormuleRepository;
+use App\Repository\FormulaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FormuleRepository::class)]
-class Formule
+#[ORM\Entity(repositoryClass: FormulaRepository::class)]
+class Formula
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,15 +28,15 @@ class Formule
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\ManyToMany(targetEntity: Detail::class, inversedBy: 'formules')]
-    private Collection $details;
+    #[ORM\ManyToMany(targetEntity: Detail::class, inversedBy: 'formulas')]
+    private Collection $detail;
 
-    #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'formules')]
+    #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'formulas')]
     private Collection $services;
 
     public function __construct()
     {
-        $this->details = new ArrayCollection();
+        $this->detail = new ArrayCollection();
         $this->services = new ArrayCollection();
     }
 
@@ -96,15 +96,15 @@ class Formule
     /**
      * @return Collection<int, Detail>
      */
-    public function getDetails(): Collection
+    public function getDetail(): Collection
     {
-        return $this->details;
+        return $this->detail;
     }
 
     public function addDetail(Detail $detail): static
     {
-        if (!$this->details->contains($detail)) {
-            $this->details->add($detail);
+        if (!$this->detail->contains($detail)) {
+            $this->detail->add($detail);
         }
 
         return $this;
@@ -112,7 +112,7 @@ class Formule
 
     public function removeDetail(Detail $detail): static
     {
-        $this->details->removeElement($detail);
+        $this->detail->removeElement($detail);
 
         return $this;
     }
@@ -129,7 +129,7 @@ class Formule
     {
         if (!$this->services->contains($service)) {
             $this->services->add($service);
-            $service->addFormule($this);
+            $service->addFormula($this);
         }
 
         return $this;
@@ -138,7 +138,7 @@ class Formule
     public function removeService(Service $service): static
     {
         if ($this->services->removeElement($service)) {
-            $service->removeFormule($this);
+            $service->removeFormula($this);
         }
 
         return $this;

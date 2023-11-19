@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Formule;
+use App\Entity\Formula;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Formule>
+ * @extends ServiceEntityRepository<Formula>
  *
- * @method Formule|null find($id, $lockMode = null, $lockVersion = null)
- * @method Formule|null findOneBy(array $criteria, array $orderBy = null)
- * @method Formule[]    findAll()
- * @method Formule[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Formula|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Formula|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Formula[]    findAll()
+ * @method Formula[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FormuleRepository extends ServiceEntityRepository
+class FormulaRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Formule::class);
+        parent::__construct($registry, Formula::class);
     }
 
 //    /**
-//     * @return Formule[] Returns an array of Formule objects
+//     * @return Formula[] Returns an array of Formula objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class FormuleRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Formule
+//    public function findOneBySomeField($value): ?Formula
 //    {
 //        return $this->createQueryBuilder('f')
 //            ->andWhere('f.exampleField = :val')

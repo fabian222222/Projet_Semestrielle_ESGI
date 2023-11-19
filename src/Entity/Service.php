@@ -25,12 +25,12 @@ class Service
     #[ORM\Column(length: 255)]
     private ?string $licenseType = null;
 
-    #[ORM\ManyToMany(targetEntity: Formule::class, inversedBy: 'services')]
-    private Collection $formules;
+    #[ORM\ManyToMany(targetEntity: Formula::class, inversedBy: 'services')]
+    private Collection $formulas;
 
     public function __construct()
     {
-        $this->formules = new ArrayCollection();
+        $this->formulas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,25 +75,25 @@ class Service
     }
 
     /**
-     * @return Collection<int, Formule>
+     * @return Collection<int, Formula>
      */
-    public function getFormules(): Collection
+    public function getFormulas(): Collection
     {
-        return $this->formules;
+        return $this->formulas;
     }
 
-    public function addFormule(Formule $formule): static
+    public function addFormula(Formula $formula): static
     {
-        if (!$this->formules->contains($formule)) {
-            $this->formules->add($formule);
+        if (!$this->formulas->contains($formula)) {
+            $this->formulas->add($formula);
         }
 
         return $this;
     }
 
-    public function removeFormule(Formule $formule): static
+    public function removeFormula(Formula $formula): static
     {
-        $this->formules->removeElement($formule);
+        $this->formulas->removeElement($formula);
 
         return $this;
     }

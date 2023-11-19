@@ -16,26 +16,38 @@ class Detail
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
-    #[ORM\ManyToMany(targetEntity: Formule::class, mappedBy: 'details')]
-    private Collection $formules;
+    #[ORM\ManyToMany(targetEntity: Formula::class, mappedBy: 'detail')]
+    private Collection $formulas;
 
     public function __construct()
     {
-        $this->formules = new ArrayCollection();
+        $this->formulas = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -62,40 +74,28 @@ class Detail
         return $this;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Formule>
+     * @return Collection<int, Formula>
      */
-    public function getFormules(): Collection
+    public function getFormulas(): Collection
     {
-        return $this->formules;
+        return $this->formulas;
     }
 
-    public function addFormule(Formule $formule): static
+    public function addFormula(Formula $formula): static
     {
-        if (!$this->formules->contains($formule)) {
-            $this->formules->add($formule);
-            $formule->addDetail($this);
+        if (!$this->formulas->contains($formula)) {
+            $this->formulas->add($formula);
+            $formula->addDetail($this);
         }
 
         return $this;
     }
 
-    public function removeFormule(Formule $formule): static
+    public function removeFormula(Formula $formula): static
     {
-        if ($this->formules->removeElement($formule)) {
-            $formule->removeDetail($this);
+        if ($this->formulas->removeElement($formula)) {
+            $formula->removeDetail($this);
         }
 
         return $this;
