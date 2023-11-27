@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Invoice;
 use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,16 +25,16 @@ class Client
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Invoice::class)]
-    private Collection $Invoices;
+    #[ORM\ManyToOne(inversedBy: 'clients')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?DrivingSchool $drivingSchool = null;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Quotation::class)]
-    private Collection $Quotations;
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Contract::class)]
+    private Collection $contracts;
 
     public function __construct()
     {
-        $this->Invoices = new ArrayCollection();
-        $this->Quotations = new ArrayCollection();
+        $this->contracts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,60 +78,42 @@ class Client
         return $this;
     }
 
-    /**
-     * @return Collection<int, Invoice>
-     */
-    public function getInvoices(): Collection
+    public function getDrivingSchool(): ?DrivingSchool
     {
-        return $this->Invoices;
+        return $this->drivingSchool;
     }
 
-    public function addInvoice(Invoice $invoice): static
+    public function setDrivingSchool(?DrivingSchool $drivingSchool): static
     {
-        if (!$this->Invoices->contains($invoice)) {
-            $this->Invoices->add($invoice);
-            $invoice->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInvoice(Invoice $invoice): static
-    {
-        if ($this->Invoices->removeElement($invoice)) {
-            // set the owning side to null (unless already changed)
-            if ($invoice->getClient() === $this) {
-                $invoice->setClient(null);
-            }
-        }
+        $this->drivingSchool = $drivingSchool;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Quotation>
+     * @return Collection<int, Contract>
      */
-    public function getQuotations(): Collection
+    public function getContracts(): Collection
     {
-        return $this->Quotations;
+        return $this->contracts;
     }
 
-    public function addQuotation(Quotation $quotation): static
+    public function addContract(Contract $contract): static
     {
-        if (!$this->Quotations->contains($quotation)) {
-            $this->Quotations->add($quotation);
-            $quotation->setClient($this);
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts->add($contract);
+            $contract->setClient($this);
         }
 
         return $this;
     }
 
-    public function removeQuotation(Quotation $quotation): static
+    public function removeContract(Contract $contract): static
     {
-        if ($this->Quotations->removeElement($quotation)) {
+        if ($this->contracts->removeElement($contract)) {
             // set the owning side to null (unless already changed)
-            if ($quotation->getClient() === $this) {
-                $quotation->setClient(null);
+            if ($contract->getClient() === $this) {
+                $contract->setClient(null);
             }
         }
 

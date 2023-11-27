@@ -24,12 +24,24 @@ class DrivingSchool
     #[ORM\Column(length: 255)]
     private ?string $siret = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'DrivingSchools')]
-    private Collection $users;
+    #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Client::class)]
+    private Collection $clients;
+
+    #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Formula::class)]
+    private Collection $formulas;
+
+    #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Contract::class)]
+    private Collection $contracts;
+
+    #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Invoice::class)]
+    private Collection $invoices;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->clients = new ArrayCollection();
+        $this->formulas = new ArrayCollection();
+        $this->contracts = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,27 +86,120 @@ class DrivingSchool
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Client>
      */
-    public function getUsers(): Collection
+    public function getClients(): Collection
     {
-        return $this->users;
+        return $this->clients;
     }
 
-    public function addUser(User $user): static
+    public function addClient(Client $client): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addDrivingSchool($this);
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->setDrivingSchool($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function removeClient(Client $client): static
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeDrivingSchool($this);
+        if ($this->clients->removeElement($client)) {
+            // set the owning side to null (unless already changed)
+            if ($client->getDrivingSchool() === $this) {
+                $client->setDrivingSchool(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Formula>
+     */
+    public function getFormulas(): Collection
+    {
+        return $this->formulas;
+    }
+
+    public function addFormula(Formula $formula): static
+    {
+        if (!$this->formulas->contains($formula)) {
+            $this->formulas->add($formula);
+            $formula->setDrivingSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormula(Formula $formula): static
+    {
+        if ($this->formulas->removeElement($formula)) {
+            // set the owning side to null (unless already changed)
+            if ($formula->getDrivingSchool() === $this) {
+                $formula->setDrivingSchool(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contract>
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): static
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts->add($contract);
+            $contract->setDrivingSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): static
+    {
+        if ($this->contracts->removeElement($contract)) {
+            // set the owning side to null (unless already changed)
+            if ($contract->getDrivingSchool() === $this) {
+                $contract->setDrivingSchool(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Invoice>
+     */
+    public function getInvoices(): Collection
+    {
+        return $this->invoices;
+    }
+
+    public function addInvoice(Invoice $invoice): static
+    {
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices->add($invoice);
+            $invoice->setDrivingSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): static
+    {
+        if ($this->invoices->removeElement($invoice)) {
+            // set the owning side to null (unless already changed)
+            if ($invoice->getDrivingSchool() === $this) {
+                $invoice->setDrivingSchool(null);
+            }
         }
 
         return $this;

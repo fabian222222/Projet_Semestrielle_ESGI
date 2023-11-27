@@ -22,22 +22,18 @@ class Formula
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?int $hour = null;
+    #[ORM\Column(length: 255)]
+    private ?string $typeLicenseDriving = null;
 
-    #[ORM\Column]
-    private ?int $price = null;
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'formulas')]
+    private Collection $products;
 
-    #[ORM\ManyToMany(targetEntity: Detail::class, inversedBy: 'formulas')]
-    private Collection $detail;
-
-    #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'formulas')]
-    private Collection $services;
-
+    #[ORM\ManyToOne(inversedBy: 'formulas')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?DrivingSchool $drivingSchool = null;
     public function __construct()
     {
-        $this->detail = new ArrayCollection();
-        $this->services = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,77 +65,50 @@ class Formula
         return $this;
     }
 
-    public function getHour(): ?int
+    public function getTypeLicenseDriving(): ?string
     {
-        return $this->hour;
+        return $this->typeLicenseDriving;
     }
 
-    public function setHour(int $hour): static
+    public function setTypeLicenseDriving(string $typeLicenseDriving): static
     {
-        $this->hour = $hour;
-
-        return $this;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): static
-    {
-        $this->price = $price;
+        $this->typeLicenseDriving = $typeLicenseDriving;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Detail>
+     * @return Collection<int, Product>
      */
-    public function getDetail(): Collection
+    public function getProducts(): Collection
     {
-        return $this->detail;
+        return $this->products;
     }
 
-    public function addDetail(Detail $detail): static
+    public function addProduct(Product $product): static
     {
-        if (!$this->detail->contains($detail)) {
-            $this->detail->add($detail);
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
         }
 
         return $this;
     }
 
-    public function removeDetail(Detail $detail): static
+    public function removeProduct(Product $product): static
     {
-        $this->detail->removeElement($detail);
+        $this->products->removeElement($product);
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Service>
-     */
-    public function getServices(): Collection
+    public function getDrivingSchool(): ?DrivingSchool
     {
-        return $this->services;
+        return $this->drivingSchool;
     }
 
-    public function addService(Service $service): static
+    public function setDrivingSchool(?DrivingSchool $drivingSchool): static
     {
-        if (!$this->services->contains($service)) {
-            $this->services->add($service);
-            $service->addFormula($this);
-        }
-
-        return $this;
-    }
-
-    public function removeService(Service $service): static
-    {
-        if ($this->services->removeElement($service)) {
-            $service->removeFormula($this);
-        }
+        $this->drivingSchool = $drivingSchool;
 
         return $this;
     }
