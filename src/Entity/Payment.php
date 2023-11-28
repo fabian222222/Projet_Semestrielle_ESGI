@@ -24,7 +24,7 @@ class Payment
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
 
-    #[ORM\ManyToOne(inversedBy: 'payments')]
+    #[ORM\ManyToOne(inversedBy: 'payment')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Invoice $invoice = null;
 

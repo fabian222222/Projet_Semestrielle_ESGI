@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\InvoiceDetailRepository;
+use App\Repository\ContractDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: InvoiceDetailRepository::class)]
-class InvoiceDetail
+#[ORM\Entity(repositoryClass: ContractDetailRepository::class)]
+class ContractDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,18 +17,18 @@ class InvoiceDetail
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $price = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column]
     private ?int $hour = null;
 
-    #[ORM\ManyToOne(inversedBy: 'invoiceDetails')]
+    #[ORM\Column]
+    private ?int $price = null;
+
+    #[ORM\ManyToOne(inversedBy: 'contractDetails')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Invoice $invoice = null;
+    private ?Contract $contract = null;
 
     public function getId(): ?int
     {
@@ -43,18 +43,6 @@ class InvoiceDetail
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): static
-    {
-        $this->price = $price;
 
         return $this;
     }
@@ -83,14 +71,26 @@ class InvoiceDetail
         return $this;
     }
 
-    public function getInvoice(): ?Invoice
+    public function getPrice(): ?int
     {
-        return $this->invoice;
+        return $this->price;
     }
 
-    public function setInvoice(?Invoice $invoice): static
+    public function setPrice(int $price): static
     {
-        $this->invoice = $invoice;
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getContract(): ?Contract
+    {
+        return $this->contract;
+    }
+
+    public function setContract(?Contract $contract): static
+    {
+        $this->contract = $contract;
 
         return $this;
     }

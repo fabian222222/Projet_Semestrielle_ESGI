@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceRepository;
+use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ServiceRepository::class)]
-class Service
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,10 +22,13 @@ class Service
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $licenseType = null;
+    #[ORM\Column]
+    private ?int $hour = null;
 
-    #[ORM\ManyToMany(targetEntity: Formula::class, inversedBy: 'services')]
+    #[ORM\Column]
+    private ?int $price = null;
+
+    #[ORM\ManyToMany(targetEntity: Formula::class, mappedBy: 'products')]
     private Collection $formulas;
 
     public function __construct()
@@ -62,14 +65,26 @@ class Service
         return $this;
     }
 
-    public function getLicenseType(): ?string
+    public function getHour(): ?int
     {
-        return $this->licenseType;
+        return $this->hour;
     }
 
-    public function setLicenseType(string $licenseType): static
+    public function setHour(int $hour): static
     {
-        $this->licenseType = $licenseType;
+        $this->hour = $hour;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }
@@ -86,6 +101,7 @@ class Service
     {
         if (!$this->formulas->contains($formula)) {
             $this->formulas->add($formula);
+            $formula->addProduct($this);
         }
 
         return $this;
@@ -93,7 +109,9 @@ class Service
 
     public function removeFormula(Formula $formula): static
     {
-        $this->formulas->removeElement($formula);
+        if ($this->formulas->removeElement($formula)) {
+            $formula->removeProduct($this);
+        }
 
         return $this;
     }

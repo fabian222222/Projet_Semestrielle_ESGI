@@ -19,6 +19,9 @@ class Invoice
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
@@ -28,22 +31,20 @@ class Invoice
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nameService = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
-
     #[ORM\OneToMany(mappedBy: 'invoice', targetEntity: Payment::class)]
-    private Collection $payments;
+    private Collection $payment;
 
-    #[ORM\ManyToOne(inversedBy: 'Invoices')]
+    #[ORM\OneToMany(mappedBy: 'invoice', targetEntity: InvoiceDetail::class)]
+    private Collection $invoiceDetails;
+
+    #[ORM\ManyToOne(inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Client $client = null;
+    private ?DrivingSchool $drivingSchool = null;
 
     public function __construct()
     {
-        $this->payments = new ArrayCollection();
+        $this->payment = new ArrayCollection();
+        $this->invoiceDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,6 +60,18 @@ class Invoice
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -99,42 +112,18 @@ class Invoice
         return $this;
     }
 
-    public function getNameService(): ?string
-    {
-        return $this->nameService;
-    }
-
-    public function setNameService(string $nameService): static
-    {
-        $this->nameService = $nameService;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Payment>
      */
-    public function getPayments(): Collection
+    public function getPayment(): Collection
     {
-        return $this->payments;
+        return $this->payment;
     }
 
     public function addPayment(Payment $payment): static
     {
-        if (!$this->payments->contains($payment)) {
-            $this->payments->add($payment);
+        if (!$this->payment->contains($payment)) {
+            $this->payment->add($payment);
             $payment->setInvoice($this);
         }
 
@@ -143,7 +132,7 @@ class Invoice
 
     public function removePayment(Payment $payment): static
     {
-        if ($this->payments->removeElement($payment)) {
+        if ($this->payment->removeElement($payment)) {
             // set the owning side to null (unless already changed)
             if ($payment->getInvoice() === $this) {
                 $payment->setInvoice(null);
@@ -153,14 +142,44 @@ class Invoice
         return $this;
     }
 
-    public function getClient(): ?Client
+    /**
+     * @return Collection<int, InvoiceDetail>
+     */
+    public function getInvoiceDetails(): Collection
     {
-        return $this->client;
+        return $this->invoiceDetails;
     }
 
-    public function setClient(?Client $client): static
+    public function addInvoiceDetail(InvoiceDetail $invoiceDetail): static
     {
-        $this->client = $client;
+        if (!$this->invoiceDetails->contains($invoiceDetail)) {
+            $this->invoiceDetails->add($invoiceDetail);
+            $invoiceDetail->setInvoice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoiceDetail(InvoiceDetail $invoiceDetail): static
+    {
+        if ($this->invoiceDetails->removeElement($invoiceDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($invoiceDetail->getInvoice() === $this) {
+                $invoiceDetail->setInvoice(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDrivingSchool(): ?DrivingSchool
+    {
+        return $this->drivingSchool;
+    }
+
+    public function setDrivingSchool(?DrivingSchool $drivingSchool): static
+    {
+        $this->drivingSchool = $drivingSchool;
 
         return $this;
     }
