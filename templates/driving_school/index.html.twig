@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DrivingSchool index{% endblock %}
+
+{% block body %}
+    <h1>DrivingSchool index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Siret</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for driving_school in driving_schools %}
+            <tr>
+                <td>{{ driving_school.id }}</td>
+                <td>{{ driving_school.name }}</td>
+                <td>{{ driving_school.address }}</td>
+                <td>{{ driving_school.siret }}</td>
+                <td>
+                    <a href="{{ path('app_driving_school_show', {'id': driving_school.id}) }}">show</a>
+                    <a href="{{ path('app_driving_school_edit', {'id': driving_school.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_driving_school_new') }}">Create new</a>
+{% endblock %}

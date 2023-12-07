@@ -33,10 +33,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\ManyToMany(targetEntity: DrivingSchool::class, inversedBy: 'users')]
+    private Collection $DrivingSchools;
+
 
     public function __construct()
     {
-
+        $this->DrivingSchools = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +120,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DrivingSchool>
+     */
+    public function getDrivingSchools(): Collection
+    {
+        return $this->DrivingSchools;
+    }
+
+    public function addDrivingSchool(DrivingSchool $drivingSchool): static
+    {
+        if (!$this->DrivingSchools->contains($drivingSchool)) {
+            $this->DrivingSchools->add($drivingSchool);
+        }
+
+        return $this;
+    }
+
+    public function removeDrivingSchool(DrivingSchool $drivingSchool): static
+    {
+        $this->DrivingSchools->removeElement($drivingSchool);
 
         return $this;
     }
