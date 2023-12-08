@@ -36,12 +36,16 @@ class DrivingSchool
     #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Invoice::class)]
     private Collection $invoices;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'DrivingSchools')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->clients = new ArrayCollection();
         $this->formulas = new ArrayCollection();
         $this->contracts = new ArrayCollection();
         $this->invoices = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +204,33 @@ class DrivingSchool
             if ($invoice->getDrivingSchool() === $this) {
                 $invoice->setDrivingSchool(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addDrivingSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeDrivingSchool($this);
         }
 
         return $this;
