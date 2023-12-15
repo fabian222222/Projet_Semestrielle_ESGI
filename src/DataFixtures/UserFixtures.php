@@ -36,6 +36,7 @@ class UserFixtures extends Fixture
                 ->setEmail($user['email'])
                 ->setRoles($user['role'])
                 ->setName($user['name'])
+                ->setFirstname($user['firstname'])
             ;
             $object->setPassword($this->passwordHasher->hashPassword($object, $pwd));
             $manager->persist($object);
@@ -47,6 +48,7 @@ class UserFixtures extends Fixture
                 ->setEmail($faker->email)
                 ->setRoles([])
                 ->setName("")
+                ->setFirstname("")
             ;
             $user->setPassword($this->passwordHasher->hashPassword($user, $pwd));
             $manager->persist($user);
