@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connection{% endblock %}
 
 {% block body %}
     <section class="bg-gray-100 dark:bg-gray-900">
@@ -26,12 +26,12 @@
                             </div>
                         {% endif %}
 
-                        {% embed 'composants/_input.html.twig' with {for: 'email', nameandtype: 'email' ,  placeholder: 'auto-ecole@gmail.com', autocomplete: 'email', id: 'inputEmail'} %}
+                        {% embed 'composants/_input.html.twig' with {for: 'email', nameandtype: 'email', value: '', placeholder: 'auto-ecole@gmail.com', autocomplete: 'email', id: 'inputEmail'} %}
                             {% block label %}Email{% endblock %}
                         {% endembed %}
 
 
-                        {% embed 'composants/_input.html.twig' with {for: 'inputPassword', nameandtype: 'password' ,  placeholder: '••••••••', autocomplete: 'current-password', id: 'inputPassword'} %}
+                        {% embed 'composants/_input.html.twig' with {for: 'inputPassword', nameandtype: 'password', value: '',  placeholder: '••••••••', autocomplete: 'current-password', id: 'inputPassword'} %}
                             {% block label %}Mot de passe{% endblock %}
                         {% endembed %}
 
