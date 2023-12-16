@@ -23,8 +23,8 @@
                 <td>{{ formula.description }}</td>
                 <td>{{ formula.typeLicenseDriving }}</td>
                 <td>
-                    <a href="{{ path('app_formula_show', {'id': formula.id}) }}">show</a>
-                    <a href="{{ path('app_formula_edit', {'id': formula.id}) }}">edit</a>
+                    <a href="{{ path('app_formula_show', {'id': formula.id, 'idS': drivingSchool}) }}">show</a>
+                    <a href="{{ path('app_formula_edit', {'id': formula.id, 'idS': drivingSchool}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_formula_new') }}">Create new</a>
+    <a href="{{ path('app_formula_new', {'idS': drivingSchool}) }}">Create new</a>
 {% endblock %}

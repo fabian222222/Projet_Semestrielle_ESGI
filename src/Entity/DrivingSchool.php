@@ -36,7 +36,7 @@ class DrivingSchool
     #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Invoice::class)]
     private Collection $invoices;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'DrivingSchools')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'drivingSchools')]
     private Collection $users;
 
     public function __construct()
@@ -46,6 +46,11 @@ class DrivingSchool
         $this->contracts = new ArrayCollection();
         $this->invoices = new ArrayCollection();
         $this->users = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int

@@ -16,7 +16,6 @@ class FormulaType extends AbstractType
             ->add('description')
             ->add('typeLicenseDriving')
             ->add('products')
-            ->add('drivingSchool')
         ;
     }
 
