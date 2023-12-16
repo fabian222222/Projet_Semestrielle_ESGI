@@ -17,7 +17,6 @@ class ContractType extends AbstractType
             ->add('description')
             ->add('validityDate')
             ->add('client')
-            ->add('drivingSchool')
         ;
     }
 
