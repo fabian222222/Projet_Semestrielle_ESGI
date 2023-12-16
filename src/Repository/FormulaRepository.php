@@ -21,6 +21,16 @@ class FormulaRepository extends ServiceEntityRepository
         parent::__construct($registry, Formula::class);
     }
 
+
+    public function findByFormulasDrivingSchoolId($drivingSchoolId): array
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.drivingSchool = :drivingSchoolId')
+            ->setParameter('drivingSchoolId', $drivingSchoolId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 //    /**
 //     * @return Formula[] Returns an array of Formula objects
 //     */

@@ -36,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: DrivingSchool::class, inversedBy: 'users')]
-    private Collection $DrivingSchools;
+    private Collection $drivingSchools;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
@@ -46,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->DrivingSchools = new ArrayCollection();
+        $this->drivingSchools = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,13 +136,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getDrivingSchools(): Collection
     {
-        return $this->DrivingSchools;
+        return $this->drivingSchools;
     }
 
     public function addDrivingSchool(DrivingSchool $drivingSchool): static
     {
-        if (!$this->DrivingSchools->contains($drivingSchool)) {
-            $this->DrivingSchools->add($drivingSchool);
+        if (!$this->drivingSchools->contains($drivingSchool)) {
+            $this->drivingSchools->add($drivingSchool);
         }
 
         return $this;
@@ -150,7 +150,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeDrivingSchool(DrivingSchool $drivingSchool): static
     {
-        $this->DrivingSchools->removeElement($drivingSchool);
+        $this->drivingSchools->removeElement($drivingSchool);
 
         return $this;
     }

@@ -11,12 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route('/driving/school')]
 class DrivingSchoolController extends AbstractController
 {
-    #[IsGranted("ROLE_BOSS")]
+
     #[Route('/', name: 'app_driving_school_index', methods: ['GET'])]
     public function index(DrivingSchoolRepository $drivingSchoolRepository): Response
     {
@@ -29,7 +28,7 @@ class DrivingSchoolController extends AbstractController
             $drivingSchools = $drivingSchoolRepository->findAll();
             foreach($drivingSchools as $drivingSchool) {
                 if ($drivingSchool->getUsers()->contains($this->getUser())) {
-                    array_push($filtredDrivingSchools, $drivingSchool);
+                    $filtredDrivingSchools[] = $drivingSchool;
                 }
             }
             return $this->render('driving_school/index.html.twig', [
@@ -47,6 +46,8 @@ class DrivingSchoolController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $drivingSchool->addUser($user);
             $entityManager->persist($drivingSchool);
             $entityManager->flush();
 
@@ -59,16 +60,16 @@ class DrivingSchoolController extends AbstractController
         ]);
     }
 
-    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
+    // #[Security (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
     #[Route('/{id}', name: 'app_driving_school_show', methods: ['GET'])]
     public function show(DrivingSchool $drivingSchool): Response
     {
         return $this->render('driving_school/show.html.twig', [
-            'driving_school' => $drivingSchool,
+            'drivingSchool' => $drivingSchool->getId(),
         ]);
     }
 
-    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
+    // #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
     #[Route('/{id}/edit', name: 'app_driving_school_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, DrivingSchool $drivingSchool, EntityManagerInterface $entityManager): Response
     {
@@ -82,16 +83,16 @@ class DrivingSchoolController extends AbstractController
         }
 
         return $this->render('driving_school/edit.html.twig', [
-            'driving_school' => $drivingSchool,
+            'drivingSchool' => $drivingSchool->getId(),
             'form' => $form,
         ]);
     }
 
-    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
+    // #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
     #[Route('/{id}', name: 'app_driving_school_delete', methods: ['POST'])]
     public function delete(Request $request, DrivingSchool $drivingSchool, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$drivingSchool->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $drivingSchool->getId(), $request->request->get('_token'))) {
             $entityManager->remove($drivingSchool);
             $entityManager->flush();
         }

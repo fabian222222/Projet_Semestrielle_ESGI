@@ -3,32 +3,76 @@
 {% block title %}DrivingSchool{% endblock %}
 
 {% block body %}
-    <h1>DrivingSchool</h1>
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button"
+            class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" fill-rule="evenodd"
+                  d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        </svg>
+    </button>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ driving_school.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ driving_school.name }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ driving_school.address }}</td>
-            </tr>
-            <tr>
-                <th>Siret</th>
-                <td>{{ driving_school.siret }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+            <ul class="space-y-2 font-medium">
+                <li>
+                    <a href="#" class="mb-6 mt-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">home</span>
+                        <span class="ms-3">Mon entreprise</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">contract</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes contrats</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">library_books</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes Factures</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">group</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes Clients</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_formula_index', {'idS': drivingSchool}) }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">shopping_bag</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes Formules</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">shopping_cart</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes Produits </span>
+                    </a>
+                </li>
 
-    <a href="{{ path('app_driving_school_index') }}">back to list</a>
+            </ul>
+            <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+                <li>
+                    <a href="/logout" class="mb-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">logout</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Déconnecter</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">help</span>
+                        <span class="ms-3">Aide</span>
 
-    <a href="{{ path('app_driving_school_edit', {'id': driving_school.id}) }}">edit</a>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <a href="{{ path('app_driving_school_index', {'idS': drivingSchool}) }}">back to list</a>
+
 
     {{ include('driving_school/_delete_form.html.twig') }}
 {% endblock %}
