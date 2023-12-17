@@ -23,19 +23,22 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'email' => 'user@user.fr',
                 'role' => ['ROLE_USER'],
                 'name' => 'user',
-                'reference' => 'user'
+                'reference' => 'user',
+                'firstname' => 'user'
             ],
             [
                 'email' => 'admin@user.fr',
                 'role' => ['ROLE_ADMIN'],
                 'name' => 'admin',
-                'reference' => 'admin'
+                'reference' => 'admin',
+                'firstname' => 'admin'
             ],
             [
                 'email' => 'boss@user.fr',
                 'role' => ['ROLE_BOSS'],
                 'name' => 'boss',
-                'reference' => 'boss'
+                'reference' => 'boss',
+                'firstname' => 'boss'
             ],
         ];
 
