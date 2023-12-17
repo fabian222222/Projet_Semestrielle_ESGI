@@ -3,11 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Entity\DrivingSchool;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher) {}
 
@@ -29,7 +31,16 @@ class UserFixtures extends Fixture
                 'name' => 'admin',
                 'reference' => 'admin'
             ],
+            [
+                'email' => 'boss@user.fr',
+                'role' => ['ROLE_BOSS'],
+                'name' => 'boss',
+                'reference' => 'boss'
+            ],
         ];
+
+        $drivingSchools = $manager->getRepository(DrivingSchool::class)->findAll();
+        $numberDrivingSchools = count($drivingSchools);
 
         foreach ($users as $user) {
             $object = (new User())
@@ -38,6 +49,7 @@ class UserFixtures extends Fixture
                 ->setName($user['name'])
                 ->setFirstname($user['firstname'])
             ;
+            $object->addDrivingSchool($drivingSchools[$faker->numberBetween(0, $numberDrivingSchools - 1)]);
             $object->setPassword($this->passwordHasher->hashPassword($object, $pwd));
             $manager->persist($object);
             $this->addReference($user['reference'], $object);
@@ -55,5 +67,12 @@ class UserFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            DrivingSchoolFixtures::class,
+        ];
     }
 }

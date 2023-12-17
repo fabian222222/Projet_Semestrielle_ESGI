@@ -11,8 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-#[Route('/driving/school')]
+#[Route('/driving-school')]
 class DrivingSchoolController extends AbstractController
 {
 
@@ -60,7 +61,7 @@ class DrivingSchoolController extends AbstractController
         ]);
     }
 
-    // #[Security (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
+    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool.getUsers().contains(user))')]
     #[Route('/{id}', name: 'app_driving_school_show', methods: ['GET'])]
     public function show(DrivingSchool $drivingSchool): Response
     {
@@ -69,7 +70,7 @@ class DrivingSchoolController extends AbstractController
         ]);
     }
 
-    // #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
+    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool.getUsers().contains(user))')]
     #[Route('/{id}/edit', name: 'app_driving_school_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, DrivingSchool $drivingSchool, EntityManagerInterface $entityManager): Response
     {
@@ -88,7 +89,7 @@ class DrivingSchoolController extends AbstractController
         ]);
     }
 
-    // #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool->getUsers()->contains(user))')]
+    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool.getUsers().contains(user))')]
     #[Route('/{id}', name: 'app_driving_school_delete', methods: ['POST'])]
     public function delete(Request $request, DrivingSchool $drivingSchool, EntityManagerInterface $entityManager): Response
     {
