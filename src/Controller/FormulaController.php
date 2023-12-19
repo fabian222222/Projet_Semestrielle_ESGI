@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\DrivingSchool;
 use App\Entity\Formula;
-use App\Entity\Product;
-use App\Entity\User;
 use App\Form\FormulaType;
 use App\Repository\FormulaRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,6 +49,7 @@ class FormulaController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_formula_show', methods: ['GET'])]
+    #[Security('is_granted("ROLE_BOSS")')]
     public function show(Formula $formula, DrivingSchool $idS): Response
     {
         return $this->render('formula/show.html.twig', [
