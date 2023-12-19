@@ -13,8 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-#[Route('/driving/school/{idS}/formula')]
+#[Route('/driving-school/{idS}/formula')]
 class FormulaController extends AbstractController
 {
     #[Route('/', name: 'app_formula_index', methods: ['GET'])]
@@ -59,7 +60,7 @@ class FormulaController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_formula_edit', methods: ['GET', 'POST'])]
-    #[Security('is_granted("ROLE_BOSS")')]
+    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && user.getDrivingSchools().contains(formula.getDrivingSchool()))')]
     public function edit(Request $request, Formula $formula, EntityManagerInterface $entityManager, DrivingSchool $idS): Response
     {
         $form = $this->createForm(FormulaType::class, $formula);
@@ -79,7 +80,7 @@ class FormulaController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_formula_delete', methods: ['POST'])]
-    #[Security('is_granted("ROLE_BOSS")')]
+    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && user.getDrivingSchools().contains(formula.getDrivingSchool()))')]
     public function delete(Request $request, Formula $formula, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$formula->getId(), $request->request->get('_token'))) {

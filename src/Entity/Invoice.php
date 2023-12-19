@@ -41,6 +41,10 @@ class Invoice
     #[ORM\JoinColumn(nullable: false)]
     private ?DrivingSchool $drivingSchool = null;
 
+    #[ORM\ManyToOne(inversedBy: 'invoices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $client = null;
+
     public function __construct()
     {
         $this->payment = new ArrayCollection();
@@ -180,6 +184,18 @@ class Invoice
     public function setDrivingSchool(?DrivingSchool $drivingSchool): static
     {
         $this->drivingSchool = $drivingSchool;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
 
         return $this;
     }
