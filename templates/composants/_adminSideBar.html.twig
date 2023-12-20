@@ -1,0 +1,52 @@
+    <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+            <ul class="space-y-2 font-medium">
+                <li>
+                    <a href="#" class="mb-6 mt-8 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">home</span>
+                        <span class="ms-3">Mon entreprise</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">contract</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes contrats</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">library_books</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes Factures</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_client_index', {'idS': drivingSchool}) }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">group</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes Clients</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_product_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">shopping_cart</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Mes Produits </span>
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+                <li>
+                    <a href="/logout" class="mb-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">logout</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Déconnecter</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">help</span>
+                        <span class="ms-3">Aide</span>
+
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
