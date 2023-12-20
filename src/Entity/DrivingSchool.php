@@ -27,9 +27,6 @@ class DrivingSchool
     #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Client::class)]
     private Collection $clients;
 
-    #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Formula::class)]
-    private Collection $formulas;
-
     #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Contract::class)]
     private Collection $contracts;
 
@@ -42,7 +39,6 @@ class DrivingSchool
     public function __construct()
     {
         $this->clients = new ArrayCollection();
-        $this->formulas = new ArrayCollection();
         $this->contracts = new ArrayCollection();
         $this->invoices = new ArrayCollection();
         $this->users = new ArrayCollection();
@@ -118,36 +114,6 @@ class DrivingSchool
             // set the owning side to null (unless already changed)
             if ($client->getDrivingSchool() === $this) {
                 $client->setDrivingSchool(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Formula>
-     */
-    public function getFormulas(): Collection
-    {
-        return $this->formulas;
-    }
-
-    public function addFormula(Formula $formula): static
-    {
-        if (!$this->formulas->contains($formula)) {
-            $this->formulas->add($formula);
-            $formula->setDrivingSchool($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFormula(Formula $formula): static
-    {
-        if ($this->formulas->removeElement($formula)) {
-            // set the owning side to null (unless already changed)
-            if ($formula->getDrivingSchool() === $this) {
-                $formula->setDrivingSchool(null);
             }
         }
 
