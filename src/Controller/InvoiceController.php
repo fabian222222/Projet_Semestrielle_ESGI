@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
-#[Route('/invoice')]
+#[Route('/driving-school/{idS}/invoice')]
 class InvoiceController extends AbstractController
 {
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]

@@ -21,6 +21,16 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
+    public function findByDrivingSchoolid($drivingSchoolId): array
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.drivingSchool = :drivingSchoolId')
+            ->setParameter('drivingSchoolId', $drivingSchoolId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Client[] Returns an array of Client objects
 //     */

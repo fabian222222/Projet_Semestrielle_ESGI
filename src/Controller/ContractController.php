@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/driving/school/{idS}/contract')]
+#[Route('/driving-school/{idS}/contract')]
 class ContractController extends AbstractController
 {
     #[Route('/', name: 'app_contract_index', methods: ['GET'])]
@@ -27,6 +27,9 @@ class ContractController extends AbstractController
     #[Route('/new', name: 'app_contract_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, DrivingSchool $idS): Response
     {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
         $contract = new Contract();
         $form = $this->createForm(ContractType::class, $contract);
         $form->handleRequest($request);
@@ -40,7 +43,7 @@ class ContractController extends AbstractController
         }
 
         return $this->render('contract/new.html.twig', [
-            'drivingSchool' => $idS,
+            'drivingSchool' => $schoolSelected,
             'contract' => $contract,
             'form' => $form,
         ]);
