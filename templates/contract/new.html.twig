@@ -5,7 +5,9 @@
 {% block body %}
     <h1>Create new Contract</h1>
 
+    {{ include('composants/_adminSideBar.html.twig') }}
+
     {{ include('contract/_form.html.twig') }}
 
-    <a href="{{ path('app_contract_index', {'idS': drivingSchool}) }}">back to list</a>
+    <a class="ml-64" href="{{ path('app_contract_index') }}">back to list</a>
 {% endblock %}
