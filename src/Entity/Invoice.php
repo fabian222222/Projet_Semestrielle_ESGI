@@ -45,6 +45,7 @@ class Invoice
     public function __construct()
     {
         $this->payment = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
