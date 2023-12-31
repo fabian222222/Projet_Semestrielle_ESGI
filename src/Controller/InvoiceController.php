@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\DrivingSchool;
 use App\Entity\Invoice;
+use App\Entity\Contract;
+use App\Entity\Client;
+use App\Entity\DrivingSchool;
 use App\Form\InvoiceType;
 use App\Repository\InvoiceRepository;
 use DateTimeImmutable;
@@ -20,7 +23,7 @@ class InvoiceController extends AbstractController
 {
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function index(InvoiceRepository $invoiceRepository,  DrivingSchool $idS): Response
+    public function index(InvoiceRepository $invoiceRepository, Request $request): Response
     {
         if ($this->isGranted("ROLE_ADMIN")) {
             return $this->render('invoice/index.html.twig', [
@@ -28,9 +31,20 @@ class InvoiceController extends AbstractController
                 'drivingSchool' => $idS->getId(),
             ]);
         } else {
+            $filtredInvoices = [];
+            $invoices = $invoiceRepository->findAll();
+
+            $session = $request->getSession();
+            $schoolSelected = $session->get('driving-school-selected');
+
+            foreach($invoices as $invoice) {
+                if ($this->getUser()->getDrivingSchools()->contains($invoice->getDrivingSchool())) {
+                    array_push($filtredInvoices, $invoice);
+                }
+            }
             return $this->render('invoice/index.html.twig', [
-                'invoices' => $invoiceRepository->findByDrivingSchoolId($idS->getId()),
-                'drivingSchool' => $idS->getId(),
+                'invoices' => $filtredInvoices,
+                'drivingSchool' => $schoolSelected
             ]);
         }
     }
@@ -60,32 +74,50 @@ class InvoiceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_invoice_show', methods: ['GET'])]
-    public function show(Invoice $invoice,  DrivingSchool $idS): Response
+    #[Route('/convert/{id}/client/{clientId}', name: 'app_invoice_convert', methods: ['GET', 'POST'])]
+    #[Security('is_granted("ROLE_BOSS")')]
+    public function convert(
+        Contract $contract,
+        int $clientId,
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+    ): Response
     {
-        return $this->render('invoice/show.html.twig', [
-            'invoice' => $invoice,
-            'drivingSchool' => $idS->getId(),
-        ]);
-    }
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+        
+        $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
+        $client = $entityManager->getRepository(Client::class)->findOneById($clientId);
+        
+        $invoice = new Invoice();
+        $invoice->setName($contract->getName());
+        $invoice->setDescription($contract->getDescription());
+        $invoice->setPrice($contract->getPrice());
+        $invoice->setDrivingSchool($drivingSchool);
+        $invoice->setClient($client);
 
-    #[Route('/{id}/edit', name: 'app_invoice_edit', methods: ['GET', 'POST'])]
-    #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && user.getDrivingSchools().contains(invoice.getDrivingSchool()))')]
-    public function edit(Request $request, Invoice $invoice, EntityManagerInterface $entityManager, DrivingSchool $idS): Response
-    {
-        $form = $this->createForm(InvoiceType::class, $invoice, array('drivingSchool' => $idS));
+        $form = $this->createForm(InvoiceType::class, $invoice);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($invoice);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_invoice_index', ["idS" => $idS->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('invoice/edit.html.twig', [
+        return $this->render('invoice/new.html.twig', [
             'invoice' => $invoice,
             'drivingSchool' => $idS->getId(),
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_invoice_show', methods: ['GET'])]
+    public function show(Invoice $invoice): Response
+    {
+        return $this->render('invoice/show.html.twig', [
+            'invoice' => $invoice,
         ]);
     }
 
