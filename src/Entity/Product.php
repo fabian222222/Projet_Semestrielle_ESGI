@@ -36,7 +36,7 @@ class Product
     private ?\DateTimeImmutable $deleted_at = null;
 
     #[ORM\Column]
-    private ?\DateTime $validityDate = null;
+    private ?\DateTimeImmutable $validityDate = null;
 
     public function __construct()
     {
