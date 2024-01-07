@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/driving/school/{idS}/contract')]
+#[Route('/driving-school/{idS}/contract')]
 class ContractController extends AbstractController
 {
     #[Route('/', name: 'app_contract_index', methods: ['GET'])]

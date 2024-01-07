@@ -7,19 +7,21 @@ use App\Entity\DrivingSchool;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('driving/school/{idS}/client')]
+#[Route('/driving-school/{idS}/client')]
 class ClientController extends AbstractController
 {
     #[Route('/', name: 'app_client_index', methods: ['GET'])]
+    #[Security('is_granted("ROLE_BOSS")')]
     public function index(ClientRepository $clientRepository, DrivingSchool $idS): Response
     {
         return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findAll(),
+            'clients' => $clientRepository->findByDrivingSchool($idS),
             'drivingSchool' => $idS->getId(),
         ]);
     }

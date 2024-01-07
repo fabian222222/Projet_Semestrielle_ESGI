@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\DrivingSchool;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,21 @@ class DrivingSchoolRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, DrivingSchool::class);
+    }
+
+    /**
+     * @param $user
+     * @return DrivingSchool[] Retourne la liste des auto écoles
+     * dans lesquel l'utilisateur donné en paramètre est présent
+     */
+    public function findByUser($user): array
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere(':user MEMBER OF d.users')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //    /**
