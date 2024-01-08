@@ -35,8 +35,7 @@ class InvoiceType extends AbstractType
                         return $cr->queryFindByDrivingSchool($drivingSchool);
                     },
                     'choice_label' => 'name']
-            )
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
