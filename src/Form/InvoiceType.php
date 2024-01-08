@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Client;
 use App\Entity\DrivingSchool;
 use App\Entity\Invoice;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,8 +21,18 @@ class InvoiceType extends AbstractType
             ->add('typePayment')
             ->add('price')
             ->add('drivingSchool', EntityType::class, [
+                'label' => 'Test 2',
                 'class' => DrivingSchool::class,
-'choice_label' => 'id',
+                'choice_label' => 'name',
+            ])
+            ->add('client', EntityType::class, [
+                'label' => 'Test 2',
+                'class' => Client::class,
+                'choice_label' => 'name',
+                //'query_builder' => function (ClientRepository $clientRepository) use ($options) {
+                //return $clientRepository->findByDrivingSchoolid($options['idS']);
+
+                //   },
             ])
         ;
     }
