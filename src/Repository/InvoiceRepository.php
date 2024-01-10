@@ -21,6 +21,21 @@ class InvoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoice::class);
     }
 
+    /**
+     * @param $drivingSchoolId
+     * @return Invoice[] Retourne la liste des factures de l'auto école
+     * donné en paramètre
+     */
+    public function findByDrivingSchoolId($drivingSchoolId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.drivingSchool = :drivingSchoolId')
+            ->setParameter('drivingSchoolId', $drivingSchoolId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Invoice[] Returns an array of Invoice objects
 //     */

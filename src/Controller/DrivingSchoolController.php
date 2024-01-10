@@ -25,15 +25,8 @@ class DrivingSchoolController extends AbstractController
                 'driving_schools' => $drivingSchoolRepository->findAll(),
             ]);
         } else {
-            $filtredDrivingSchools = [];
-            $drivingSchools = $drivingSchoolRepository->findAll();
-            foreach($drivingSchools as $drivingSchool) {
-                if ($drivingSchool->getUsers()->contains($this->getUser())) {
-                    $filtredDrivingSchools[] = $drivingSchool;
-                }
-            }
             return $this->render('driving_school/index.html.twig', [
-                'driving_schools' => $filtredDrivingSchools,
+                'driving_schools' => $drivingSchoolRepository->findByUser($this->getUser()),
             ]);
         }
     }

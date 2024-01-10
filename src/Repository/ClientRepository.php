@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,13 +22,31 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
-    public function findByDrivingSchoolid($drivingSchoolId): array
+    /**
+     * @param $drivingSchool
+     * @return Client[] Retourne la liste des clients d'une auto école
+     * donné en paramètre
+     */
+    public function findByDrivingSchool($drivingSchool): array
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.drivingSchool = :drivingSchoolId')
-            ->setParameter('drivingSchoolId', $drivingSchoolId)
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.drivingSchool = :drivingSchool')
+            ->setParameter('drivingSchool', $drivingSchool)
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    /**
+     * @param $drivingSchool
+     * @return QueryBuilder Retourne la query utilisée dans le form type
+     * pour filtrer la liste des clients en fonction de l'auto école donné en paramètre
+     */
+    public function queryFindByDrivingSchool($drivingSchool): QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.drivingSchool = :drivingSchool')
+            ->setParameter('drivingSchool', $drivingSchool)
             ;
     }
 
