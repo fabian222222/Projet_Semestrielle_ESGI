@@ -20,10 +20,8 @@ class ContractController extends AbstractController
     #[Route('/', name: 'app_contract_index')]
     public function index(Request $request, ContractRepository $contractRepository): Response
     {
-
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
-
         return $this->render('contract/index.html.twig', [
             'contracts' => $contractRepository->findAll(),
             'drivingSchool' => $schoolSelected,

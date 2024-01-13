@@ -43,7 +43,7 @@ class Product
         $current_date = new \DateTime();
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTimeImmutable();
-        $this->validityDate = $current_date->modify('+1 month');
+        $this->validityDate = new \DateTimeImmutable($current_date->modify('+1 month')->format('Y-m-d H:i:s'));
     }
 
     public function __toString()

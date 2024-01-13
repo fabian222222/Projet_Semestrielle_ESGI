@@ -57,7 +57,6 @@ class DrivingSchoolController extends AbstractController
     #[Security('is_granted("ROLE_ADMIN") or (is_granted("ROLE_BOSS") && drivingSchool.getUsers().contains(user))')]
     #[Route('/{id}', name: 'app_driving_school_show', methods: ['GET'])]
     public function show(DrivingSchool $drivingSchool, Request $request): Response
-    public function show(DrivingSchool $drivingSchool, Request $request): Response
     {
         $session = $request->getSession();
         $session->set('driving-school-selected', $drivingSchool->getId());

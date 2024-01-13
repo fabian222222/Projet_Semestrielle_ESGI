@@ -6,7 +6,6 @@ use App\Entity\DrivingSchool;
 use App\Entity\Invoice;
 use App\Entity\Contract;
 use App\Entity\Client;
-use App\Entity\DrivingSchool;
 use App\Form\InvoiceType;
 use App\Repository\InvoiceRepository;
 use DateTimeImmutable;
@@ -18,58 +17,61 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
-#[Route('/driving-school/{idS}/invoice')]
+#[Route('/driving-school/invoice')]
 class InvoiceController extends AbstractController
 {
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]
     #[Security('is_granted("ROLE_BOSS")')]
     public function index(InvoiceRepository $invoiceRepository, Request $request): Response
     {
-        if ($this->isGranted("ROLE_ADMIN")) {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+        
+        // if ($this->isGranted("ROLE_ADMIN")) {
+        //     return $this->render('invoice/index.html.twig', [
+        //         'invoices' => $invoiceRepository->findAll(),
+        //         'drivingSchool' => $schoolSelected,
+        //     ]);
+        // } else {
+        //     $filtredInvoices = [];
+        //     $invoices = $invoiceRepository->findAll();
+
+        //     foreach($invoices as $invoice) {
+        //         if ($this->getUser()->getDrivingSchools()->contains($invoice->getDrivingSchool())) {
+        //             array_push($filtredInvoices, $invoice);
+        //         }
+        //     }
             return $this->render('invoice/index.html.twig', [
                 'invoices' => $invoiceRepository->findAll(),
-                'drivingSchool' => $idS->getId(),
-            ]);
-        } else {
-            $filtredInvoices = [];
-            $invoices = $invoiceRepository->findAll();
-
-            $session = $request->getSession();
-            $schoolSelected = $session->get('driving-school-selected');
-
-            foreach($invoices as $invoice) {
-                if ($this->getUser()->getDrivingSchools()->contains($invoice->getDrivingSchool())) {
-                    array_push($filtredInvoices, $invoice);
-                }
-            }
-            return $this->render('invoice/index.html.twig', [
-                'invoices' => $filtredInvoices,
                 'drivingSchool' => $schoolSelected
             ]);
-        }
+        // }
     }
 
     #[Route('/new', name: 'app_invoice_new', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function new(Request $request, EntityManagerInterface $entityManager,  DrivingSchool $idS): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
         $invoice = new Invoice();
-        $form = $this->createForm(InvoiceType::class, $invoice, array('drivingSchool' => $idS));
+        $form = $this->createForm(InvoiceType::class, $invoice, array('drivingSchool' => $schoolSelected));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $invoice->setDrivingSchool($idS);
+            $invoice->setDrivingSchool($schoolSelected);
             $invoice->setDate(new DateTimeImmutable());
 
             $entityManager->persist($invoice);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_invoice_index', ["idS" => $idS->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_invoice_index');
         }
 
         return $this->render('invoice/new.html.twig', [
             'invoice' => $invoice,
-            'drivingSchool' => $idS->getId(),
+            'drivingSchool' => $schoolSelected,
             'form' => $form,
         ]);
     }
@@ -96,19 +98,19 @@ class InvoiceController extends AbstractController
         $invoice->setDrivingSchool($drivingSchool);
         $invoice->setClient($client);
 
-        $form = $this->createForm(InvoiceType::class, $invoice);
+        $form = $this->createForm(InvoiceType::class, $invoice, ["drivingSchool" => $drivingSchool]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($invoice);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_invoice_index', ["idS" => $idS->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_invoice_index');
         }
 
         return $this->render('invoice/new.html.twig', [
             'invoice' => $invoice,
-            'drivingSchool' => $idS->getId(),
+            'drivingSchool' => $schoolSelected,
             'form' => $form,
         ]);
     }

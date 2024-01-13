@@ -13,53 +13,70 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/driving-school/{idS}/client')]
+#[Route('/driving-school/client')]
 class ClientController extends AbstractController
 {
     #[Route('/', name: 'app_client_index', methods: ['GET'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function index(ClientRepository $clientRepository, DrivingSchool $idS): Response
+    public function index(ClientRepository $clientRepository, Request $request): Response
     {
+
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
         return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findByDrivingSchool($idS),
-            'drivingSchool' => $idS->getId(),
+            'clients' => $clientRepository->findByDrivingSchool($schoolSelected),
+            'drivingSchool' => $schoolSelected,
         ]);
     }
 
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, DrivingSchool $idS): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
         $client = new Client();
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $client->setDrivingSchool($idS);
+
+            $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
+            $client->setDrivingSchool($drivingSchool);
             $entityManager->persist($client);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_client_index', ["idS" => $idS->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_client_index');
         }
 
         return $this->render('client/new.html.twig', [
-            'drivingSchool' => $idS,
+            'drivingSchool' => $schoolSelected,
             'client' => $client,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
-    public function show(Client $client, DrivingSchool $idS): Response
+    public function show(Client $client, Request $request): Response
     {
+
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
         return $this->render('client/show.html.twig', [
             'client' => $client,
-            'drivingSchool' => $idS->getId(),
+            'drivingSchool' => $schoolSelected,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_client_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Client $client, EntityManagerInterface $entityManager, DrivingSchool $idS): Response
+    public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
+
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
@@ -72,7 +89,7 @@ class ClientController extends AbstractController
         return $this->render('client/edit.html.twig', [
             'client' => $client,
             'form' => $form,
-            'drivingSchool' => $idS->getId(),
+            'drivingSchool' => $schoolSelected,
         ]);
     }
 
