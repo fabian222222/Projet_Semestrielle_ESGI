@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
-#[Route('/driving-school/invoice')]
+#[Route('/invoice')]
 class InvoiceController extends AbstractController
 {
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]
@@ -54,13 +54,14 @@ class InvoiceController extends AbstractController
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
+        $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
 
         $invoice = new Invoice();
-        $form = $this->createForm(InvoiceType::class, $invoice, array('drivingSchool' => $schoolSelected));
+        $form = $this->createForm(InvoiceType::class, $invoice, array('drivingSchool' => $drivingSchool));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $invoice->setDrivingSchool($schoolSelected);
+            $invoice->setDrivingSchool($drivingSchool);
             $invoice->setDate(new DateTimeImmutable());
 
             $entityManager->persist($invoice);
