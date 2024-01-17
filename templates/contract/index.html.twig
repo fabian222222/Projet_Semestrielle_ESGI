@@ -1,32 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contract index{% endblock %}
+{% block title %}Hello ContractController!{% endblock %}
 
 {% block body %}
-    <h1>Contract index</h1>
 
-    <table class="table">
+
+{{ include('composants/_adminSideBar.html.twig') }}
+
+<section class="ml-64">
+    <table class="table mx-5">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
-                <th>Price</th>
                 <th>Description</th>
-                <th>ValidityDate</th>
-                <th>actions</th>
+                <th>Price</th>
+                <th>Validity</th>
+                <th>User</th>
             </tr>
         </thead>
         <tbody>
         {% for contract in contracts %}
             <tr>
-                <td>{{ contract.id }}</td>
                 <td>{{ contract.name }}</td>
-                <td>{{ contract.price }}</td>
                 <td>{{ contract.description }}</td>
-                <td>{{ contract.validityDate ? contract.validityDate|date('Y-m-d') : '' }}</td>
+                <td>{{ contract.price }}</td>
+                <td>{{ contract.validityDate|date('Y-m-d') }}</td>
+                <td>{{ contract.client.name }}</td>
                 <td>
-                    <a href="{{ path('app_contract_show', {'id': contract.id, 'idS': drivingSchool}) }}">show</a>
-                    <a href="{{ path('app_contract_edit', {'id': contract.id, 'idS': drivingSchool}) }}">edit</a>
+                    <a href="{{ path('app_invoice_convert', {'id': contract.id, 'clientId': contract.client.id}) }}">convert to invoice</a>
                 </td>
             </tr>
         {% else %}
@@ -36,6 +37,6 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_contract_new', {'idS': drivingSchool}) }}">Create new</a>
+    <a href="{{ path('app_contract_new') }}">Create new</a>
+</section>
 {% endblock %}

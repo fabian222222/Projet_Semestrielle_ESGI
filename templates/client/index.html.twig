@@ -1,40 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client index{% endblock %}
-
-{% block body %}
-    <h1>Client index</h1>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Lastname</th>
-            <th>Email</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
-            <tr>
-                <td>{{ client.id }}</td>
-                <td>{{ client.name }}</td>
-                <td>{{ client.lastname }}</td>
-                <td>{{ client.email }}</td>
-                <td>
-                    <a href="{{ path('app_client_show', {'id': client.id, 'idS': drivingSchool}) }}">show</a>
-                    <a href="{{ path('app_client_edit', {'id': client.id, 'idS': drivingSchool}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_client_new', {'idS': drivingSchool}) }}">Create new</a>
+{% block title %}Client index
 {% endblock %}
 
+{% block body %}
+
+	{{ include('composants/_adminSideBar.html.twig') }}
+
+	<section class="ml-64">
+		<h1>Client index</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Lastname</th>
+					<th>Email</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for client in clients %}
+					<tr>
+						<td>{{ client.id }}</td>
+						<td>{{ client.name }}</td>
+						<td>{{ client.lastname }}</td>
+						<td>{{ client.email }}</td>
+						<td>
+							<a href="{{ path('app_client_show', {'id': client.id, 'idS': drivingSchool}) }}">show</a>
+							<a href="{{ path('app_client_edit', {'id': client.id, 'idS': drivingSchool}) }}">edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="5">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_client_new', {'idS': drivingSchool}) }}">Create new</a>
+	</section>
+{% endblock %}

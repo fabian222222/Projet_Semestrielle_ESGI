@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,28 +15,40 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $productName = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    private ?string $productDescription = null;
 
     #[ORM\Column]
-    private ?int $hour = null;
+    private ?int $productHour = null;
 
     #[ORM\Column]
-    private ?int $price = null;
+    private ?int $productPrice = null;
 
-    #[ORM\ManyToMany(targetEntity: Formula::class, mappedBy: 'products')]
-    private Collection $formulas;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $deleted_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $validityDate = null;
 
     public function __construct()
     {
-        $this->formulas = new ArrayCollection();
+        $current_date = new \DateTime();
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
+        $this->validityDate = new \DateTimeImmutable($current_date->modify('+1 month')->format('Y-m-d H:i:s'));
     }
 
     public function __toString()
     {
-        return $this->name;
+        return $this->productName;
     }
 
     public function getId(): ?int
@@ -46,78 +56,100 @@ class Product
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getProductName(): ?string
     {
-        return $this->name;
+        return $this->productName;
     }
 
-    public function setName(string $name): static
+    public function setProductName(string $productName): static
     {
-        $this->name = $name;
+        $this->productName = $productName;
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getProductDescription(): ?string
     {
-        return $this->description;
+        return $this->productDescription;
     }
 
-    public function setDescription(string $description): static
+    public function setProductDescription(string $productDescription): static
     {
-        $this->description = $description;
+        $this->productDescription = $productDescription;
 
         return $this;
     }
 
-    public function getHour(): ?int
+    public function getProductHour(): ?int
     {
-        return $this->hour;
+        return $this->productHour;
     }
 
-    public function setHour(int $hour): static
+    public function setProductHour(int $productHour): static
     {
-        $this->hour = $hour;
+        $this->productHour = $productHour;
 
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getProductPrice(): ?int
     {
-        return $this->price;
+        return $this->productPrice;
     }
 
-    public function setPrice(int $price): static
+    public function setProductPrice(int $productPrice): static
     {
-        $this->price = $price;
+        $this->productPrice = $productPrice;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Formula>
-     */
-    public function getFormulas(): Collection
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->formulas;
+        return $this->created_at;
     }
 
-    public function addFormula(Formula $formula): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        if (!$this->formulas->contains($formula)) {
-            $this->formulas->add($formula);
-            $formula->addProduct($this);
-        }
+        $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function removeFormula(Formula $formula): static
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        if ($this->formulas->removeElement($formula)) {
-            $formula->removeProduct($this);
-        }
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->deleted_at;
+    }
+
+    public function setDeletedAt(\DateTimeImmutable $deleted_at): static
+    {
+        $this->deleted_at = $deleted_at;
+
+        return $this;
+    }
+
+    public function getValidityDate(): ?\DateTimeImmutable
+    {
+        return $this->validityDate;
+    }
+
+    public function setValidityDate(\DateTimeImmutable $validityDate): static
+    {
+        $this->validityDate = $validityDate;
+
+        return $this;
+    }
+
 }

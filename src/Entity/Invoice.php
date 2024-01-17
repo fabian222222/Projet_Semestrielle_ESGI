@@ -34,9 +34,6 @@ class Invoice
     #[ORM\OneToMany(mappedBy: 'invoice', targetEntity: Payment::class)]
     private Collection $payment;
 
-    #[ORM\OneToMany(mappedBy: 'invoice', targetEntity: InvoiceDetail::class)]
-    private Collection $invoiceDetails;
-
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
     private ?DrivingSchool $drivingSchool = null;
@@ -48,7 +45,7 @@ class Invoice
     public function __construct()
     {
         $this->payment = new ArrayCollection();
-        $this->invoiceDetails = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
@@ -140,36 +137,6 @@ class Invoice
             // set the owning side to null (unless already changed)
             if ($payment->getInvoice() === $this) {
                 $payment->setInvoice(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InvoiceDetail>
-     */
-    public function getInvoiceDetails(): Collection
-    {
-        return $this->invoiceDetails;
-    }
-
-    public function addInvoiceDetail(InvoiceDetail $invoiceDetail): static
-    {
-        if (!$this->invoiceDetails->contains($invoiceDetail)) {
-            $this->invoiceDetails->add($invoiceDetail);
-            $invoiceDetail->setInvoice($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInvoiceDetail(InvoiceDetail $invoiceDetail): static
-    {
-        if ($this->invoiceDetails->removeElement($invoiceDetail)) {
-            // set the owning side to null (unless already changed)
-            if ($invoiceDetail->getInvoice() === $this) {
-                $invoiceDetail->setInvoice(null);
             }
         }
 

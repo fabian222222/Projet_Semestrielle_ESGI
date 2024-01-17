@@ -22,11 +22,6 @@ class InvoiceType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('date', DateTimeType::class,[
-                'label' => 'Date de création de la facture',
-                'disabled' => true,
-                'mapped' => false
-            ])
             ->add('typePayment')
             ->add('price')
             ->add('client', EntityType::class, [
