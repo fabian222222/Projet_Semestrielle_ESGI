@@ -73,7 +73,7 @@ class ProductController extends AbstractController
     {
 
         $session = $request->getSession();
-        $schoolSelected = $session->get('driving-school-selected');
+        $schoolSelected = $session->get('driving-school-selected'); 
 
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
