@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ContractRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,17 +29,9 @@ class Contract
     #[ORM\ManyToOne(inversedBy: 'contracts')]
     private ?Client $client = null;
 
-    #[ORM\OneToMany(mappedBy: 'contract', targetEntity: ContractDetail::class)]
-    private Collection $contractDetails;
-
     #[ORM\ManyToOne(inversedBy: 'contracts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?DrivingSchool $drivingSchool = null;
-
-    public function __construct()
-    {
-        $this->contractDetails = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -104,36 +94,6 @@ class Contract
     public function setClient(?Client $client): static
     {
         $this->client = $client;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ContractDetail>
-     */
-    public function getContractDetails(): Collection
-    {
-        return $this->contractDetails;
-    }
-
-    public function addContractDetail(ContractDetail $contractDetail): static
-    {
-        if (!$this->contractDetails->contains($contractDetail)) {
-            $this->contractDetails->add($contractDetail);
-            $contractDetail->setContract($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContractDetail(ContractDetail $contractDetail): static
-    {
-        if ($this->contractDetails->removeElement($contractDetail)) {
-            // set the owning side to null (unless already changed)
-            if ($contractDetail->getContract() === $this) {
-                $contractDetail->setContract(null);
-            }
-        }
 
         return $this;
     }

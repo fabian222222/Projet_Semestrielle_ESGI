@@ -5,9 +5,13 @@
 {% block body %}
     <h1>Edit Product</h1>
 
-    {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('composants/_adminSideBar.html.twig') }}
 
-    <a href="{{ path('app_product_index') }}">back to list</a>
+    <section class="ml-64">
+        {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
 
-    {{ include('product/_delete_form.html.twig') }}
+        <a href="{{ path('app_product_index') }}">back to list</a>
+
+        {{ include('product/_delete_form.html.twig') }}
+    </section>
 {% endblock %}

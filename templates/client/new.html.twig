@@ -3,9 +3,14 @@
 {% block title %}New Client{% endblock %}
 
 {% block body %}
-    <h1>Create new Client</h1>
 
-    {{ include('client/_form.html.twig') }}
+    {{ include('composants/_adminSideBar.html.twig') }}
 
-    <a href="{{ path('app_client_index', { 'idS': drivingSchool}) }}">back to list</a>
+    <section class="ml-64">
+        <h1>Create new Client</h1>
+
+        {{ include('client/_form.html.twig') }}
+
+        <a href="{{ path('app_client_index', { 'idS': drivingSchool}) }}">back to list</a>
+    </section>
 {% endblock %}
