@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Invoice;
+use App\Model\SearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -60,4 +63,14 @@ class InvoiceRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByInvoiceName(string $name): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
