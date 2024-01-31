@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Client;
 use App\Entity\DrivingSchool;
 use App\Form\ClientType;
+use App\Form\SearchType;
+use App\Model\SearchData;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,7 +26,23 @@ class ClientController extends AbstractController
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
 
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchData->page = $request->query->getInt('page', 1);
+            $clients = $clientRepository->findByClientNameAndLastName($searchData->q);
+
+            return $this->render('client/index.html.twig', [
+                'form' => $form->createView(),
+                'clients' => $clients,
+                'drivingSchool' => $schoolSelected,
+            ]);
+        }
+
         return $this->render('client/index.html.twig', [
+            'form' => $form->createView(),
             'clients' => $clientRepository->findByDrivingSchool($schoolSelected),
             'drivingSchool' => $schoolSelected,
         ]);
