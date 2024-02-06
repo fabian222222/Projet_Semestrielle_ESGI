@@ -8,6 +8,7 @@ use App\Form\ClientType;
 use App\Form\SearchType;
 use App\Model\SearchData;
 use App\Repository\ClientRepository;
+use App\Repository\InvoiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -76,7 +77,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
-    public function show(Client $client, Request $request): Response
+    public function show(Client $client, Request $request, InvoiceRepository $invoiceRepository): Response
     {
 
         $session = $request->getSession();
@@ -85,6 +86,7 @@ class ClientController extends AbstractController
         return $this->render('client/show.html.twig', [
             'client' => $client,
             'drivingSchool' => $schoolSelected,
+            'invoice' => $invoiceRepository->findInvoiceByClientId($client->getId())
         ]);
     }
 

@@ -73,4 +73,14 @@ class InvoiceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findInvoiceByClientId($clientId)
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.client', 'c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $clientId)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
