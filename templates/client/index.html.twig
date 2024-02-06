@@ -5,6 +5,7 @@
 
 {% block body %}
 
+	{% include "composants/_searchData.html.twig" with { form: form} only %}
 	{{ include('composants/_adminSideBar.html.twig') }}
 
 	<section class="ml-64">

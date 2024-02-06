@@ -46,8 +46,18 @@ class ClientRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.drivingSchool = :drivingSchool')
-            ->setParameter('drivingSchool', $drivingSchool)
-            ;
+            ->setParameter('drivingSchool', $drivingSchool);
+    }
+
+    public function findByClientNameAndLastName(string $name): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.lastname LIKE :lastname')
+            ->orWhere('q.name LIKE :name')
+            ->setParameter('lastname', '%' . $name . '%')
+            ->setParameter('name', '%' . $name . '%')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
