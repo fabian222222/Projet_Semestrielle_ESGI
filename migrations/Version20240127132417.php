@@ -20,15 +20,11 @@ final class Version20240127132417 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE client DROP slug');
-        $this->addSql('ALTER TABLE product DROP slug');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE client ADD slug VARCHAR(255) NOT NULL');
-        $this->addSql('ALTER TABLE product ADD slug VARCHAR(255) NOT NULL');
     }
 }

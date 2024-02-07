@@ -86,7 +86,7 @@ class ClientController extends AbstractController
         return $this->render('client/show.html.twig', [
             'client' => $client,
             'drivingSchool' => $schoolSelected,
-            'invoice' => $invoiceRepository->findInvoiceByClientId($client->getId())
+            'invoices' => $invoiceRepository->findInvoiceByClientId($client->getId())
         ]);
     }
 

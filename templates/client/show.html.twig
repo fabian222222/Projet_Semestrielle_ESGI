@@ -23,12 +23,43 @@
             <th>Email</th>
             <td>{{ client.email }}</td>
         </tr>
-        <tr>
-            <th>Invoice</th>
-            <td>{{ client.invoice }}</td>
-        </tr>
         </tbody>
     </table>
+
+    <section class="ml-64">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>TypePayment</th>
+                <th>Price</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for invoice in invoices %}
+                <tr>
+                    <td>{{ invoice.id }}</td>
+                    <td>{{ invoice.name }}</td>
+                    <td>{{ invoice.description }}</td>
+                    <td>{{ invoice.date ? invoice.date|date('Y-m-d') : '' }}</td>
+                    <td>{{ invoice.typePayment }}</td>
+                    <td>{{ invoice.price }}</td>
+                    <td>
+                        <a href="{{ path('app_invoice_show', {'id': invoice.id}) }}">show</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
 
     <a href="{{ path('app_client_index', {'idS': drivingSchool}) }}">back to list</a>
 
