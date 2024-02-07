@@ -6,6 +6,7 @@
 {% block body %}
 	<h1>Invoice index</h1>
 
+	{% include "composants/_searchData.html.twig" with { form: form} only %}
 	{{ include('composants/_adminSideBar.html.twig') }}
 
 	<section class="ml-64">
@@ -41,7 +42,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<section/>
+	</section>
 
 		<a href="{{ path('app_invoice_new') }}">Create new</a>
 	{% endblock %}

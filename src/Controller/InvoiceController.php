@@ -7,6 +7,8 @@ use App\Entity\Invoice;
 use App\Entity\Contract;
 use App\Entity\Client;
 use App\Form\InvoiceType;
+use App\Form\SearchType;
+use App\Model\SearchData;
 use App\Repository\InvoiceRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,8 +28,29 @@ class InvoiceController extends AbstractController
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
-        
-        // if ($this->isGranted("ROLE_ADMIN")) {
+
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchData->page = $request->query->getInt('page', 1);
+            $invoices = $invoiceRepository->findByInvoiceName($searchData->q);
+
+            return $this->render('invoice/index.html.twig', [
+                'form' => $form->createView(),
+                'invoices' => $invoices
+            ]);
+        }
+
+        return $this->render('invoice/index.html.twig', [
+            'form' => $form->createView(),
+            'invoices' => $invoiceRepository->findAll(),
+            'drivingSchool' => $schoolSelected
+        ]);
+    }
+
+    // if ($this->isGranted("ROLE_ADMIN")) {
         //     return $this->render('invoice/index.html.twig', [
         //         'invoices' => $invoiceRepository->findAll(),
         //         'drivingSchool' => $schoolSelected,
@@ -41,12 +64,8 @@ class InvoiceController extends AbstractController
         //             array_push($filtredInvoices, $invoice);
         //         }
         //     }
-            return $this->render('invoice/index.html.twig', [
-                'invoices' => $invoiceRepository->findAll(),
-                'drivingSchool' => $schoolSelected
-            ]);
+
         // }
-    }
 
     #[Route('/new', name: 'app_invoice_new', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
