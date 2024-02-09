@@ -35,6 +35,22 @@ class Client
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Invoice::class)]
     private Collection $invoices;
 
+    #[ORM\Column(length: 255)]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
+
+    #[ORM\Column]
+    private ?int $zipCode = null;
+
+    #[ORM\Column]
+    private ?int $Number = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $phoneNumber = null;
+
+
     public function __construct()
     {
         $this->contracts = new ArrayCollection();
@@ -155,6 +171,66 @@ class Client
                 $invoice->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): static
+    {
+        $this->city = $address;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?int
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(int $zipCode): static
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->Number;
+    }
+
+    public function setNumber(int $Number): static
+    {
+        $this->Number = $Number;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(string $phoneNumber): static
+    {
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
