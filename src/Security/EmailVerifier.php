@@ -32,8 +32,28 @@ class EmailVerifier
         );
 
         $context = $email->getContext();
+        //dd($signatureComponents->getExpirationMessageKey(), $signatureComponents->getExpirationMessageData());
         $context['signedUrl'] = $signatureComponents->getSignedUrl();
-        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
+
+        // Convertion des résultats de la méthode getExpirationMessageKey en français
+        switch ($signatureComponents->getExpirationMessageKey()) {
+            case '%count% year|%count% years':
+                $context['expiresAtMessageKey'] = '%count% année |%count% années';
+                break;
+            case '%count% month|%count% months':
+                $context['expiresAtMessageKey'] = '%count% mois |%count mois%';
+                break;
+            case '%count% day|%count% days':
+                $context['expiresAtMessageKey'] = '%count% jour |%count jours%';
+                break;
+            case '%count% hour|%count% hours':
+                $context['expiresAtMessageKey'] = '%count% heure |%count% heures';
+                break;
+            case '%count% minute|%count% minutes':
+                $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
+                break;
+        }
+
         $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
 
         $email->context($context);

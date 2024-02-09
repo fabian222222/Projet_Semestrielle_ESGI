@@ -1,11 +1,43 @@
-<h1>Hi! Please confirm your email!</h1>
+<div style="
+    width: 500px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 15px;
+    padding: 20px;
+    justify-content: center;
+    margin-left: 50px;
+    margin-top: 20px">
 
-<p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
+    <img style="width: 200px; margin-left: 9rem;" src="cid:img"/>
 
-<p>
-    Cheers!
-</p>
+    <h1 style="
+        text-align: center;
+        background: -webkit-linear-gradient(180deg, #FF0C0C 0%, #FF742C 64.63%);
+        color: transparent;
+        background-clip: text;
+        font-size: 42px;">Activez votre compte</h1>
+
+    <p style="font-size: 18px; text-align: center">Nous avons besoin de confirmer que vous êtes bien à l'origine de la demande de création de compte.</p>
+    <p style="font-size: 18px; text-align: center">Si vous êtes bien à l'origine de cette demande, appuyez sur le bouton ci-dessous.</p>
+
+    <button style="
+        padding: 15px;
+        background: -webkit-linear-gradient(180deg, #FF0C0C 0%, #FF742C 64.63%);
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: 10px;
+        border: none;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        margin-left: 9rem">
+        <a href="{{ signedUrl|raw }}" style="
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: medium;">Activer mon compte</a>
+    </button>
+
+    <p style="color: gray; font-style: italic; font-size: 14px;">
+        Le lien d'activation du compte est valable {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }} après la reception du mail
+    </p>
+
+</div>
