@@ -64,13 +64,14 @@ class ClientType extends AbstractType
                 'label' => 'Email',
                 'attr' => [
                     'placeholder' => 'BenoitGarcia@gmail.com',
-                ],
+                ]
             ])
 
-            ->add('drivingSchool', EntityType::class, [
-                'label' => 'Driving',
-                'class' => DrivingSchool::class,
-                'choice_label' => 'name',
+            ->add('phoneNumber', TextType::class,[
+                'label' => 'N° de téléphone',
+                'attr'=> [
+                    'placeholder' => '061234567890',
+                ]
             ])
         ;
     }

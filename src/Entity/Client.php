@@ -182,7 +182,7 @@ class Client
 
     public function setAddress(string $address): static
     {
-        $this->city = $address;
+        $this->address = $address;
 
         return $this;
     }
