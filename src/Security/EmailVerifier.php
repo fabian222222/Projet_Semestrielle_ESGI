@@ -32,7 +32,6 @@ class EmailVerifier
         );
 
         $context = $email->getContext();
-        //dd($signatureComponents->getExpirationMessageKey(), $signatureComponents->getExpirationMessageData());
         $context['signedUrl'] = $signatureComponents->getSignedUrl();
 
         // Convertion des résultats de la méthode getExpirationMessageKey en français
