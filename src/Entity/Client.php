@@ -7,6 +7,7 @@ use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client
@@ -36,18 +37,56 @@ class Client
     private Collection $invoices;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner l\'adresse de votre client')]
+    #[Assert\Length(
+        min: 10,
+        max: 80,
+        minMessage: 'L\'adresse de votre client doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'L\'adresse de votre client ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner la ville de votre client')]
+    #[Assert\Length(
+        min: 4,
+        max: 50,
+        minMessage: 'La ville de votre client doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'La ville de votre client ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $city = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un code postal')]
+    #[Assert\Length(
+        min: 5,
+        minMessage: 'Le code postal du client doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+    )]
+    #[Assert\Positive]
     private ?int $zipCode = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un numéro de voie')]
+    #[Assert\Length(
+        min: 1,
+        max: 3,
+        minMessage: 'Le numéro de voie du client doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Le numéro de voie du client doit contenir maximum {{ limit }} caractères, le votre en contient {{ value_length }}.',
+    )]
     private ?int $Number = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: '/^\d+$/',
+        message: 'Votre numéro de téléphone ne peut contenir que des chiffres',
+        match: true,
+    )]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un numéro de téléphone')]
+    #[Assert\Length(
+        min: 10,
+        minMessage: 'Le numéro de téléphone du client doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+    )]
     private ?string $phoneNumber = null;
 
 
