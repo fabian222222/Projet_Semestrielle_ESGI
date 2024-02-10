@@ -7,6 +7,7 @@ use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client
@@ -17,12 +18,29 @@ class Client
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre prénom')]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Votre prénom doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Votre prénom ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre nom')]
+    #[Assert\Length(
+        min: 2,
+        max: 60,
+        minMessage: 'Votre nom doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Votre nom ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email(
+        message: 'Votre mail {{ value }} n\'est pas valide',
+    )]
     private ?string $email = null;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
