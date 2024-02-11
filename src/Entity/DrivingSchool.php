@@ -6,6 +6,9 @@ use App\Repository\DrivingSchoolRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\PseudoTypes\Numeric_;
+use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DrivingSchoolRepository::class)]
 class DrivingSchool
@@ -16,12 +19,37 @@ class DrivingSchool
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner le nom de votre auto-école')]
+    #[Assert\Length(
+        min: 7,
+        max: 255,
+        minMessage: 'Le nom de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Le nom de votre auto-école ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $name = null;
 
+
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner l\'adresse de votre auto-école')]
+    #[Assert\Length(
+        min: 7,
+        max: 255,
+        minMessage: 'L\'adresse de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'L\'adresse  de votre auto-école ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: '/^\d+$/',
+        message: 'Le numéro de siret doit contenir que des chiffres',
+        match: true,
+    )]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre numéro de siret')]
+    #[Assert\Length(
+        min: 14,
+        minMessage: 'Le numéro de siret doit contenir {{ limit }} chiffre, le votre en contient {{ value_length }}.',
+    )]
     private ?string $siret = null;
 
     #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Client::class)]

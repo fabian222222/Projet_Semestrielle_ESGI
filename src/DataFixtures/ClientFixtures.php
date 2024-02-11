@@ -21,7 +21,7 @@ class ClientFixtures extends Fixture implements DependentFixtureInterface
 
         for ( $i = 0; $i < 10; $i++) {
             $client = new Client();
-            $client->setName($faker->firstName());
+            $client->setFirstname($faker->firstName());
             $client->setLastname($faker->lastName());
             $client->setEmail($faker->email());
             $client->setDrivingSchool($drivingSchools[$faker->numberBetween(0, $numberDrivingSchools - 1)]);
