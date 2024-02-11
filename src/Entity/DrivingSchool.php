@@ -21,7 +21,7 @@ class DrivingSchool
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Veuillez renseigner le nom de votre auto-école')]
     #[Assert\Length(
-        min: 15,
+        min: 7,
         max: 255,
         minMessage: 'Le nom de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
         maxMessage: 'Le nom de votre auto-école ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
@@ -32,14 +32,14 @@ class DrivingSchool
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Veuillez renseigner l\'adresse de votre auto-école')]
     #[Assert\Length(
-        min: 10,
+        min: 7,
         max: 255,
         minMessage: 'L\'adresse de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
         maxMessage: 'L\'adresse  de votre auto-école ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
     )]
     private ?string $address = null;
 
-    #[ORM\Column(length: 14)]
+    #[ORM\Column(length: 255)]
     #[Assert\Regex(
         pattern: '/^\d+$/',
         message: 'Le numéro de siret doit contenir que des chiffres',

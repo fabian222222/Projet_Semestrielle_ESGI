@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Votre nom doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
         maxMessage: 'Votre nom ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
     )]
-    private ?string $name = null;
+    private ?string $lastname = null;
 
     #[ORM\ManyToMany(targetEntity: DrivingSchool::class, inversedBy: 'users')]
     private Collection $drivingSchools;
@@ -137,14 +137,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getName(): ?string
+    public function getLastname(): ?string
     {
-        return $this->name;
+        return $this->lastname;
     }
 
-    public function setName(string $name): static
+    public function setLastname(string $lastname): static
     {
-        $this->name = $name;
+        $this->lastname = $lastname;
 
         return $this;
     }

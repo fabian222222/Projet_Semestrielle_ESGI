@@ -49,7 +49,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $object = (new User())
                 ->setEmail($user['email'])
                 ->setRoles($user['role'])
-                ->setName($user['name'])
+                ->setLastname($user['name'])
                 ->setFirstname($user['firstname'])
             ;
             $object->addDrivingSchool($drivingSchools[$faker->numberBetween(0, $numberDrivingSchools - 1)]);
@@ -62,7 +62,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $user = (new User())
                 ->setEmail($faker->email)
                 ->setRoles([])
-                ->setName("")
+                ->setLastname("")
                 ->setFirstname("")
             ;
             $user->setPassword($this->passwordHasher->hashPassword($user, $pwd));

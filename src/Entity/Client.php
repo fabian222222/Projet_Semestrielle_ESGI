@@ -25,7 +25,7 @@ class Client
         minMessage: 'Votre prénom doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
         maxMessage: 'Votre prénom ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
     )]
-    private ?string $name = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Veuillez renseigner votre nom')]
@@ -61,7 +61,7 @@ class Client
 
     public function __toString()
     {
-        return $this->name;
+        return $this->firstname;
     }
 
     public function getId(): ?int
@@ -69,14 +69,14 @@ class Client
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->name;
+        return $this->firstname;
     }
 
-    public function setName(string $name): static
+    public function setFirstname(string $firstname): static
     {
-        $this->name = $name;
+        $this->firstname = $firstname;
 
         return $this;
     }

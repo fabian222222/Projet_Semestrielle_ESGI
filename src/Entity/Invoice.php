@@ -31,7 +31,11 @@ class Invoice
     private ?string $typePayment = null;
 
     #[ORM\Column]
-    #[Assert\Positive]
+    #[Assert\Regex(
+        pattern: '^[0-9]+(?:\.[0-9]+)?$',
+        message: 'Le prix ne peut pas être négatif',
+        match: true,
+    )]
     private ?int $price = null;
 
     #[ORM\OneToMany(mappedBy: 'invoice', targetEntity: Payment::class)]

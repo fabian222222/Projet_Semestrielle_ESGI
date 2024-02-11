@@ -30,11 +30,19 @@ class Product
     private ?string $productDescription = null;
 
     #[ORM\Column]
-    #[Assert\Positive]
+    #[Assert\Regex(
+        pattern: '/^[1-9]\d*$/',
+        message: 'L\'heure doit contenir uniquement des chiffres positifs',
+        match: true,
+    )]
     private ?int $productHour = null;
 
     #[ORM\Column]
-    #[Assert\Positive]
+    #[Assert\Regex(
+        pattern: '/^[1-9]\d*$/',
+        message: 'Le prix doit contenir uniquement des chiffres positifs',
+        match: true,
+    )]
     private ?int $productPrice = null;
 
     #[ORM\Column]
