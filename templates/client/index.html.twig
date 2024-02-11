@@ -37,8 +37,8 @@
 						<td>{{ client.city }}</td>
 						<td>{{ client.zipCode }}</td>
 						<td>
-							<a href="{{ path('app_client_show', {'id': client.id, 'idS': drivingSchool}) }}">show</a>
-							<a href="{{ path('app_client_edit', {'id': client.id, 'idS': drivingSchool}) }}">edit</a>
+							<a href="{{ path('app_client_show', {'id': client.id}) }}">show</a>
+							<a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
 						</td>
 					</tr>
 				{% else %}
@@ -49,6 +49,6 @@
 			</tbody>
 		</table>
 
-		<a href="{{ path('app_client_new', {'idS': drivingSchool}) }}">Create new</a>
+		<a href="{{ path('app_client_new') }}">Create new</a>
 	</section>
 {% endblock %}
