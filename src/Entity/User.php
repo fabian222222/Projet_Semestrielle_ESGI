@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -21,6 +22,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email(
+        message: 'Votre mail {{ value }} n\'est pas valide',
+    )]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -33,7 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre nom')]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Votre nom doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Votre nom ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
+    private ?string $lastname = null;
 
     #[ORM\ManyToMany(targetEntity: DrivingSchool::class, inversedBy: 'users')]
     private Collection $drivingSchools;
@@ -42,6 +53,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre prénom')]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Votre prénom doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Votre prénom ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $firstname = null;
 
     public function __construct()
@@ -119,14 +137,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getName(): ?string
+    public function getLastname(): ?string
     {
-        return $this->name;
+        return $this->lastname;
     }
 
-    public function setName(string $name): static
+    public function setLastname(string $lastname): static
     {
-        $this->name = $name;
+        $this->lastname = $lastname;
 
         return $this;
     }
