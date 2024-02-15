@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoice{% endblock %}
+
+{% block body %}
+
+    <div>
+        <p>{{ invoice.client.firstname }}</p>
+        <p>{{ invoice.client.lastname }}</p>
+        <p>{{ invoice.client.address }}</p>
+        <p>{{ invoice.client.city }}</p>
+        <p>{{ invoice.client.zipCode }}</p>
+        <p>{{ invoice.client.Number }}</p>
+        <p>{{ invoice.client.phoneNumber }}</p>
+    </div>
+
+    <div>
+        <p>{{ invoice.drivingSchool.name }}</p>
+        <p>{{ invoice.drivingSchool.Number }}</p>
+        <p>{{ invoice.drivingSchool.address }}</p>
+        <p>{{ invoice.drivingSchool.zipCode }}</p>
+        <p>{{ invoice.drivingSchool.city }}</p>
+        <p>{{ invoice.drivingSchool.siret }}</p>
+    </div>
+
+
+    <h1>Invoice</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ invoice.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ invoice.name }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ invoice.description }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ invoice.date ? invoice.date|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>TypePayment</th>
+            <td>{{ invoice.typePayment }}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ invoice.price }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_invoice_index') }}">back to list</a>
+    <a href="{{ path('app_invoice_pdf_show', { id: invoice.id }) }}">PDF</a>
+
+    {{ include('invoice/_delete_form.html.twig') }}
+{% endblock %}

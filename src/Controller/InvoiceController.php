@@ -2,21 +2,26 @@
 
 namespace App\Controller;
 
-use App\Entity\Client;
-use App\Entity\Contract;
+require '../vendor/autoload.php';
+
 use App\Entity\DrivingSchool;
 use App\Entity\Invoice;
+use App\Entity\Contract;
+use App\Entity\Client;
 use App\Form\InvoiceType;
 use App\Form\SearchType;
 use App\Model\SearchData;
 use App\Repository\InvoiceRepository;
+use App\Service\PdfService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 
 #[Route('/invoice')]
@@ -128,12 +133,7 @@ class InvoiceController extends AbstractController
 
     #[Route('/convert/{id}/client/{clientId}', name: 'app_invoice_convert', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function convert(
-        Contract $contract,
-        int $clientId,
-        Request $request, 
-        EntityManagerInterface $entityManager, 
-    ): Response
+    public function convert(Contract $contract, int $clientId, Request $request, EntityManagerInterface $entityManager): Response
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
@@ -175,6 +175,20 @@ class InvoiceController extends AbstractController
             'drivingSchool' => $schoolSelected,
             'invoice' => $invoice,
         ]);
+    }
+
+    #[Route('/pdf/{id}', name: 'app_invoice_pdf_show', methods: ['GET'])]
+    public function showPdf(Request $request, Invoice $invoice, PdfService $pdfService)
+    {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
+        $html = $this->render('invoice/pdf_invoice.html.twig', [
+            'drivingSchool' => $schoolSelected,
+            'invoice' => $invoice,
+        ]);
+
+        $pdfService->showPdfFile($html);
     }
 
     #[Route('/{id}', name: 'app_invoice_delete', methods: ['POST'])]
