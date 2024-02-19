@@ -58,14 +58,14 @@
                 >
                     <tr>
                         <td style="padding-top: 12px; padding-bottom: 12px;">
-                            <img src="" alt="logo" height="35" draggable="false"/>
+{#                            <img src="images/driving-school.png" alt="logo" height="35" draggable="false"/>#}
                         </td>
                         <td style="padding-top: 12px; padding-bottom: 12px;">
                             <h1
                                     align="right"
                                     style="text-align: right; font-family: 'Poppins', sans-serif; margin: 0; color: #000000;"
                             >
-                                Facture
+                                Contrat
                             </h1>
                         </td>
                     </tr>
@@ -85,7 +85,7 @@
                             <p
                                     style="font-family: 'Poppins', sans-serif;"
                             >
-                                <strong>Date:</strong> {{ invoice.date|date('d/m/Y') }}
+                                <strong>Date:</strong> {{ contract.validityDate|date('d/m/Y') }}
                             </p>
                         </td>
                         <td style="padding-top: 12px; padding-bottom: 12px; border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; color: #000000;">
@@ -93,7 +93,7 @@
                                     align="right"
                                     style="text-align: right; font-family: 'Poppins', sans-serif;"
                             >
-                                <strong>Facture N°</strong> 1
+                                <strong>Contrat N°</strong> 1
                             </p>
                         </td>
                     </tr>
@@ -114,10 +114,10 @@
                                     style="font-family: 'Poppins', sans-serif; line-height: 1.2; color: #000000;"
                             >
                                 <strong style="display: block; margin-bottom: 5px;">Client</strong>
-                            <p> {{ invoice.client.lastname }} {{ invoice.client.firstname }}</p>
-                            <p>{{ invoice.client.Number }} {{ invoice.client.address }}</p>
-                            <p>{{ invoice.client.zipCode }} {{ invoice.client.city }}</p>
-                            <p>{{ invoice.client.phoneNumber }}</p>
+                            <p> {{ contract.client.lastname }} {{ contract.client.firstname }}</p>
+                            <p>{{ contract.client.Number }} {{ contract.client.address }}</p>
+                            <p>{{ contract.client.zipCode }} {{ contract.client.city }}</p>
+                            <p>{{ contract.client.phoneNumber }}</p>
                             </p>
                         </td>
                         <td style="padding-top: 20px; padding-bottom: 20px;">
@@ -126,10 +126,10 @@
                                     style="text-align: right; font-family: 'Poppins', sans-serif; line-height: 1.2; color: #000000;"
                             >
                                 <strong style="display: block; margin-bottom: 5px;">Entreprise</strong>
-                                {{ invoice.drivingSchool.name }} <br>
-                                N° Siret : {{ invoice.drivingSchool.siret }}<br>
-                                {{ invoice.drivingSchool.Number }} {{ invoice.drivingSchool.address }}<br>
-                                {{ invoice.drivingSchool.zipCode }} {{ invoice.drivingSchool.city }}<br>
+                                {{ contract.drivingSchool.name }} <br>
+                                N° Siret : {{ contract.drivingSchool.siret }}<br>
+                                {{ contract.drivingSchool.Number }} {{ contract.drivingSchool.address }}<br>
+                                {{ contract.drivingSchool.zipCode }} {{ contract.drivingSchool.city }}<br>
                             </p>
                         </td>
                     </tr>
@@ -170,12 +170,12 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td align="left" style="padding: 12px; text-align: left; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; color: #000000;">{{ invoice.name }}</td>
-                        <td align="left" style="padding: 12px; text-align: left; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; font-size: 14px;color: #000000;">{{ invoice.description }}</td>
+                        <td align="left" style="padding: 12px; text-align: left; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; color: #000000;">{{ contract.name }}</td>
+                        <td align="left" style="padding: 12px; text-align: left; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; font-size: 14px;color: #000000;">{{ contract.description }}</td>
                         <td align="center" style="padding: 12px; text-align: center; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6;color: #000000;">1</td>
-                        <td align="center" style="padding: 12px; text-align: center; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6;color: #000000;">{{ invoice.price }}€</td>
+                        <td align="center" style="padding: 12px; text-align: center; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6;color: #000000;">{{ contract.price }}€</td>
                         {#  Ajouter  calcule quantité * prix #}
-                        <td align="right" style="padding: 12px; text-align: right; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6;color: #000000;">{{ invoice.price }}€</td>
+                        <td align="right" style="padding: 12px; text-align: right; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6;color: #000000;">{{ contract.price }}€</td>
                     </tr>
                     </tbody>
                     <tfoot>
@@ -200,7 +200,7 @@
                         </td>
                         <td bgcolor="#f8f9fa" align="right"
                             style=" color: #000000; padding: 12px; text-align: right; font-family: 'Poppins', sans-serif; background-color: #f8f9fa;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;">
-                            {{ invoice.price }} €
+                            {{ contract .price }} €
                         </td>
                     </tr>
                     </tfoot>

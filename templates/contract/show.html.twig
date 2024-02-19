@@ -30,9 +30,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_contract_index', {'idS': drivingSchool}) }}">back to list</a>
-
-    <a href="{{ path('app_contract_edit', {'id': contract.id, 'idS': drivingSchool}) }}">edit</a>
-
-    {{ include('contract/_delete_form.html.twig') }}
+    <a href="{{ path('app_contract_index')}}">back to list</a>
+    <a href="{{ path('app_contract_pdf_show', { id: contract.id }) }}">PDF</a>
 {% endblock %}
