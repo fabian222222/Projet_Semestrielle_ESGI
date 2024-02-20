@@ -6,6 +6,9 @@ use App\Repository\DrivingSchoolRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\PseudoTypes\Numeric_;
+use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DrivingSchoolRepository::class)]
 class DrivingSchool
@@ -16,12 +19,37 @@ class DrivingSchool
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner le nom de votre auto-école')]
+    #[Assert\Length(
+        min: 7,
+        max: 255,
+        minMessage: 'Le nom de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Le nom de votre auto-école ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $name = null;
 
+
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner l\'adresse de votre auto-école')]
+    #[Assert\Length(
+        min: 7,
+        max: 255,
+        minMessage: 'L\'adresse de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'L\'adresse  de votre auto-école ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: '/^\d+$/',
+        message: 'Le numéro de siret doit contenir que des chiffres',
+        match: true,
+    )]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre numéro de siret')]
+    #[Assert\Length(
+        min: 14,
+        minMessage: 'Le numéro de siret doit contenir {{ limit }} chiffre, le votre en contient {{ value_length }}.',
+    )]
     private ?string $siret = null;
 
     #[ORM\OneToMany(mappedBy: 'drivingSchool', targetEntity: Client::class)]
@@ -35,6 +63,36 @@ class DrivingSchool
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'drivingSchools')]
     private Collection $users;
+
+    #[ORM\Column]
+    #[Assert\Positive]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un numéro de voie')]
+    #[Assert\Length(
+        min: 1,
+        max: 3,
+        minMessage: 'Le numéro de voie de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Le numéro de voie de votre auto-école doit contenir maximum {{ limit }} caractères, le votre en contient {{ value_length }}.',
+    )]
+    private ?int $number = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner la ville de votre auto-école')]
+    #[Assert\Length(
+        min: 4,
+        max: 50,
+        minMessage: 'La ville de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'La ville de votre auto-école ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
+    private ?string $city = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un code postal')]
+    #[Assert\Length(
+        min: 5,
+        minMessage: 'Le code postal de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+    )]
+    #[Assert\Positive]
+    private ?int $zipCode = null;
 
     public function __construct()
     {
@@ -203,6 +261,42 @@ class DrivingSchool
         if ($this->users->removeElement($user)) {
             $user->removeDrivingSchool($this);
         }
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): static
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?int
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(int $zipCode): static
+    {
+        $this->zipCode = $zipCode;
 
         return $this;
     }

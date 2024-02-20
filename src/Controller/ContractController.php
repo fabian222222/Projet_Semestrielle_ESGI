@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Entity\Contract;
 use App\Entity\DrivingSchool;
 use App\Form\ContractType;
@@ -64,6 +65,46 @@ class ContractController extends AbstractController
         return $this->render('contract/new.html.twig', [
             'form' => $form,
             'drivingSchool' => $schoolSelected,
+        ]);
+    }
+
+    #[Route('/new/{idClient}', name: 'app_contract_new_id_client', methods: ['GET', 'POST'])]
+    #[Security('is_granted("ROLE_BOSS")')]
+    public function newClient(Request $request, EntityManagerInterface $entityManager, Client $client): Response
+    {
+
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
+        $contract = new Contract();
+        $form = $this->createForm(ContractType::class, $contract);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
+
+            if (!$drivingSchool) {
+                throw $this->createNotFoundException('Driving school could not be found');
+            }
+
+            $productSelected = $form->get('product')->getData();
+
+            $contract->setName($productSelected->getProductName());
+            $contract->setPrice($productSelected->getProductPrice());
+            $contract->setValidityDate($productSelected->getValidityDate());
+            $contract->setDescription($productSelected->getProductDescription());
+            $contract->setDrivingSchool($drivingSchool);
+
+            $entityManager->persist($contract);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_contract_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('contract/new.html.twig', [
+            'form' => $form,
+            'drivingSchool' => $schoolSelected,
+            'idClient' => $client->getId()
         ]);
     }
 }

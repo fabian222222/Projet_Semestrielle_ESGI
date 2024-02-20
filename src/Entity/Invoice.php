@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 class Invoice
@@ -20,6 +21,7 @@ class Invoice
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner une description')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -29,6 +31,11 @@ class Invoice
     private ?string $typePayment = null;
 
     #[ORM\Column]
+    #[Assert\Regex(
+        pattern: '^[0-9]+(?:\.[0-9]+)?$',
+        message: 'Le prix ne peut pas être négatif',
+        match: true,
+    )]
     private ?int $price = null;
 
     #[ORM\OneToMany(mappedBy: 'invoice', targetEntity: Payment::class)]

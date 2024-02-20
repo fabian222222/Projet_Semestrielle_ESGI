@@ -96,6 +96,36 @@ class InvoiceController extends AbstractController
         ]);
     }
 
+    #[Route('/new', name: 'app_invoice_new_id_client', methods: ['GET', 'POST'])]
+    #[Security('is_granted("ROLE_BOSS")')]
+    public function newClient(Request $request, EntityManagerInterface $entityManager, Client $client): Response
+    {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+        $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
+
+        $invoice = new Invoice();
+        $form = $this->createForm(InvoiceType::class, $invoice, array('drivingSchool' => $drivingSchool));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $invoice->setDrivingSchool($drivingSchool);
+            $invoice->setDate(new DateTimeImmutable());
+
+            $entityManager->persist($invoice);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_invoice_index');
+        }
+
+        return $this->render('invoice/new.html.twig', [
+            'invoice' => $invoice,
+            'drivingSchool' => $schoolSelected,
+            'form' => $form,
+            'idClient' => $client->getId()
+        ]);
+    }
+
     #[Route('/convert/{id}/client/{clientId}', name: 'app_invoice_convert', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
     public function convert(
@@ -136,9 +166,13 @@ class InvoiceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_invoice_show', methods: ['GET'])]
-    public function show(Invoice $invoice): Response
+    public function show(Request $request, Invoice $invoice): Response
     {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
         return $this->render('invoice/show.html.twig', [
+            'drivingSchool' => $schoolSelected,
             'invoice' => $invoice,
         ]);
     }
