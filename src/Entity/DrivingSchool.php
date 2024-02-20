@@ -64,6 +64,36 @@ class DrivingSchool
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'drivingSchools')]
     private Collection $users;
 
+    #[ORM\Column]
+    #[Assert\Positive]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un numéro de voie')]
+    #[Assert\Length(
+        min: 1,
+        max: 3,
+        minMessage: 'Le numéro de voie de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'Le numéro de voie de votre auto-école doit contenir maximum {{ limit }} caractères, le votre en contient {{ value_length }}.',
+    )]
+    private ?int $number = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner la ville de votre auto-école')]
+    #[Assert\Length(
+        min: 4,
+        max: 50,
+        minMessage: 'La ville de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+        maxMessage: 'La ville de votre auto-école ne peut pas dépasser {{ limit }} caractères, le votre en contient {{ value_length }}.'
+    )]
+    private ?string $city = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un code postal')]
+    #[Assert\Length(
+        min: 5,
+        minMessage: 'Le code postal de votre auto-école doit contenir au moins {{ limit }} caractères, le votre en contient {{ value_length }}.',
+    )]
+    #[Assert\Positive]
+    private ?int $zipCode = null;
+
     public function __construct()
     {
         $this->clients = new ArrayCollection();
@@ -231,6 +261,42 @@ class DrivingSchool
         if ($this->users->removeElement($user)) {
             $user->removeDrivingSchool($this);
         }
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): static
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?int
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(int $zipCode): static
+    {
+        $this->zipCode = $zipCode;
 
         return $this;
     }
