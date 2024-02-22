@@ -32,7 +32,7 @@ class Invoice
 
     #[ORM\Column]
     #[Assert\Regex(
-        pattern: '^[0-9]+(?:\.[0-9]+)?$',
+        pattern: '/^[0-9]+(?:\.[0-9]+)?$/',
         message: 'Le prix ne peut pas être négatif',
         match: true,
     )]

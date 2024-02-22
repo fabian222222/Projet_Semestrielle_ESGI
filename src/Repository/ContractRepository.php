@@ -30,4 +30,31 @@ class ContractRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findContractsCreatedAfterDate(\DateTimeInterface $date): array {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.validityDate >= :validityDate')
+            ->setParameter('validityDate', $date)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findTotalPriceOfContractsCreatedAfterDate(\DateTimeInterface $date): float {
+        $result = $this->createQueryBuilder('i')
+            ->select('SUM(i.price) as total_price')
+            ->andWhere('i.validityDate >= :validityDate')
+            ->setParameter('validityDate', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result !== null ? (float) $result : 0.0;
+    }
+
+    public function getTotalPriceOfAllContracts(): float {
+        $result = $this->createQueryBuilder('i')
+            ->select('SUM(i.price) as total_price')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result !== null ? (float) $result : 0.0;
+    }
 }

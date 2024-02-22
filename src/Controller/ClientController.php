@@ -10,6 +10,7 @@ use App\Model\SearchData;
 use App\Repository\ClientRepository;
 use App\Repository\ContractRepository;
 use App\Repository\InvoiceRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,9 +62,10 @@ class ClientController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
             $client->setDrivingSchool($drivingSchool);
+            $client->setDate(new DateTimeImmutable());
+
             $entityManager->persist($client);
             $entityManager->flush();
 

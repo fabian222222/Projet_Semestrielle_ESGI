@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Invoice;
 use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -106,11 +106,15 @@ class Client
     )]
     private ?string $phoneNumber = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
 
     public function __construct()
     {
         $this->contracts = new ArrayCollection();
         $this->invoices = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
     public function __toString()
@@ -287,6 +291,18 @@ class Client
     public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): static
+    {
+        $this->date = $date;
 
         return $this;
     }

@@ -25,7 +25,7 @@
                 <td>{{ contract.description }}</td>
                 <td>{{ contract.price }}</td>
                 <td>{{ contract.validityDate|date('Y-m-d') }}</td>
-                <td>{{ contract.client.name }}</td>
+                <td>{{ contract.client.firstname }}</td>
                 <td>
                     <a href="{{ path('app_invoice_convert', {'id': contract.id, 'clientId': contract.client.id}) }}">convert to invoice</a>
                 </td>

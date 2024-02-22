@@ -9,7 +9,7 @@
         <tbody>
         <tr>
             <th>Name</th>
-            <td>{{ client.name }}</td>
+            <td>{{ client.firstname }}</td>
         </tr>
         <tr>
             <th>Lastname</th>
@@ -46,7 +46,6 @@
                     <td>{{ contract.description }}</td>
                     <td>{{ contract.price }}</td>
                     <td>{{ contract.validityDate|date('Y-m-d') }}</td>
-                    <td>{{ contract.client.name }}</td>
                 </tr>
             {% else %}
                 <tr>

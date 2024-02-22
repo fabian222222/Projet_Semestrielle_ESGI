@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
+use App\Entity\Contract;
 use App\Entity\DrivingSchool;
 use App\Entity\Invoice;
-use App\Entity\Contract;
-use App\Entity\Client;
 use App\Form\InvoiceType;
 use App\Form\SearchType;
 use App\Model\SearchData;
 use App\Repository\InvoiceRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 #[Route('/invoice')]
