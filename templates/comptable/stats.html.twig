@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoice index
+{% endblock %}
+
+{% block body %}
+    <h1>Invoice index</h1>
+
+    {{ include('composants/_adminSideBar.html.twig') }}
+    {% include "composants/_imputDate.html.twig" with { form: form} only %}
+
+    <section class="ml-64">
+        <h1 class="text-6xl">Invoice {{ invoicesCount }}</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>TypePayment</th>
+                <th>Price</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for invoice in invoices %}
+                <tr>
+                    <td>{{ invoice.id }}</td>
+                    <td>{{ invoice.name }}</td>
+                    <td>{{ invoice.description }}</td>
+                    <td>{{ invoice.date ? invoice.date|date('Y-m-d') : '' }}</td>
+                    <td>{{ invoice.typePayment }}</td>
+                    <td>{{ invoice.price }}</td>
+                    <td>
+                        <a href="{{ path('app_invoice_show', {'id': invoice.id}) }}">show</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            <p class="text-2xl">Prix total gagné par l'auto école {{ invoicesPrices }}€</p>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="ml-64">
+        <h1 class="text-6xl">Contracts {{ contractsCount }}</h1>
+        <table class="table mx-5">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Validity</th>
+                <th>User</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for contract in contracts %}
+                <tr>
+                    <td>{{ contract.name }}</td>
+                    <td>{{ contract.description }}</td>
+                    <td>{{ contract.price }}</td>
+                    <td>{{ contract.validityDate|date('Y-m-d') }}</td>
+                    <td>{{ contract.client.firstname }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
+            <p class="text-2xl">Prix total des contrats de l'auto école {{ contractsPrices }}€</p>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="ml-64">
+        <h1 class="text-6xl">Client {{ clientCount }}</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>N° de voie</th>
+                <th>Adresse</th>
+                <th>Ville</th>
+                <th>Code postal</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.firstname }}</td>
+                    <td>{{ client.lastname }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.phoneNumber }}</td>
+                    <td>{{ client.Number }}</td>
+                    <td>{{ client.address }}</td>
+                    <td>{{ client.city }}</td>
+                    <td>{{ client.zipCode }}</td>
+                    <td>
+                        <a href="{{ path('app_client_show', {'id': client.id}) }}">show</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

@@ -29,7 +29,7 @@ class InvoiceType extends AbstractType
                     'query_builder' => function (ClientRepository $cr) use($drivingSchool): QueryBuilder  {
                         return $cr->queryFindByDrivingSchool($drivingSchool);
                     },
-                    'choice_label' => 'name']
+                    'choice_label' => 'firstname']
             );
     }
 

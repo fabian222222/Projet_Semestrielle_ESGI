@@ -17,7 +17,7 @@ class ContractType extends AbstractType
         $builder
             ->add('client', EntityType::class, [
                 'class' => Client::class,
-                'choice_label' => 'name',
+                'choice_label' => 'firstname',
             ])
             ->add('product', EntityType::class, [
                 'class' => Product::class,

@@ -33,8 +33,7 @@ class ClientRepository extends ServiceEntityRepository
             ->andWhere('c.drivingSchool = :drivingSchool')
             ->setParameter('drivingSchool', $drivingSchool)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -53,35 +52,19 @@ class ClientRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.lastname LIKE :lastname')
-            ->orWhere('q.name LIKE :name')
+            ->orWhere('q.firstname LIKE :firstname')
             ->setParameter('lastname', '%' . $name . '%')
-            ->setParameter('name', '%' . $name . '%')
+            ->setParameter('firstname', '%' . $name . '%')
             ->getQuery()
             ->getResult();
     }
 
-//    /**
-//     * @return Client[] Returns an array of Client objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findClientCreatedAfterDate(\DateTimeInterface $date): array {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.date >= :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Client
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

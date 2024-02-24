@@ -56,4 +56,32 @@ class InvoiceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findInvoicesCreatedAfterDate(\DateTimeInterface $date): array   {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.date >= :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findTotalPriceOfInvoicesCreatedAfterDate(\DateTimeInterface $date): float {
+        $result = $this->createQueryBuilder('i')
+            ->select('SUM(i.price) as total_price')
+            ->andWhere('i.date >= :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result !== null ? (float) $result : 0.0;
+    }
+
+    public function getTotalPriceOfAllInvoices(): float {
+        $result = $this->createQueryBuilder('i')
+            ->select('SUM(i.price) as total_price')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result !== null ? (float) $result : 0.0;
+    }
 }
