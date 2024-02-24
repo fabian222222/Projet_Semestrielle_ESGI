@@ -7,6 +7,7 @@ use App\Entity\Contract;
 use App\Entity\DrivingSchool;
 use App\Form\ContractType;
 
+use App\Service\PdfService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,7 +68,31 @@ class ContractController extends AbstractController
             'drivingSchool' => $schoolSelected,
         ]);
     }
+    #[Route('/{id}', name: 'app_contract_show', methods: ['GET'])]
+    public function show(Request $request, Contract $contract): Response
+    {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
 
+        return $this->render('contract/show.html.twig', [
+            'drivingSchool' => $schoolSelected,
+            'contract' => $contract,
+        ]);
+    }
+
+    #[Route('/pdf/{id}', name: 'app_contract_pdf_show', methods: ['GET'])]
+    public function showPdf(Request $request, Contract $contract, PdfService $pdfService)
+    {
+        $session = $request->getSession();
+        $schoolSelected = $session->get('driving-school-selected');
+
+        $html = $this->render('contract/pdf_contract.html.twig', [
+            'drivingSchool' => $schoolSelected,
+            'contract' => $contract,
+        ]);
+
+        $pdfService->showPdfFile($html);
+    }
     #[Route('/new/{idClient}', name: 'app_contract_new_id_client', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
     public function newClient(Request $request, EntityManagerInterface $entityManager, Client $client): Response

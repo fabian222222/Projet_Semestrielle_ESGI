@@ -27,7 +27,7 @@ class Contract
     private ?int $price = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Veuillez renseigner une description')]
+//    #[Assert\NotBlank(message: 'Veuillez renseigner une description')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

@@ -1,0 +1,213 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoice{% endblock %}
+
+{% block body %}
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Invoive</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                color: #404040;
+                margin: 0;
+                padding: 0;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            @media print {
+                @page {
+                    size: auto;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        </style>
+    </head>
+    <body style="color: #404040; margin: 0; padding: 0;">
+    <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            style="width: 100%;"
+    >
+        <tr>
+            <td style="padding-top: 20px; padding-left: 30px; padding-right: 30px;">
+                <table
+                        border="0"
+                        cellpadding="0"
+                        cellspacing="0"
+                        style="width: 100%;"
+                >
+                    <tr>
+                        <td style="padding-top: 12px; padding-bottom: 12px;">
+                            <img src="" alt="logo" height="35" draggable="false"/>
+                        </td>
+                        <td style="padding-top: 12px; padding-bottom: 12px;">
+                            <h1
+                                    align="right"
+                                    style="text-align: right; font-family: 'Poppins', sans-serif; margin: 0; color: #000000;"
+                            >
+                                Facture
+                            </h1>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 30px; padding-right: 30px;">
+                <table
+                        border="0"
+                        cellpadding="0"
+                        cellspacing="0"
+                        style="width: 100%;"
+                >
+                    <tr>
+                        <td style="padding-top: 12px; padding-bottom: 12px; border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; color: #000000;">
+                            <p
+                                    style="font-family: 'Poppins', sans-serif;"
+                            >
+                                <strong>Date:</strong> {{ invoice.date|date('d/m/Y') }}
+                            </p>
+                        </td>
+                        <td style="padding-top: 12px; padding-bottom: 12px; border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; color: #000000;">
+                            <p
+                                    align="right"
+                                    style="text-align: right; font-family: 'Poppins', sans-serif;"
+                            >
+                                <strong>Facture N°</strong> 1
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 30px; padding-right: 30px; padding-top: 40px;">
+                <table
+                        border="0"
+                        cellpadding="0"
+                        cellspacing="0"
+                        style="width: 100%;"
+                >
+                    <tr>
+                        <td style="padding-top: 20px; padding-bottom: 20px;">
+                            <p
+                                    style="font-family: 'Poppins', sans-serif; line-height: 1.2; color: #000000;"
+                            >
+                                <strong style="display: block; margin-bottom: 5px;">Client</strong>
+                            <p> {{ invoice.client.lastname }} {{ invoice.client.firstname }}</p>
+                            <p>{{ invoice.client.Number }} {{ invoice.client.address }}</p>
+                            <p>{{ invoice.client.zipCode }} {{ invoice.client.city }}</p>
+                            <p>{{ invoice.client.phoneNumber }}</p>
+                            </p>
+                        </td>
+                        <td style="padding-top: 20px; padding-bottom: 20px;">
+                            <p
+                                    align="right"
+                                    style="text-align: right; font-family: 'Poppins', sans-serif; line-height: 1.2; color: #000000;"
+                            >
+                                <strong style="display: block; margin-bottom: 5px;">Entreprise</strong>
+                                {{ invoice.drivingSchool.name }} <br>
+                                N° Siret : {{ invoice.drivingSchool.siret }}<br>
+                                {{ invoice.drivingSchool.Number }} {{ invoice.drivingSchool.address }}<br>
+                                {{ invoice.drivingSchool.zipCode }} {{ invoice.drivingSchool.city }}<br>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 30px; padding-right: 30px; padding-top: 60px;">
+                <table
+                        border="0"
+                        cellpadding="0"
+                        cellspacing="0"
+                        style="width: 100%; border: 1px solid #dee2e6;"
+                >
+                    <thead>
+                    <tr>
+                        <th bgcolor="#f8f9fa" align="left"
+                            style="white-space: nowrap; padding: 12px; color: #000000; text-align: left; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; background-color: #FF7133;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;">
+                            Produit
+                        </th>
+                        <th bgcolor="#f8f9fa" align="left"
+                            style="white-space: nowrap; padding: 12px; color: #000000; text-align: left; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; background-color: #FF7133;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;">
+                            Description
+                        </th>
+                        <th bgcolor="#f8f9fa"
+                            style="white-space: nowrap; padding: 12px; color: #000000; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; background-color: #FF7133;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;">
+                            Quantité
+                        </th>
+                        <th bgcolor="#f8f9fa"
+                            style="white-space: nowrap; padding: 12px; color: #000000; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; background-color: #FF7133;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;">
+                            Prix
+                        </th>
+                        <th bgcolor="#f8f9fa" align="right"
+                            style="white-space: nowrap; padding: 12px; color: #000000; text-align: right; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; background-color: #FF7133;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;">
+                            Montant
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td align="left" style="padding: 12px; text-align: left; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; color: #000000;">{{ invoice.name }}</td>
+                        <td align="left" style="padding: 12px; text-align: left; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; font-size: 14px;color: #000000;">{{ invoice.description }}</td>
+                        <td align="center" style="padding: 12px; text-align: center; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6;color: #000000;">1</td>
+                        <td align="center" style="padding: 12px; text-align: center; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6;color: #000000;">{{ invoice.price }}€</td>
+                        {#  Ajouter  calcule quantité * prix #}
+                        <td align="right" style="padding: 12px; text-align: right; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6;color: #000000;">{{ invoice.price }}€</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    {#                    Ajouter peut etre les taxes (TVA 20%) #}
+                    {#                    <tr> #}
+                    {#                        <td bgcolor="#f8f9fa" colspan="3" #}
+                    {#                            style="padding: 12px; border-bottom: 1px solid #dee2e6; background-color: #f8f9fa;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;"></td> #}
+                    {#                        <td bgcolor="#f8f9fa" align="right" #}
+                    {#                            style="padding: 12px; text-align: right; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; background-color: #f8f9fa;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;"> #}
+                    {#                            <strong style="white-space: nowrap;">Tax:</strong> #}
+                    {#                        </td> #}
+                    {#                        <td bgcolor="#f8f9fa" align="right" #}
+                    {#                            style="padding: 12px; text-align: right; font-family: 'Poppins', sans-serif; border-bottom: 1px solid #dee2e6; background-color: #f8f9fa;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;"> #}
+                    {#                            $215.00 #}
+                    {#                        </td> #}
+                    {#                    </tr> #}
+                    <tr>
+                        <td bgcolor="#f8f9fa" colspan="3" style=" padding: 12px; color: #000000; background-color: #f8f9fa;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important; "></td>
+                        <td bgcolor="#f8f9fa" align="right"
+                            style="color: #000000; padding: 12px; text-align: right; font-family: 'Poppins',  sans-serif; background-color: #f8f9fa;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;">
+                            <strong style="white-space: nowrap;">Total:</strong>
+                        </td>
+                        <td bgcolor="#f8f9fa" align="right"
+                            style=" color: #000000; padding: 12px; text-align: right; font-family: 'Poppins', sans-serif; background-color: #f8f9fa;-webkit-print-color-adjust: exact !important;color-adjust: exact !important;print-color-adjust: exact !important;">
+                            {{ invoice.price }} €
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </td>
+        </tr>
+    </table>
+    </body>
+    </html>
+{% endblock %}
