@@ -2,38 +2,38 @@
     <div class="h-full px-3 py-4 overflow-y-auto bg-white">
         <ul class="space-y-2 font-medium">
             <li>
-                <a href="#" class="mb-6 mt-8 flex items-center p-2 rounded-lg hover:bg-gray-100 group">
+                <a href="#" class="mb-6 mt-8 flex items-center p-2 rounded-lg hover:bg-gray-100 group {% if current_page == 'home' %} active {% endif %}">
                     <span class="material-symbols-outlined flex items-center justify-center-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">home</span>
-                    <span class="h-6 bg-red-50 mx-3 w-[2px]"></span>
-                    <span class="text-red-500 font-medium text-opacity-60">Mon entreprise</span>
+                    <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
+                    <span class="text-gray-400 font-medium text-opacity-60">Mon entreprise</span>
                 </a>
             </li>
             <li>
                 <a href="{{ path('app_contract_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">contract</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60">Mes contrats</span>
+                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'contract' %} text-red-500 {% endif %}">Mes contrats</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('app_invoice_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                <a href="{{ path('app_invoice_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {% if current_page == 'invoice' %}active{% endif %} ">
                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">library_books</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60">Mes Factures</span>
+                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'invoice' %} text-red-500 {% endif %}">Mes Factures</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('app_client_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                <a href="{{ path('app_client_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {% if current_page == 'client' %}active{% endif %}">
                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">group</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60">Mes Clients</span>
+                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'client' %} text-red-500 {% endif %}">Mes Clients</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('app_product_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                <a href="{{ path('app_product_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {% if current_page == 'product' %}active{% endif %}">
                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">shopping_cart</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60">Mes Produits </span>
+                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'product' %} text-red-500 {% endif %}">Mes Produits </span>
                 </a>
             </li>
 
