@@ -1,0 +1,36 @@
+{% set datePattern = '/^\d{4}-\d{2}-\d{2}$/i' %}
+
+ <div class="bg-white w-full mt-6 rounded-lg pt-4 overflow-hidden">
+    <table class="table-auto w-full">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                    <th>{{column[1]}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for data in datas %}
+            <tr class='text-center leading-10 border-b-2'>
+                {% for column in columns %}
+                    {% if column[2] %}
+                        {% if attribute(data, column[0]).getTimestamp is defined %}
+                            <td>{{ attribute(data, column[0])|date('Y-m-d') }}</td>
+                        {% else %}
+                            <td>{{ attribute(data, column[0]) }}</td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                <td>
+                    <div class='flex justify-center pointer cursor-pointer'>
+                        <span class="material-symbols-outlined flex pointer justify-center items-center w-4 h-4 text-[19px] text-black border-2 border-[#C6C6C6] p-3 rounded">more_vert</span>
+                    </div>
+                    {# <a href="{{ path('app_invoice_convert', {'id': contract.id, 'clientId': contract.client.id}) }}">convert to invoice</a> #}
+                </td>
+            </tr>
+        {% else %}
+            <td colspan="6">no records found</td>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
