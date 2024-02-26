@@ -1,0 +1,1 @@
+N'oubliez pas de faire cette commande afin de lancer le mailer : php bin/console messenger:consume async
