@@ -4,7 +4,6 @@ services:
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres
-    restart: always
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -17,7 +16,6 @@ services:
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
-    restart: always
     environment:
       - PGADMIN_DEFAULT_EMAIL=docker@test.com
       - PGADMIN_DEFAULT_PASSWORD=docker
