@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-require '../vendor/autoload.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -38,5 +37,15 @@ class PdfService
         $domPdf->loadHtml($html);
         $domPdf->render();
         $domPdf->output();
+    }
+
+    public function generatePDFFile($html, $fileName)
+    {
+        $domPdf = new Dompdf();
+
+        $domPdf->loadHtml($html);
+        $domPdf->render();
+
+        file_put_contents($fileName . '.pdf', $domPdf->output());
     }
 }

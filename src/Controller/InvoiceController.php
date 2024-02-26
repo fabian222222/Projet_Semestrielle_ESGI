@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-require '../vendor/autoload.php';
-
 use App\Entity\DrivingSchool;
 use App\Entity\Invoice;
 use App\Entity\Contract;
@@ -13,6 +11,7 @@ use App\Form\SearchType;
 use App\Model\SearchData;
 use App\Repository\InvoiceRepository;
 use App\Service\PdfService;
+use App\Service\MailerService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -73,7 +72,7 @@ class InvoiceController extends AbstractController
 
     #[Route('/new', name: 'app_invoice_new', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, MailerService $mailerService, PdfService $pdfService): Response
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
@@ -89,6 +88,16 @@ class InvoiceController extends AbstractController
 
             $entityManager->persist($invoice);
             $entityManager->flush();
+
+            $html = $this->render('invoice/pdf_invoice.html.twig', [
+                'drivingSchool' => $schoolSelected,
+                'invoice' => $invoice,
+            ]);
+
+            $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
+            $pdfService->generatePDFFile($html, $nomInvoice);
+
+            $mailerService->sendInvoice($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf');
 
             return $this->redirectToRoute('app_invoice_index');
         }
@@ -102,7 +111,7 @@ class InvoiceController extends AbstractController
 
     #[Route('/new', name: 'app_invoice_new_id_client', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function newClient(Request $request, EntityManagerInterface $entityManager, Client $client): Response
+    public function newClient(Request $request, EntityManagerInterface $entityManager, Client $client, MailerService $mailerService, PdfService $pdfService): Response
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
@@ -118,6 +127,16 @@ class InvoiceController extends AbstractController
 
             $entityManager->persist($invoice);
             $entityManager->flush();
+
+            $html = $this->render('invoice/pdf_invoice.html.twig', [
+                'drivingSchool' => $schoolSelected,
+                'invoice' => $invoice,
+            ]);
+
+            $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
+            $pdfService->generatePDFFile($html, $nomInvoice);
+
+            $mailerService->sendInvoice($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf');
 
             return $this->redirectToRoute('app_invoice_index');
         }
@@ -132,7 +151,7 @@ class InvoiceController extends AbstractController
 
     #[Route('/convert/{id}/client/{clientId}', name: 'app_invoice_convert', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function convert(Contract $contract, int $clientId, Request $request, EntityManagerInterface $entityManager): Response
+    public function convert(Contract $contract, int $clientId, Request $request, EntityManagerInterface $entityManager, MailerService $mailerService, PdfService $pdfService): Response
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
@@ -153,6 +172,16 @@ class InvoiceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($invoice);
             $entityManager->flush();
+
+            $html = $this->render('invoice/pdf_invoice.html.twig', [
+                'drivingSchool' => $schoolSelected,
+                'invoice' => $invoice,
+            ]);
+
+            $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
+            $pdfService->generatePDFFile($html, $nomInvoice);
+
+            $mailerService->sendInvoice($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf');
 
             return $this->redirectToRoute('app_invoice_index');
         }
