@@ -1,43 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
 {% block title %}Hello ContractController!{% endblock %}
 
 {% block body %}
 
+<section>
+    {{ include('composants/header.html.twig') }}
+    <section class="ml-64 mt-32">
+        {{ include('composants/_adminSideBar.html.twig') }}
+        <div class='m-6'>
 
-{{ include('composants/_adminSideBar.html.twig') }}
+            <div
+                class='flex items-center justify-between'
+            >
+                <div
+                    class='text-white flex'
+                >
+                    <button class='bg-red-primary px-6 py-2 rounded-tl rounded-bl hover:bg-opacity-80 transition ease-in-out duration-100'>All</button>
+                    <button class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
+                    <button class='bg-red-primary px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
+                </div>
+                <div class='flex items-center gap-6'>
+                    <div class='flex items-center bg-red-primary rounded'>
+                        <span class="material-symbols-outlined flex items-center justify-center w-5 h-5 text-white mr-2 p-5">search</span>
+                        <input class='bg-transparent text-white placeholder-white border-transparent focus:border-transparent focus:ring-0' type="text" placeholder='Search by name'>
+                    </div>
 
-<section class="ml-64">
-    <table class="table mx-5">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Validity</th>
-                <th>User</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for contract in contracts %}
-            <tr>
-                <td>{{ contract.name }}</td>
-                <td>{{ contract.description }}</td>
-                <td>{{ contract.price }}</td>
-                <td>{{ contract.validityDate|date('Y-m-d') }}</td>
-                <td>{{ contract.client.firstname }}</td>
-                <td>
-                    <a href="{{ path('app_contract_show', {'id': contract.id}) }}">show</a>
-                    <a href="{{ path('app_invoice_convert', {'id': contract.id, 'clientId': contract.client.id}) }}">convert to invoice</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('app_contract_new') }}">Create new</a>
+                    <input class='bg-red-primary text-white p-2 rounded' type="date">
+                    
+                    <div class='flex gap-2 bg-blue-primary rounded p-2 pointer'>
+                        <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white">add</span>
+                        <a class='text-white mr-2' href="{{ path('app_contract_new') }}">Create new</a>
+                    </div>
+                </div>
+            </div>
+
+            {% include 'composants/_table.html.twig' with {'columns': [
+                    ['name', 'Name', true], 
+                    ['description', 'Description', true], 
+                    ['price', 'Price', true], 
+                    ['validityDate', 'Validity', true],
+                    ['actions', 'Actions', false] 
+                ], 
+                'datas': contracts} 
+            %}
+
+        </div>
+    </section>
 </section>
+
 {% endblock %}
