@@ -4,10 +4,10 @@
 
 {% block body %}
 
-    {{ include('composants/_adminSideBar.html.twig') }}
+    {{ include('composants/header.html.twig') }}
 
-    <section class="ml-64">
-        <h1>Create new Client</h1>
+    <section class='ml-64 mt-32'>
+        {{ include('composants/_adminSideBar.html.twig') }}
 
         {{ include('client/_form.html.twig') }}
 

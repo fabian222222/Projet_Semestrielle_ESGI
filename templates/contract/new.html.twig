@@ -3,11 +3,14 @@
 {% block title %}New Contract{% endblock %}
 
 {% block body %}
-    <h1>Create new Contract</h1>
 
-    {{ include('composants/_adminSideBar.html.twig') }}
+    {{ include('composants/header.html.twig') }}
 
-    {{ include('contract/_form.html.twig') }}
+    <section class='ml-64 mt-32'>
+        {{ include('composants/_adminSideBar.html.twig') }}
 
-    <a class="ml-64" href="{{ path('app_contract_index') }}">back to list</a>
+        {{ include('contract/_form.html.twig') }}
+
+        <a href="{{ path('app_contract_index') }}">back to list</a>
+    </section>
 {% endblock %}
