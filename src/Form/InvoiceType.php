@@ -29,7 +29,7 @@ class InvoiceType extends AbstractType
                 ],
                 'choices' => [
                     'Carte' => 'Carte',
-                    'Cheque' => 'Cheque',
+                    'Chèque' => 'Chèque',
                     'Espèce' => 'Espèce',
                 ],
                 'multiple' => false,

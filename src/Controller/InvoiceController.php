@@ -4,10 +4,10 @@ namespace App\Controller;
 
 require '../vendor/autoload.php';
 
+use App\Entity\Client;
+use App\Entity\Contract;
 use App\Entity\DrivingSchool;
 use App\Entity\Invoice;
-use App\Entity\Contract;
-use App\Entity\Client;
 use App\Form\InvoiceType;
 use App\Form\SearchType;
 use App\Model\SearchData;
@@ -16,7 +16,6 @@ use App\Service\PdfService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
