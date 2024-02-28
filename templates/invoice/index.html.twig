@@ -8,6 +8,10 @@
 
 	{% include "composants/_searchData.html.twig" with { form: form} only %}
 	{{ include('composants/_adminSideBar.html.twig') }}
+	{{ form_start(formFiltreStatut) }}
+	{{ form_widget(formFiltreStatut) }}
+	<button class="btn">{{ button_label|default('Save') }}</button>
+	{{ form_end(formFiltreStatut) }}
 
 	<section class="ml-64">
 		<table class="table">

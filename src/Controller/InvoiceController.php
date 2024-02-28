@@ -54,23 +54,6 @@ class InvoiceController extends AbstractController
         ]);
     }
 
-    // if ($this->isGranted("ROLE_ADMIN")) {
-        //     return $this->render('invoice/index.html.twig', [
-        //         'invoices' => $invoiceRepository->findAll(),
-        //         'drivingSchool' => $schoolSelected,
-        //     ]);
-        // } else {
-        //     $filtredInvoices = [];
-        //     $invoices = $invoiceRepository->findAll();
-
-        //     foreach($invoices as $invoice) {
-        //         if ($this->getUser()->getDrivingSchools()->contains($invoice->getDrivingSchool())) {
-        //             array_push($filtredInvoices, $invoice);
-        //         }
-        //     }
-
-        // }
-
     #[Route('/new', name: 'app_invoice_new', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

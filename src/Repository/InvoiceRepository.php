@@ -97,4 +97,12 @@ class InvoiceRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findByStatus(string $typePayment): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.typePayment = :typePayment')
+            ->setParameter('typePayment', $typePayment)
+            ->getQuery()
+            ->getResult();
+    }
 }
