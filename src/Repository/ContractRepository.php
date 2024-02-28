@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Contract;
+use App\Entity\DrivingSchool;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -56,5 +57,13 @@ class ContractRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
 
         return $result !== null ? (float) $result : 0.0;
+    }
+
+    public function findByDrivingSchool($drivingSchool): array {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.drivingSchool = :drivingSchool')
+            ->setParameter('drivingSchool', $drivingSchool)
+            ->getQuery()
+            ->getResult();
     }
 }

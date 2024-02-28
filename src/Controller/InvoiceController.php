@@ -49,7 +49,7 @@ class InvoiceController extends AbstractController
 
         return $this->render('invoice/index.html.twig', [
             'form' => $form->createView(),
-            'invoices' => $invoiceRepository->findAll(),
+            'invoices' => $invoiceRepository->findByDrivingSchoolId($schoolSelected),
             'drivingSchool' => $schoolSelected
         ]);
     }

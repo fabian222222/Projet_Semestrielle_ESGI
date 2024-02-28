@@ -19,12 +19,19 @@ class ClientFixtures extends Fixture implements DependentFixtureInterface
         $drivingSchools = $manager->getRepository(DrivingSchool::class)->findAll();
         $numberDrivingSchools = count($drivingSchools);
 
-        for ( $i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $client = new Client();
+
             $client->setFirstname($faker->firstName());
             $client->setLastname($faker->lastName());
             $client->setEmail($faker->email());
+            $client->setAddress($faker->address());
+            $client->setCity($faker->city());
+            $client->setZipCode($faker->randomNumber(5));
+            $client->setNumber($faker->randomNumber(2));
+            $client->setPhoneNumber($faker->phoneNumber());
             $client->setDrivingSchool($drivingSchools[$faker->numberBetween(0, $numberDrivingSchools - 1)]);
+
             $manager->persist($client);
         }
 
