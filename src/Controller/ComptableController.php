@@ -7,6 +7,7 @@ use App\Model\DateData;
 use App\Repository\ClientRepository;
 use App\Repository\ContractRepository;
 use App\Repository\InvoiceRepository;
+use App\Repository\ProductRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +19,7 @@ class ComptableController extends AbstractController
 
     #[Route('/', name: 'app_comptable_index', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function index(InvoiceRepository $invoiceRepository, Request $request, ClientRepository $clientRepository, ContractRepository $contractRepository): Response
+    public function index(InvoiceRepository $invoiceRepository, ProductRepository $productRepository, Request $request, ClientRepository $clientRepository, ContractRepository $contractRepository): Response
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
@@ -33,6 +34,30 @@ class ComptableController extends AbstractController
 
             $invoices = $invoiceRepository->findInvoicesCreatedAfterDate($date->date);
             $invoicesPrices = $invoiceRepository->findTotalPriceOfInvoicesCreatedAfterDate($date->date);
+            $productDetails = [];
+
+            foreach ($invoices as $invoice) {
+                $productName = $invoice->getName();
+                if (!isset($productDetails[$productName])) {
+                    // Récupère le produit par son nom
+                    $product = $productRepository->findByProductName($productName);
+                    if ($product) {
+                        // Initialise ou met à jour le compteur pour ce produit
+                        $productDetails[$productName] = [
+                            'product' => $product,
+                            'count' => 1 // Initialisation du compteur pour ce produit
+                        ];
+                    }
+                } else {
+                    // Incrémente le compteur si le produit a déjà été ajouté
+                    $productDetails[$productName]['count']++;
+                }
+            }
+
+            // Trier par nombre de ventes, si nécessaire
+            uasort($productDetails, function ($a, $b) {
+                return $b['count'] <=> $a['count'];
+            });
 
             $contracts = $contractRepository->findContractsCreatedAfterDate($date->date);
             $contractsPrices = $contractRepository->findTotalPriceOfContractsCreatedAfterDate($date->date);
@@ -45,6 +70,9 @@ class ComptableController extends AbstractController
                 'invoices' => $invoices,
                 'invoicesCount' => count($invoices),
                 'invoicesPrices' => $invoicesPrices,
+
+                'productCount' => count($productDetails),
+                'productDetails' => $productDetails,
 
                 'contracts' => $contracts,
                 'contractsCount' => count($contracts),
@@ -62,6 +90,9 @@ class ComptableController extends AbstractController
             'invoicesCount' => count($invoiceRepository->findAll()),
             'invoicesPrices' => $invoiceRepository->getTotalPriceOfAllInvoices(),
 
+            'productCount' => count($productRepository->findAll()),
+            'productDetails' => $productRepository->findAll(),
+
             'contracts' => $contractRepository->findAll(),
             'contractsCount' => count($contractRepository->findAll()),
             'contractsPrices' => $contractRepository->getTotalPriceOfAllContracts(),
@@ -72,5 +103,4 @@ class ComptableController extends AbstractController
             'drivingSchool' => $schoolSelected,
         ]);
     }
-
 }
