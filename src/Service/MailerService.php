@@ -26,7 +26,7 @@ class MailerService
                 ->embed(fopen($logoPath, 'r'), 'img'));
     }
 
-    public function sendContract(String $emailSender, String $logoPath, $contract, String $filePath, String $type) : void
+    public function sendContract(String $emailSender, String $logoPath, Invoice|Contract $document, String $filePath, String $type) : void
     {
         $template = '';
         if ($type == 'Invoice') {
@@ -35,8 +35,8 @@ class MailerService
             $template = 'contract/mail.html.twig';
         }
 
-        $client = $contract->getClient();
-        $drivingSchool = $contract->getDrivingSchool();
+        $client = $document->getClient();
+        $drivingSchool = $document->getDrivingSchool();
 
         $email = (new TemplatedEmail())
             ->from(new Address($emailSender, 'BotMailAE'))
@@ -45,7 +45,7 @@ class MailerService
             ->htmlTemplate($template)
             ->context([
                 'clientName' => $client->getFirstname(),
-                'contractName' => $contract->getName(),
+                'documentName' => $document->getName(),
                 'drivingSchoolName' => $drivingSchool->getName()
                 ])
             ->embed(fopen($logoPath, 'r'), 'img')
