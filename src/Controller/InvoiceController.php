@@ -97,7 +97,7 @@ class InvoiceController extends AbstractController
             $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
             $pdfService->generatePDFFile($html, $nomInvoice);
 
-            $mailerService->sendInvoice($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf');
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf', 'Invoice');
 
             return $this->redirectToRoute('app_invoice_index');
         }
@@ -136,7 +136,7 @@ class InvoiceController extends AbstractController
             $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
             $pdfService->generatePDFFile($html, $nomInvoice);
 
-            $mailerService->sendInvoice($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf');
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf', 'Invoice');
 
             return $this->redirectToRoute('app_invoice_index');
         }
@@ -181,7 +181,7 @@ class InvoiceController extends AbstractController
             $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
             $pdfService->generatePDFFile($html, $nomInvoice);
 
-            $mailerService->sendInvoice($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf');
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf', 'Invoice');
 
             return $this->redirectToRoute('app_invoice_index');
         }

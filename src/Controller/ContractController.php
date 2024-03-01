@@ -69,7 +69,7 @@ class ContractController extends AbstractController
             $nomContrat = $this->getParameter('kernel.project_dir') .'/public/pdf/contrat/contrat_' . $contract->getClient()->getFirstname() .'_' . $contract->getName() . "_" . $contract->getDrivingSchool()->getName();
             $pdfService->generatePDFFile($html, $nomContrat);
 
-            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $contract, $nomContrat . '.pdf');
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $contract, $nomContrat . '.pdf', 'Contract');
 
             return $this->redirectToRoute('app_contract_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -142,7 +142,7 @@ class ContractController extends AbstractController
             $nomContrat = $this->getParameter('kernel.project_dir') .'/public/pdf/contrat/contrat_' . $contract->getClient()->getFirstname() .'_' . $contract->getName() . "_" . $contract->getDrivingSchool()->getName();
             $pdfService->generatePDFFile($html, $nomContrat);
 
-            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $contract, $nomContrat . '.pdf');
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $contract, $nomContrat . '.pdf', 'Contract');
 
             return $this->redirectToRoute('app_contract_index', [], Response::HTTP_SEE_OTHER);
         }

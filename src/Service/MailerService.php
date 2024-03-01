@@ -26,28 +26,15 @@ class MailerService
                 ->embed(fopen($logoPath, 'r'), 'img'));
     }
 
-    public function sendInvoice(String $emailSender, String $logoPath, Invoice $invoice, String $filePath) : void
+    public function sendContract(String $emailSender, String $logoPath, $contract, String $filePath, String $type) : void
     {
-        $client = $invoice->getClient();
-        $drivingSchool = $invoice->getDrivingSchool();
+        $template = '';
+        if ($type == 'Invoice') {
+            $template = 'invoice/mail.html.twig';
+        } else {
+            $template = 'contract/mail.html.twig';
+        }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address($emailSender, 'BotMailAE'))
-            ->to($client->getEmail())
-            ->subject("Facture")
-            ->htmlTemplate('invoice/mail.html.twig')
-            ->context([
-                'clientName' => $client->getFirstname(),
-                'invoiceName' => $invoice->getName(),
-                'drivingSchoolName' => $drivingSchool->getName()
-                ])
-            ->embed(fopen($logoPath, 'r'), 'img')
-            ->addPart(new DataPart(new File($filePath)))
-        ;
-        $this->mailer->send($email);
-    }
-    public function sendContract(String $emailSender, String $logoPath, Contract $contract, String $filePath) : void
-    {
         $client = $contract->getClient();
         $drivingSchool = $contract->getDrivingSchool();
 
@@ -55,12 +42,12 @@ class MailerService
             ->from(new Address($emailSender, 'BotMailAE'))
             ->to($client->getEmail())
             ->subject("Facture")
-            ->htmlTemplate('contract/mail.html.twig')
+            ->htmlTemplate($template)
             ->context([
                 'clientName' => $client->getFirstname(),
-                'contratName' => $contract->getName(),
+                'contractName' => $contract->getName(),
                 'drivingSchoolName' => $drivingSchool->getName()
-            ])
+                ])
             ->embed(fopen($logoPath, 'r'), 'img')
             ->addPart(new DataPart(new File($filePath)))
         ;
