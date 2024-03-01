@@ -39,11 +39,13 @@ class InvoiceRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findByInvoiceName(string $name): array
+    public function findByInvoiceNameAndDescription(string $name): array
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.name LIKE :name')
+            ->orWhere('q.description LIKE :description')
             ->setParameter('name', '%' . $name . '%')
+            ->setParameter('description', '%' . $name . '%')
             ->getQuery()
             ->getResult();
     }

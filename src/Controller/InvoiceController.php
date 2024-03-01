@@ -26,7 +26,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class InvoiceController extends AbstractController
 {
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]
-    #[Security('is_granted("ROLE_BOSS")')]
     public function index(InvoiceRepository $invoiceRepository, Request $request): Response
     {
         $session = $request->getSession();
@@ -36,22 +35,24 @@ class InvoiceController extends AbstractController
         $form = $this->createForm(SearchType::class, $searchData);
         $form->handleRequest($request);
 
+        $typePayment = $request->query->get('typePayment');
+
         if ($form->isSubmitted() && $form->isValid()) {
             $searchData->page = $request->query->getInt('page', 1);
-            $invoices = $invoiceRepository->findByInvoiceName($searchData->q);
-
-            return $this->render('invoice/index.html.twig', [
-                'form' => $form->createView(),
-                'invoices' => $invoices
-            ]);
+            $invoices = $invoiceRepository->findByInvoiceNameAndDescription($searchData->q);
+        } elseif ($typePayment) {
+            $invoices = $invoiceRepository->findByStatus($typePayment);
+        } else {
+            $invoices = $invoiceRepository->findAll();
         }
 
         return $this->render('invoice/index.html.twig', [
             'form' => $form->createView(),
-            'invoices' => $invoiceRepository->findAll(),
+            'invoices' => $invoices,
             'drivingSchool' => $schoolSelected
         ]);
     }
+
 
     #[Route('/new', name: 'app_invoice_new', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
