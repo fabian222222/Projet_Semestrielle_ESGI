@@ -9,6 +9,7 @@ use App\Repository\ClientRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,11 +23,21 @@ class InvoiceType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('typePayment')
+            ->add('typePayment', ChoiceType::class, [
+                'attr' => [
+                    'placeholder' => 'Choisissez le type de payment'
+                ],
+                'choices' => [
+                    'Cart' => 'Carte',
+                    'Cheque' => 'Chèque',
+                    'Cash' => 'Espèce',
+                ],
+                'multiple' => false,
+            ])
             ->add('price')
             ->add('client', EntityType::class, [
                     'class' => Client::class,
-                    'query_builder' => function (ClientRepository $cr) use($drivingSchool): QueryBuilder  {
+                    'query_builder' => function (ClientRepository $cr) use ($drivingSchool): QueryBuilder {
                         return $cr->queryFindByDrivingSchool($drivingSchool);
                     },
                     'choice_label' => 'firstname']

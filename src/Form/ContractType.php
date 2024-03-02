@@ -20,12 +20,12 @@ class ContractType extends AbstractType
         $drivingSchool = $options['drivingSchool'];
         $builder
             ->add('client', EntityType::class, [
-                'class' => Client::class,
-                'query_builder' => function (ClientRepository $cr) use($drivingSchool): QueryBuilder  {
-                    return $cr->queryFindByDrivingSchool($drivingSchool);
-                },
-                'choice_label' => 'firstname'
-            ])
+                    'class' => Client::class,
+                    'query_builder' => function (ClientRepository $cr) use($drivingSchool): QueryBuilder  {
+                        return $cr->queryFindByDrivingSchool($drivingSchool);
+                    },
+                    'choice_label' => 'firstname']
+            )
             ->add('product', EntityType::class, [
                 'class' => Product::class,
                 'choice_label' => 'productName',

@@ -39,11 +39,13 @@ class InvoiceRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findByInvoiceName(string $name): array
+    public function findByInvoiceNameAndDescription(string $search): array
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.name LIKE :name')
-            ->setParameter('name', '%' . $name . '%')
+            ->orWhere('q.description LIKE :description')
+            ->setParameter('name', '%' . $search . '%')
+            ->setParameter('description', '%' . $search . '%')
             ->getQuery()
             ->getResult();
     }
@@ -83,5 +85,26 @@ class InvoiceRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
 
         return $result !== null ? (float) $result : 0.0;
+    }
+
+    public function findByTypePayment(string $typePayment): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.typePayment = :typePayment')
+            ->setParameter('typePayment', $typePayment)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countProductsInInvoicesAfterDate(\DateTimeInterface $date): array
+    {
+        $qb = $this->createQueryBuilder('i')
+            ->select('i.name AS productName, MAX(i.description) AS productDescription, MAX(i.price) AS productPrice, COUNT(i.id) AS productCount')
+            ->where('i.date >= :date')
+            ->setParameter('date', $date)
+            ->groupBy('i.name')
+            ->orderBy('productCount', 'DESC');
+
+        return $qb->getQuery()->getResult();
     }
 }

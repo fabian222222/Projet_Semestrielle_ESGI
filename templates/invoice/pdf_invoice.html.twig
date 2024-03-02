@@ -208,6 +208,12 @@
             </td>
         </tr>
     </table>
+    <br>
+    <div style="width: 100%; padding-left: 32px">
+        {% set preposition = invoice.typePayment == 'Espèce' ? 'en' : 'par' %}
+        <p>Le type de paiement du client est {{ preposition }} {{ invoice.typePayment }}</p>
+    </div>
+
     </body>
     </html>
 {% endblock %}

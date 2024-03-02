@@ -9,7 +9,16 @@
 	{% include "composants/_searchData.html.twig" with { form: form} only %}
 	{{ include('composants/_adminSideBar.html.twig') }}
 
+
+
+
 	<section class="ml-64">
+		<div>
+			<a href="{{ path('app_invoice_index') }}">Reset filtre</a>
+			<a href="{{ path('app_invoice_index', {'typePayment': 'Espèce'}) }}">Espèce</a>
+			<a href="{{ path('app_invoice_index', {'typePayment': 'Carte'}) }}">Carte</a>
+			<a href="{{ path('app_invoice_index', {'typePayment': 'Chèque'}) }}">Chèque</a>
+		</div>
 		<table class="table">
 			<thead>
 				<tr>
