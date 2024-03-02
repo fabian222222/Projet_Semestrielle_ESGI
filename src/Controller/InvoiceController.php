@@ -41,7 +41,7 @@ class InvoiceController extends AbstractController
             $searchData->page = $request->query->getInt('page', 1);
             $invoices = $invoiceRepository->findByInvoiceNameAndDescription($searchData->q);
         } elseif ($typePayment) {
-            $invoices = $invoiceRepository->findByStatus($typePayment);
+            $invoices = $invoiceRepository->findByTypePayment($typePayment);
         } else {
             $invoices = $invoiceRepository->findAll();
         }

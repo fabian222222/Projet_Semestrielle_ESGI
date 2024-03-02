@@ -28,9 +28,9 @@ class InvoiceType extends AbstractType
                     'placeholder' => 'Choisissez le type de payment'
                 ],
                 'choices' => [
-                    'Carte' => 'Carte',
-                    'Chèque' => 'Chèque',
-                    'Espèce' => 'Espèce',
+                    'Cart' => 'Carte',
+                    'Cheque' => 'Chèque',
+                    'Cash' => 'Espèce',
                 ],
                 'multiple' => false,
             ])

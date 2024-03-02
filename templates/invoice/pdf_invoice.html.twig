@@ -210,17 +210,8 @@
     </table>
     <br>
     <div style="width: 100%; padding-left: 32px">
-        {% if invoice.typePayment == 'Carte' %}
-            <p>Le type de paiement du client est par {{ invoice.typePayment }}</p>
-        {% endif %}
-
-        {% if invoice.typePayment == 'Chèque' %}
-            <p>Le type de paiement du client est par {{ invoice.typePayment }}</p>
-        {% endif %}
-
-        {% if invoice.typePayment == 'Espèce' %}
-            <p>Le type de paiement du client est en {{ invoice.typePayment }}</p>
-        {% endif %}
+        {% set preposition = invoice.typePayment == 'Espèce' ? 'en' : 'par' %}
+        <p>Le type de paiement du client est {{ preposition }} {{ invoice.typePayment }}</p>
     </div>
 
     </body>
