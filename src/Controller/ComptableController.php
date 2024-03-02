@@ -7,6 +7,7 @@ use App\Model\DateData;
 use App\Repository\ClientRepository;
 use App\Repository\ContractRepository;
 use App\Repository\InvoiceRepository;
+use App\Repository\ProductRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +19,7 @@ class ComptableController extends AbstractController
 
     #[Route('/', name: 'app_comptable_index', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function index(InvoiceRepository $invoiceRepository, Request $request, ClientRepository $clientRepository, ContractRepository $contractRepository): Response
+    public function index(InvoiceRepository $invoiceRepository, ProductRepository $productRepository, Request $request, ClientRepository $clientRepository, ContractRepository $contractRepository): Response
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
@@ -31,13 +32,15 @@ class ComptableController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $date->page = $request->query->getInt('page', 1);
 
-            $invoices = $invoiceRepository->findInvoicesCreatedAfterDate($date->date);
             $invoicesPrices = $invoiceRepository->findTotalPriceOfInvoicesCreatedAfterDate($date->date);
+            $invoices = $invoiceRepository->findInvoicesCreatedAfterDate($date->date);
+            $productDetails = $invoiceRepository->countProductsInInvoicesAfterDate($date->date);
 
             $contracts = $contractRepository->findContractsCreatedAfterDate($date->date);
             $contractsPrices = $contractRepository->findTotalPriceOfContractsCreatedAfterDate($date->date);
 
             $clients = $clientRepository->findClientCreatedAfterDate($date->date);
+                dump($productDetails);
 
             return $this->render('comptable/stats.html.twig', [
                 'form' => $form->createView(),
@@ -45,6 +48,9 @@ class ComptableController extends AbstractController
                 'invoices' => $invoices,
                 'invoicesCount' => count($invoices),
                 'invoicesPrices' => $invoicesPrices,
+
+                'productCount' => count($productDetails),
+                'productDetails' => $productDetails,
 
                 'contracts' => $contracts,
                 'contractsCount' => count($contracts),
@@ -62,6 +68,9 @@ class ComptableController extends AbstractController
             'invoicesCount' => count($invoiceRepository->findAll()),
             'invoicesPrices' => $invoiceRepository->getTotalPriceOfAllInvoices(),
 
+            'productCount' => count($productRepository->findAll()),
+            'productDetails' => $productRepository->findAll(),
+
             'contracts' => $contractRepository->findAll(),
             'contractsCount' => count($contractRepository->findAll()),
             'contractsPrices' => $contractRepository->getTotalPriceOfAllContracts(),
@@ -72,5 +81,4 @@ class ComptableController extends AbstractController
             'drivingSchool' => $schoolSelected,
         ]);
     }
-
 }

@@ -15,7 +15,6 @@ use App\Service\MailerService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,39 +35,24 @@ class InvoiceController extends AbstractController
         $form = $this->createForm(SearchType::class, $searchData);
         $form->handleRequest($request);
 
+        $typePayment = $request->query->get('typePayment');
+
         if ($form->isSubmitted() && $form->isValid()) {
             $searchData->page = $request->query->getInt('page', 1);
-            $invoices = $invoiceRepository->findByInvoiceName($searchData->q);
-
-            return $this->render('invoice/index.html.twig', [
-                'form' => $form->createView(),
-                'invoices' => $invoices
-            ]);
+            $invoices = $invoiceRepository->findByInvoiceNameAndDescription($searchData->q);
+        } elseif ($typePayment) {
+            $invoices = $invoiceRepository->findByTypePayment($typePayment);
+        } else {
+            $invoices = $invoiceRepository->findAll();
         }
 
         return $this->render('invoice/index.html.twig', [
             'form' => $form->createView(),
-            'invoices' => $invoiceRepository->findAll(),
+            'invoices' => $invoices,
             'drivingSchool' => $schoolSelected
         ]);
     }
 
-    // if ($this->isGranted("ROLE_ADMIN")) {
-        //     return $this->render('invoice/index.html.twig', [
-        //         'invoices' => $invoiceRepository->findAll(),
-        //         'drivingSchool' => $schoolSelected,
-        //     ]);
-        // } else {
-        //     $filtredInvoices = [];
-        //     $invoices = $invoiceRepository->findAll();
-
-        //     foreach($invoices as $invoice) {
-        //         if ($this->getUser()->getDrivingSchools()->contains($invoice->getDrivingSchool())) {
-        //             array_push($filtredInvoices, $invoice);
-        //         }
-        //     }
-
-        // }
 
     #[Route('/new', name: 'app_invoice_new', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]

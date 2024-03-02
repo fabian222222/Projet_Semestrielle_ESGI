@@ -38,17 +38,13 @@ class ContractController extends AbstractController
 
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
+        $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
 
         $contract = new Contract();
-        $form = $this->createForm(ContractType::class, $contract);
+        $form = $this->createForm(ContractType::class, $contract, array('drivingSchool' => $drivingSchool));
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
-
-            if (!$drivingSchool) {
-                throw $this->createNotFoundException('Driving school could not be found');
-            }
 
             $productSelected = $form->get('product')->getData();
 
@@ -75,6 +71,7 @@ class ContractController extends AbstractController
         }
 
         return $this->render('contract/new.html.twig', [
+            'contract' => $contract,
             'form' => $form,
             'drivingSchool' => $schoolSelected,
         ]);
