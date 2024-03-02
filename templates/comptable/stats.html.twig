@@ -132,17 +132,17 @@
             {% for details in productDetails %}
                 {% if details is iterable %}
                     <tr>
-                        <td>{{ details.product.productName }}</td>
-                        <td>{{ details.product.productDescription }}</td>
-                        <td>{{ details.product.productPrice }}</td>
-                        <td>{{ details.count }}</td>
+                        <td>{{ details.productName }}</td>
+                        <td>{{ details.productDescription }}</td>
+                        <td>{{ details.productPrice }}</td>
+                        <td>{{ details.productCount }}</td>
                     </tr>
                 {% else %}
                     <tr>
                         <td>{{ details.productName }}</td>
                         <td>{{ details.productDescription }}</td>
                         <td>{{ details.productPrice }}</td>
-                        <td>Non applicable</td> {# 'Nombre vendu' n'est pas disponible dans ce cas #}
+                        <td>Non applicable</td>
                     </tr>
                 {% endif %}
             {% else %}

@@ -32,37 +32,15 @@ class ComptableController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $date->page = $request->query->getInt('page', 1);
 
-            $invoices = $invoiceRepository->findInvoicesCreatedAfterDate($date->date);
             $invoicesPrices = $invoiceRepository->findTotalPriceOfInvoicesCreatedAfterDate($date->date);
-            $productDetails = [];
-
-            foreach ($invoices as $invoice) {
-                $productName = $invoice->getName();
-                if (!isset($productDetails[$productName])) {
-                    // Récupère le produit par son nom
-                    $product = $productRepository->findByProductName($productName);
-                    if ($product) {
-                        // Initialise ou met à jour le compteur pour ce produit
-                        $productDetails[$productName] = [
-                            'product' => $product,
-                            'count' => 1 // Initialisation du compteur pour ce produit
-                        ];
-                    }
-                } else {
-                    // Incrémente le compteur si le produit a déjà été ajouté
-                    $productDetails[$productName]['count']++;
-                }
-            }
-
-            // Trier par nombre de ventes, si nécessaire
-            uasort($productDetails, function ($a, $b) {
-                return $b['count'] <=> $a['count'];
-            });
+            $invoices = $invoiceRepository->findInvoicesCreatedAfterDate($date->date);
+            $productDetails = $invoiceRepository->countProductsInInvoicesAfterDate($date->date);
 
             $contracts = $contractRepository->findContractsCreatedAfterDate($date->date);
             $contractsPrices = $contractRepository->findTotalPriceOfContractsCreatedAfterDate($date->date);
 
             $clients = $clientRepository->findClientCreatedAfterDate($date->date);
+                dump($productDetails);
 
             return $this->render('comptable/stats.html.twig', [
                 'form' => $form->createView(),
