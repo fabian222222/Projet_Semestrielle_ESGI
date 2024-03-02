@@ -4,10 +4,10 @@ namespace App\Controller;
 
 require '../vendor/autoload.php';
 
+use App\Entity\Client;
+use App\Entity\Contract;
 use App\Entity\DrivingSchool;
 use App\Entity\Invoice;
-use App\Entity\Contract;
-use App\Entity\Client;
 use App\Form\InvoiceType;
 use App\Form\SearchType;
 use App\Model\SearchData;
@@ -16,7 +16,6 @@ use App\Service\PdfService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +26,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class InvoiceController extends AbstractController
 {
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]
-    #[Security('is_granted("ROLE_BOSS")')]
     public function index(InvoiceRepository $invoiceRepository, Request $request): Response
     {
         $session = $request->getSession();
@@ -37,39 +35,24 @@ class InvoiceController extends AbstractController
         $form = $this->createForm(SearchType::class, $searchData);
         $form->handleRequest($request);
 
+        $typePayment = $request->query->get('typePayment');
+
         if ($form->isSubmitted() && $form->isValid()) {
             $searchData->page = $request->query->getInt('page', 1);
-            $invoices = $invoiceRepository->findByInvoiceName($searchData->q);
-
-            return $this->render('invoice/index.html.twig', [
-                'form' => $form->createView(),
-                'invoices' => $invoices
-            ]);
+            $invoices = $invoiceRepository->findByInvoiceNameAndDescription($searchData->q);
+        } elseif ($typePayment) {
+            $invoices = $invoiceRepository->findByTypePayment($typePayment);
+        } else {
+            $invoices = $invoiceRepository->findAll();
         }
 
         return $this->render('invoice/index.html.twig', [
             'form' => $form->createView(),
-            'invoices' => $invoiceRepository->findAll(),
+            'invoices' => $invoices,
             'drivingSchool' => $schoolSelected
         ]);
     }
 
-    // if ($this->isGranted("ROLE_ADMIN")) {
-        //     return $this->render('invoice/index.html.twig', [
-        //         'invoices' => $invoiceRepository->findAll(),
-        //         'drivingSchool' => $schoolSelected,
-        //     ]);
-        // } else {
-        //     $filtredInvoices = [];
-        //     $invoices = $invoiceRepository->findAll();
-
-        //     foreach($invoices as $invoice) {
-        //         if ($this->getUser()->getDrivingSchools()->contains($invoice->getDrivingSchool())) {
-        //             array_push($filtredInvoices, $invoice);
-        //         }
-        //     }
-
-        // }
 
     #[Route('/new', name: 'app_invoice_new', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
