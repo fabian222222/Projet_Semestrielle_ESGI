@@ -8,6 +8,7 @@ use App\Entity\DrivingSchool;
 use App\Form\ContractType;
 
 use App\Service\PdfService;
+use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,7 @@ class ContractController extends AbstractController
 
     #[Route('/new', name: 'app_contract_new', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, MailerService $mailerService, PdfService $pdfService): Response
     {
 
         $session = $request->getSession();
@@ -55,6 +56,16 @@ class ContractController extends AbstractController
 
             $entityManager->persist($contract);
             $entityManager->flush();
+
+            $html = $this->render('contract/pdf_contract.html.twig', [
+                'drivingSchool' => $schoolSelected,
+                'contract' => $contract,
+            ]);
+
+            $nomContrat = $this->getParameter('kernel.project_dir') .'/public/pdf/contrat/contrat_' . $contract->getClient()->getFirstname() .'_' . $contract->getName() . "_" . $contract->getDrivingSchool()->getName();
+            $pdfService->generatePDFFile($html, $nomContrat);
+
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $contract, $nomContrat . '.pdf', 'Contract');
 
             return $this->redirectToRoute('app_contract_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -92,7 +103,7 @@ class ContractController extends AbstractController
     }
     #[Route('/new/{idClient}', name: 'app_contract_new_id_client', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function newClient(Request $request, EntityManagerInterface $entityManager, Client $client): Response
+    public function newClient(Request $request, EntityManagerInterface $entityManager, Client $client, MailerService $mailerService, PdfService $pdfService): Response
     {
 
         $session = $request->getSession();
@@ -119,6 +130,16 @@ class ContractController extends AbstractController
 
             $entityManager->persist($contract);
             $entityManager->flush();
+
+            $html = $this->render('contract/pdf_contract.html.twig', [
+                'drivingSchool' => $schoolSelected,
+                'contract' => $contract,
+            ]);
+
+            $nomContrat = $this->getParameter('kernel.project_dir') .'/public/pdf/contrat/contrat_' . $contract->getClient()->getFirstname() .'_' . $contract->getName() . "_" . $contract->getDrivingSchool()->getName();
+            $pdfService->generatePDFFile($html, $nomContrat);
+
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $contract, $nomContrat . '.pdf', 'Contract');
 
             return $this->redirectToRoute('app_contract_index', [], Response::HTTP_SEE_OTHER);
         }
