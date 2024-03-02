@@ -18,7 +18,7 @@ class InvoiceFixtures extends Fixture implements DependentFixtureInterface
         $clients = $manager->getRepository(Client::class)->findAll();
         $numberClients = count($clients);
 
-        for ( $i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $client = $clients[$faker->numberBetween(0, $numberClients - 1)];
 
             $invoice = new Invoice();

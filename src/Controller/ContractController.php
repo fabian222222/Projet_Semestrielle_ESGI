@@ -26,7 +26,7 @@ class ContractController extends AbstractController
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
         return $this->render('contract/index.html.twig', [
-            'contracts' => $contractRepository->findAll(),
+            'contracts' => $contractRepository->findByDrivingSchool($schoolSelected),
             'drivingSchool' => $schoolSelected,
         ]);
     }
@@ -108,9 +108,10 @@ class ContractController extends AbstractController
 
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
+        $drivingSchool = $entityManager->getRepository(DrivingSchool::class)->findOneById($schoolSelected);
 
         $contract = new Contract();
-        $form = $this->createForm(ContractType::class, $contract);
+        $form = $this->createForm(ContractType::class, $contract, array('drivingSchool' => $drivingSchool));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 

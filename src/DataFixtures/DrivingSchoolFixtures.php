@@ -12,11 +12,13 @@ class DrivingSchoolFixtures extends Fixture
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        for ( $i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $drivingSchool = new DrivingSchool();
-
-            $drivingSchool->setName($faker->firstName());
+            $drivingSchool->setName($faker->company());
             $drivingSchool->setAddress($faker->address());
+            $drivingSchool->setNumber($faker->randomNumber(2));
+            $drivingSchool->setCity($faker->city());
+            $drivingSchool->setZipCode($faker->randomNumber(5));
             $drivingSchool->setSiret($faker->randomNumber(6));
 
             $manager->persist($drivingSchool);
