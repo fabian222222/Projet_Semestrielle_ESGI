@@ -84,4 +84,17 @@ class InvoiceRepository extends ServiceEntityRepository
 
         return $result !== null ? (float) $result : 0.0;
     }
+
+    public function countProductsInInvoicesAfterDate(\DateTimeInterface $date): array
+    {
+        $qb = $this->createQueryBuilder('i')
+            ->select('i.name AS productName, MAX(i.description) AS productDescription, MAX(i.price) AS productPrice, COUNT(i.id) AS productCount')
+            ->where('i.date >= :date')
+            ->setParameter('date', $date)
+            ->groupBy('i.name')
+            ->orderBy('productCount', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

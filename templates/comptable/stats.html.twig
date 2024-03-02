@@ -116,4 +116,42 @@
             </tbody>
         </table>
     </section>
+
+    <section class="ml-64">
+        <h1 class="text-6xl">Produit {{ productCount }}</h1>
+        <table class="table mx-5">
+            <thead>
+            <tr>
+                <th>Nom du produit</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Nombre vendu</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for details in productDetails %}
+                {% if details is iterable %}
+                    <tr>
+                        <td>{{ details.productName }}</td>
+                        <td>{{ details.productDescription }}</td>
+                        <td>{{ details.productPrice }}</td>
+                        <td>{{ details.productCount }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ details.productName }}</td>
+                        <td>{{ details.productDescription }}</td>
+                        <td>{{ details.productPrice }}</td>
+                        <td>Non applicable</td>
+                    </tr>
+                {% endif %}
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun enregistrement trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
 {% endblock %}
