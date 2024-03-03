@@ -21,6 +21,28 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    public function findProductsGreaterThanPrice($price)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.productPrice > :val')
+            ->setParameter('val', $price)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findProductsLessThanPrice($price)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.productPrice < :val')
+            ->setParameter('val', $price)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findProductByNameAndDescription(string $search, $drivingSchool): array
     {
         return $this->createQueryBuilder('q')

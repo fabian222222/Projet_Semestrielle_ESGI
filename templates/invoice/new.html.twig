@@ -3,9 +3,10 @@
 {% block title %}New Invoice{% endblock %}
 
 {% block body %}
+
      {{ include('composants/header.html.twig') }}
 
-    <section class='ml-64 mt-32'>
+    <section class='dark:bg-dark-mode-secondary ml-64 mt-32 dark:text-primary'>
         {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'invoice'} %}
 
         {% 

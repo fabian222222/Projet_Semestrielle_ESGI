@@ -36,9 +36,18 @@ class ContractController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $searchData->page = $request->query->getInt('page', 1);
             $contracts = $contractRepository->findByContractNameAndDescription($searchData->q, $schoolSelected);
-        } else {
-            $contracts = $contractRepository->findByDrivingSchool($schoolSelected);
+            $contractFiltredLess = $request->query->get('contractFiltredLess');
+            $contractFiltredGreater = $request->query->get('contractFiltredGreater');
+        
+        } elseif ($contractFiltredLess) {
+        $contracts = $contractRepository->findContractLessThanPrice($contractFiltredLess, $schoolSelected);
+    } elseif ($contractFiltredGreater) {
+            $contracts = $contractRepository->findContractGreaterThanPrice($contractFiltredGreater, $schoolSelected);
+        else {
+                $contracts = $contractRepository->findByDrivingSchool($schoolSelected);
+            }
         }
+        
         return $this->render('contract/index.html.twig', [
             'form' => $form->createView(),
             'contracts' => $contracts,

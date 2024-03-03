@@ -3,18 +3,15 @@
 {% block title %}Edit Client{% endblock %}
 
 {% block body %}
-    <h1>Edit Client</h1>
-
-     {% 
-        include('composants/_customForm.html.twig') 
+{#    <h1>Edit Client</h1>#}
+    <section class='dark:bg-dark-mode-secondary ml-64 mt-32 dark:text-primary'>
+     {% include('composants/_customForm.html.twig')
         with {
             'form': form,
             'updateAction': 'Mettre à jour',
             'backAction': 'app_client_index'
         } 
     %}
-
-    <a href="{{ path('app_client_index', {'idS': drivingSchool}) }}">back to list</a>
-
-    {{ include('client/_delete_form.html.twig') }}
+    </section>
+{#    {{ include('client/_delete_form.html.twig') }}#}
 {% endblock %}

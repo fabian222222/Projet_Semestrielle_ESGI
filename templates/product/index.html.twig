@@ -15,9 +15,9 @@
 					<div
 						class='text-white flex'
 					>
-						<button class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 rounded-tl rounded-bl hover:bg-opacity-80 transition ease-in-out duration-100'>All</button>
-						<button class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
-						<button class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
+						<a class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index') }}">Tout</a>
+						<a class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index', {'productFiltredLess': '700'}) }}"> > 700 € </a>
+						<a class='bg-red-primary dark:bg-dark-dark-purple  rounded-tr rounded-br px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index', {'productFiltredGreater': '700'}) }}"> < 700 € </a>
 					</div>
 					<div class='flex items-center gap-6'>
 						<div class='flex items-center bg-red-primary dark:bg-dark-dark-purple rounded'>
@@ -27,7 +27,7 @@
 
 						<input class='bg-red-primary dark:bg-dark-dark-purple text-white p-2 rounded' type="date">
 						
-						<div class='flex gap-2 bg-blue-primary rounded p-2 pointer'>
+						<div class='flex gap-2 bg-blue-primary hover:bg-blue-secondary rounded p-2 pointer'>
 							<span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white">add</span>
 							<a class='text-white mr-2' href="{{ path('app_product_new') }}">Créer nouveau</a>
 						</div>

@@ -19,12 +19,21 @@ class ProductController extends AbstractController
     #[Security('is_granted("ROLE_BOSS")')]
     public function index(ProductRepository $productRepository, Request $request): Response
     {
-
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
 
+        $productFiltredLess = $request->query->get('productFiltredLess');
+        $productFiltredGreater = $request->query->get('productFiltredGreater');
+        if ($productFiltredLess) {
+            $products = $productRepository->findProductsLessThanPrice($productFiltredLess);
+        } elseif ($productFiltredGreater) {
+            $products = $productRepository->findProductsGreaterThanPrice($productFiltredGreater);
+        } else {
+            $products = $productRepository->findAll();
+        }
+
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $products,
             'drivingSchool' => $schoolSelected,
         ]);
     }

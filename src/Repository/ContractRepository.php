@@ -78,4 +78,29 @@ class ContractRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findContractGreaterThanPrice($price, $drivingSchoolId)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.price > :val')
+            ->setParameter('val', $price)
+            ->andWhere('c.drivingSchool = :schoolId')
+            ->setParameter('schoolId', $drivingSchoolId)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findContractLessThanPrice($price, $drivingSchoolId)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.price < :val')
+            ->setParameter('val', $price)
+            ->andWhere('c.drivingSchool = :schoolId')
+            ->setParameter('schoolId', $drivingSchoolId)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

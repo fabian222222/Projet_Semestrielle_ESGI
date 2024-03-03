@@ -9,7 +9,16 @@ module.exports = {
       colors: {
         'red-primary': '#EA3E2B',
         'red-secondary' : '#ff0000',
-        'blue-primary': '#21053D',
+
+        'blue-primary': '#2e1065',
+        'blue-secondary': '#4c1d95',
+
+        'orange-primary': '#f97316',
+        'orange-secondary': '#fb923c',
+
+        'green-primary': '#16a34a',
+        'green-secondary': '#22c55e',
+
         'black': '#000',
 
 
@@ -25,7 +34,7 @@ module.exports = {
         'dark-mode-four': '#363434',
         'dark-mode-five': '#413f3f',
         'dark-light-purple': '#7058DC',
-        'dark-dark-purple': '#512d8d',
+        'dark-dark-purple': '#512d8d'
       }
     },
   },

@@ -5,11 +5,14 @@
 {% block body %}
     {{ include('composants/header.html.twig') }}
 
-    <section class='ml-64 mt-32'>
-        {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'product'} %}
+    <section class='dark:bg-dark-mode-secondary ml-64 mt-32 dark:text-primary'>
+        {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
 
-        {{ include('product/_form.html.twig') }}
-
-        <a href="{{ path('app_product_index') }}">back to list</a>
+        {% include('composants/_customForm.html.twig')
+            with {
+            'form': form,
+            'createAction': 'Créer',
+            'backAction': 'app_product_index'
+        } %}
     </section>
 {% endblock %}
