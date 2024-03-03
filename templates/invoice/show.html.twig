@@ -1,42 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Invoice{% endblock %}
+{% block title %}Facture{% endblock %}
 
 {% block body %}
-    {{ include('composants/header.html.twig') }}
+    <section>
+        {{ include('composants/header.html.twig') }}
+        <section class="ml-64 mt-32">
+            {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
 
-  <section class='ml-64 mt-32'>
-        {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'invoice'} %}
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ invoice.id }}</td>
-                </tr>
-                <tr>
-                    <th>Name</th>
-                    <td>{{ invoice.name }}</td>
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>{{ invoice.description }}</td>
-                </tr>
-                <tr>
-                    <th>Date</th>
-                    <td>{{ invoice.date ? invoice.date|date('Y-m-d') : '' }}</td>
-                </tr>
-                <tr>
-                    <th>TypePayment</th>
-                    <td>{{ invoice.typePayment }}</td>
-                </tr>
-                <tr>
-                    <th>Price</th>
-                    <td>{{ invoice.price }}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <a href="{{ path('app_invoice_index') }}">back to list</a>
-        <a href="{{ path('app_invoice_pdf_show', { id: invoice.id }) }}">PDF</a>
+            {% include 'composants/_showElements.html.twig' with {
+                'sections': [
+                    [
+                        "Contrat",
+                        invoice
+                    ],
+                ],
+                'elementsToDisplay': [
+                    [
+                        ['Numéro de facture', 'id'],
+                        ['Nom', 'name'],
+                        ['Description', 'description'],
+                        ['Prix', 'price'],
+                        ['Type de paiement', 'typePayment'],
+                    ],
+                ]
+            } %}
+        </section>
     </section>
 {% endblock %}

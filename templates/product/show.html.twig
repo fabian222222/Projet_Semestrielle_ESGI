@@ -1,43 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product{% endblock %}
+{% block title %}Produit{% endblock %}
 
 {% block body %}
 
-    {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'product'} %}
+    <section>
+        {{ include('composants/header.html.twig') }}
+        <section class="ml-64 mt-32">
+            {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
 
-    <section class="ml-64">
-        <h1>Product</h1>
-
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ product.id }}</td>
-                </tr>
-                <tr>
-                    <th>Name</th>
-                    <td>{{ product.productName }}</td>
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>{{ product.productDescription }}</td>
-                </tr>
-                <tr>
-                    <th>Hour</th>
-                    <td>{{ product.productHour }}</td>
-                </tr>
-                <tr>
-                    <th>Price</th>
-                    <td>{{ product.productPrice }}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <a href="{{ path('app_product_index') }}">back to list</a>
-
-        <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
-
-        {{ include('product/_delete_form.html.twig') }}
+            {% include 'composants/_showElements.html.twig' with {
+                'sections': [
+                    [
+                        "Produit",
+                        product
+                    ],
+                ],
+                'elementsToDisplay': [
+                    [
+                        ['Nom produit', 'productName'],
+                        ['Description', 'productDescription'],
+                        ['Prix', 'productPrice'],
+                        ['Heure', 'productHour'],
+                    ],
+                ]
+            }
+            %}
+        </section>
     </section>
 {% endblock %}
