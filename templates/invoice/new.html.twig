@@ -8,8 +8,13 @@
     <section class='ml-64 mt-32'>
         {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'invoice'} %}
 
-        {{ include('invoice/_form.html.twig') }}
-
-        <a href="{{ path('app_invoice_index') }}">back to list</a>
+        {% 
+            include('composants/_customForm.html.twig') 
+            with {
+                'form': form,
+                'createAction': 'Créer',
+                'backAction': 'app_invoice_index'
+            } 
+        %}
     </section>
 {% endblock %}

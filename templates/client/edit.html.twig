@@ -5,7 +5,14 @@
 {% block body %}
     <h1>Edit Client</h1>
 
-    {{ include('client/_form.html.twig', {'button_label': 'Update'}) }}
+     {% 
+        include('composants/_customForm.html.twig') 
+        with {
+            'form': form,
+            'updateAction': 'Mettre à jour',
+            'backAction': 'app_client_index'
+        } 
+    %}
 
     <a href="{{ path('app_client_index', {'idS': drivingSchool}) }}">back to list</a>
 

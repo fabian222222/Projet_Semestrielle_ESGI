@@ -9,8 +9,13 @@
     <section class='ml-64 mt-32'>
         {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
 
-        {{ include('client/_form.html.twig') }}
-
-        <a href="{{ path('app_client_index') }}">back to list</a>
+        {% 
+            include('composants/_customForm.html.twig') 
+            with {
+                'form': form,
+                'createAction': 'Créer',
+                'backAction': 'app_client_index'
+            } 
+        %}
     </section>
 {% endblock %}
