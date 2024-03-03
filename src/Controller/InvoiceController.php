@@ -26,7 +26,7 @@ class InvoiceController extends AbstractController
 {
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]
     #[Security('is_granted("ROLE_BOSS")')]
-    public function index(InvoiceRepository $invoiceRepository, Request $request): Response
+    public function index(Request $request, InvoiceRepository $invoiceRepository): Response
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
@@ -39,11 +39,11 @@ class InvoiceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $searchData->page = $request->query->getInt('page', 1);
-            $invoices = $invoiceRepository->findByInvoiceNameAndDescription($searchData->q);
+            $invoices = $invoiceRepository->findByInvoiceNameAndDescription($searchData->q, $schoolSelected);
         } elseif ($typePayment) {
             $invoices = $invoiceRepository->findByTypePayment($typePayment);
         } else {
-            $invoices = $invoiceRepository->findAll();
+            $invoices = $invoiceRepository->findByDrivingSchoolId($schoolSelected);
         }
 
         return $this->render('invoice/index.html.twig', [

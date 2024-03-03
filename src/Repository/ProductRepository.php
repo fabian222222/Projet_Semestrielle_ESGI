@@ -20,4 +20,16 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+
+    public function findProductByNameAndDescription(string $search, $drivingSchool): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.productName LIKE :productName OR q.productDescription LIKE :productDescription')
+            ->andWhere('q.drivingSchool = :drivingSchool')
+            ->setParameter('productName', '%' . $search . '%')
+            ->setParameter('productDescription', '%' . $search . '%')
+            ->setParameter('drivingSchool', $drivingSchool)
+            ->getQuery()
+            ->getResult();
+    }
 }

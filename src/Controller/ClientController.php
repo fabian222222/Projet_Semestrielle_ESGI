@@ -34,18 +34,14 @@ class ClientController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $searchData->page = $request->query->getInt('page', 1);
-            $clients = $clientRepository->findByClientNameAndLastName($searchData->q);
-
-            return $this->render('client/index.html.twig', [
-                'form' => $form->createView(),
-                'clients' => $clients,
-                'drivingSchool' => $schoolSelected,
-            ]);
+            $clients = $clientRepository->findByClientNameAndLastName($searchData->q, $schoolSelected);
+        } else {
+            $clients = $clientRepository->findByDrivingSchool($schoolSelected);
         }
 
         return $this->render('client/index.html.twig', [
             'form' => $form->createView(),
-            'clients' => $clientRepository->findByDrivingSchool($schoolSelected),
+            'clients' => $clients,
             'drivingSchool' => $schoolSelected,
         ]);
     }

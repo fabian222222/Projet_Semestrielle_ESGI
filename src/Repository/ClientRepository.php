@@ -48,15 +48,17 @@ class ClientRepository extends ServiceEntityRepository
             ->setParameter('drivingSchool', $drivingSchool);
     }
 
-    public function findByClientNameAndLastName(string $name): array
+    public function findByClientNameAndLastName(string $search, $drivingSchool): array
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.lastname LIKE :lastname')
-            ->orWhere('q.firstname LIKE :firstname')
-            ->setParameter('lastname', '%' . $name . '%')
-            ->setParameter('firstname', '%' . $name . '%')
+            ->andWhere('q.lastname LIKE :lastname OR q.firstname LIKE :firstname')
+            ->andWhere('q.drivingSchool = :drivingSchool')
+            ->setParameter('lastname', '%' . $search . '%')
+            ->setParameter('firstname', '%' . $search . '%')
+            ->setParameter('drivingSchool', $drivingSchool)
             ->getQuery()
             ->getResult();
+
     }
 
     public function findClientCreatedAfterDate(\DateTimeInterface $date): array {

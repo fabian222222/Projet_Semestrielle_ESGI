@@ -7,6 +7,8 @@ use App\Entity\Contract;
 use App\Entity\DrivingSchool;
 use App\Form\ContractType;
 
+use App\Form\SearchType;
+use App\Model\SearchData;
 use App\Service\PdfService;
 use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,8 +27,21 @@ class ContractController extends AbstractController
     {
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
+
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchData->page = $request->query->getInt('page', 1);
+            $contracts = $contractRepository->findByContractNameAndDescription($searchData->q, $schoolSelected);
+        } else {
+            $contracts = $contractRepository->findByDrivingSchool($schoolSelected);
+        }
         return $this->render('contract/index.html.twig', [
-            'contracts' => $contractRepository->findByDrivingSchool($schoolSelected),
+            'form' => $form->createView(),
+            'contracts' => $contracts,
             'drivingSchool' => $schoolSelected,
         ]);
     }
