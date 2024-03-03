@@ -12,15 +12,15 @@
              {% include 'composants/_showElements.html.twig' with {
                     'sections': [
                         [
-                            "User information",
+                            "Information de l'utilisateur",
                             client
                         ],
                         [
-                            "User's contract",
+                            "Contrat de l'utilisateur",
                             contracts
                         ],
                         [
-                            "User's invoice",
+                            "Facture de l'utilisateur",
                             invoices
                         ]
                     ],
@@ -36,7 +36,7 @@
                             ['Code Postal', 'zipCode'],
                         ],
                         [
-                            ['Numéro de facture', 'id'],
+                            ['Numéro de contrat', 'id'],
                             ['Nom', 'name'],
                             ['Description', 'description'],
                             ['Prix', 'price'],
