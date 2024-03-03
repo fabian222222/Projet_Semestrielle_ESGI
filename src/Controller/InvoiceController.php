@@ -78,8 +78,10 @@ class InvoiceController extends AbstractController
                 'invoice' => $invoice,
             ]);
 
-            $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
-            $pdfService->generatePDFFile($html, $nomInvoice);
+            $path = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/';
+
+            $nomInvoice = $path . 'invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
+            $pdfService->generatePDFFile($html, $nomInvoice, $path);
 
             $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf', 'Invoice');
 
@@ -117,8 +119,10 @@ class InvoiceController extends AbstractController
                 'invoice' => $invoice,
             ]);
 
-            $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
-            $pdfService->generatePDFFile($html, $nomInvoice);
+            $path = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/';
+
+            $nomInvoice = $path . 'invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
+            $pdfService->generatePDFFile($html, $nomInvoice, $path);
 
             $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf', 'Invoice');
 
@@ -162,8 +166,10 @@ class InvoiceController extends AbstractController
                 'invoice' => $invoice,
             ]);
 
-            $nomInvoice = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
-            $pdfService->generatePDFFile($html, $nomInvoice);
+            $path = $this->getParameter('kernel.project_dir') .'/public/pdf/invoice/';
+
+            $nomInvoice = $path . 'invoice_' . $invoice->getClient()->getFirstname() .'_' . $invoice->getName() . "_" . $invoice->getDrivingSchool()->getName();
+            $pdfService->generatePDFFile($html, $nomInvoice, $path);
 
             $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $invoice, $nomInvoice . '.pdf', 'Invoice');
 

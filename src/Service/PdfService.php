@@ -39,12 +39,18 @@ class PdfService
         $domPdf->output();
     }
 
-    public function generatePDFFile($html, $fileName)
+    public function generatePDFFile($html, $fileName, $path)
     {
         $domPdf = new Dompdf();
 
         $domPdf->loadHtml($html);
         $domPdf->render();
+        
+        if (!is_dir($path)) {
+            if (!mkdir($path, 0777, true)) {
+                die('Erreur lors de la création du répertoire...');
+            }
+        } 
 
         file_put_contents($fileName . '.pdf', $domPdf->output());
     }
