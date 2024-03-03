@@ -1,7 +1,7 @@
- <div class="bg-white w-full mt-6 rounded-lg pt-4 pb-24 overflow-hidden">
+ <div class="bg-primary dark:bg-dark-mode-secondary w-full mt-6 rounded-lg pt-4 pb-24 overflow-hidden">
     <table class="table-auto w-full">
         <thead>
-            <tr>
+            <tr class="text-black dark:text-primary">
                 {% for column in columns %}
                     <th>{{column[1]}}</th>
                 {% endfor %}
@@ -9,11 +9,11 @@
         </thead>
         <tbody>
         {% for data in datas %}
-            <tr class='text-center leading-10 border-b-2'>
+            <tr class='text-center dark:text-third leading-10 border-b-2  dark:border-dark-mode-third'>
                 {% for column in columns %}
                     {% if column[2] %}
                         {% if attribute(data, column[0]).getTimestamp is defined %}
-                            <td>{{ attribute(data, column[0])|date('Y-m-d') }}</td>
+                            <td>{{ attribute(data, column[0])|date('d/m/Y') }}</td>
                         {% else %}
                             <td>{{ attribute(data, column[0]) }}</td>
                         {% endif %}
@@ -21,13 +21,13 @@
                 {% endfor %}
                 <td class='relative w-[50px]'>
                     <div class='flex justify-center pointer cursor-pointer relative mx-[60px]'>
-                        <span class="material-symbols-outlined flex pointer justify-center items-center w-4 h-4 text-[19px] text-black border-2 border-[#C6C6C6] p-3 rounded action-menu-toggle">more_vert</span>
+                        <span class="material-symbols-outlined flex pointer justify-center items-center w-4 h-4 text-[19px] text-black dark:text-primary border-2 border-third p-3 rounded action-menu-toggle">more_vert</span>
 
-                        <div class='absolute top-0 -left-2 hidden flex-col text-left pr-3 bg-white border pl-2 action-menu -translate-x-full z-10'>
+                        <div class='absolute top-0 -left-2 hidden flex-col text-left pr-3 bg-white dark:bg-dark-mode-four border dark:border-dark-mode-five pl-2 action-menu -translate-x-full z-10'>
                             {% if showAction is defined %}
-                                <div class="flex gap-4 items-center justify-between">
-                                    <a class='text-[#21053D]' href="{{ path(showAction[1], { 'id': data.id }) }}">{{ showAction[0] }}</a>
-                                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 transition duration-75 text-[#21053D]">visibility</span>
+                                <div class="flex gap-4 items-center justify-between text-[#21053D] dark:text-dark-light-purple">
+                                    <a href="{{ path(showAction[1], { 'id': data.id }) }}">{{ showAction[0] }}</a>
+                                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 transition duration-75">visibility</span>
                                 </div>
                             {% endif %}
                             {% if updateAction is defined %}    

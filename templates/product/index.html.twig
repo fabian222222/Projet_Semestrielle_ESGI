@@ -15,36 +15,36 @@
 					<div
 						class='text-white flex'
 					>
-						<button class='bg-red-primary px-6 py-2 rounded-tl rounded-bl hover:bg-opacity-80 transition ease-in-out duration-100'>All</button>
-						<button class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
-						<button class='bg-red-primary px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
+						<button class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 rounded-tl rounded-bl hover:bg-opacity-80 transition ease-in-out duration-100'>All</button>
+						<button class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
+						<button class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
 					</div>
 					<div class='flex items-center gap-6'>
-						<div class='flex items-center bg-red-primary rounded'>
+						<div class='flex items-center bg-red-primary dark:bg-dark-dark-purple rounded'>
 							<span class="material-symbols-outlined flex items-center justify-center w-5 h-5 text-white mr-2 p-5">search</span>
 							<input class='bg-transparent text-white placeholder-white border-transparent focus:border-transparent focus:ring-0' type="text" placeholder='Search by name'>
 						</div>
 
-						<input class='bg-red-primary text-white p-2 rounded' type="date">
+						<input class='bg-red-primary dark:bg-dark-dark-purple text-white p-2 rounded' type="date">
 						
 						<div class='flex gap-2 bg-blue-primary rounded p-2 pointer'>
 							<span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white">add</span>
-							<a class='text-white mr-2' href="{{ path('app_product_new') }}">Create new</a>
+							<a class='text-white mr-2' href="{{ path('app_product_new') }}">Créer nouveau</a>
 						</div>
 					</div>
 				</div>
 
 				{% include 'composants/_table.html.twig' with {'columns': [
-						['productName', 'Name', true], 
+						['productName', 'Nom', true],
 						['productDescription', 'Description', true], 
-						['productHour', 'Formation Time', true], 
-						['productPrice', 'Price', true],
+						['productHour', 'Temps de formation', true],
+						['productPrice', 'Prix', true],
 						['actions', 'Actions', false] 
 					], 
 					'datas': products,
-					'showAction': ['Show', 'app_product_show'],
-					'updateAction': ['Update', 'app_product_edit'],
-                	'deleteAction': ['Delete', 'app_product_delete']
+					'showAction': ['Voir', 'app_product_show'],
+					'updateAction': ['Modifier', 'app_product_edit'],
+                	'deleteAction': ['Supprimer', 'app_product_delete']
 					} 
 				%}
 

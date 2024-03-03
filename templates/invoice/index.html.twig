@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<section>
+	<section class="dark:bg-dark-mode-primary">
 		{{ include('composants/header.html.twig') }}
 		<section class="ml-64 mt-32">
  			{% include 'composants/_adminSideBar.html.twig' with {'current_page': 'invoice'} %}
@@ -16,34 +16,34 @@
 					<div
 						class='text-white flex'
 					>
-						<a class='bg-red-primary px-6 py-2 rounded-tl rounded-bl hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index') }}">Reset filtre</a>
-						<a class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Espèce'}) }}">Espèce</a>
-						<a class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Carte'}) }}">Carte</a>
-						<a class='bg-red-primary px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Chèque'}) }}">Chèque</a>
+						<a class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 rounded-tl rounded-bl hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index') }}">Réinitialiser filtre</a>
+						<a class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Espèce'}) }}">Espèce</a>
+						<a class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Carte'}) }}">Carte</a>
+						<a class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Chèque'}) }}">Chèque</a>
 					</div>
 					<div class='flex items-center gap-6'>
 						<div class='flex items-center rounded'>
 							{% include "composants/_searchData.html.twig" with { form: form} only %}
 						</div>
 
-						<input class='bg-red-primary text-white p-2 rounded' type="date">
+						<input class='bg-red-primary dark:bg-dark-dark-purple text-white p-2 rounded' type="date">
 						
 						<div class='flex gap-2 bg-blue-primary rounded p-2 pointer'>
 							<span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white">add</span>
-							<a class='text-white mr-2' href="{{ path('app_invoice_new') }}">Create new</a>
+							<a class='text-white mr-2' href="{{ path('app_invoice_new') }}">Créer nouveau</a>
 						</div>
 					</div>
 				</div>
 
 				{% include 'composants/_table.html.twig' with {'columns': [
-						['name', 'Name', true], 
+						['name', 'Nom', true],
 						['description', 'Description', true], 
-						['price', 'Price', true], 
-						['typePayment', 'Payment type', true],
+						['price', 'Prix', true],
+						['typePayment', 'Type de paiment', true],
 						['actions', 'Actions', false] 
 					], 
 					'datas': invoices,
-					'showAction': ['Show', 'app_invoice_show']
+					'showAction': ['Voir', 'app_invoice_show']
 					} 
 				%}
 
