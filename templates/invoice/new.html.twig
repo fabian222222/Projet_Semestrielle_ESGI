@@ -3,9 +3,13 @@
 {% block title %}New Invoice{% endblock %}
 
 {% block body %}
-    <h1>Create new Invoice</h1>
+     {{ include('composants/header.html.twig') }}
 
-    {{ include('invoice/_form.html.twig') }}
+    <section class='ml-64 mt-32'>
+        {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'invoice'} %}
 
-    <a href="{{ path('app_invoice_index', {'idS': drivingSchool}) }}">back to list</a>
+        {{ include('invoice/_form.html.twig') }}
+
+        <a href="{{ path('app_invoice_index') }}">back to list</a>
+    </section>
 {% endblock %}

@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ContractRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContractRepository::class)]
 class Contract
@@ -19,15 +18,9 @@ class Contract
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Assert\Regex(
-        pattern: '^[0-9]+(?:\.[0-9]+)?$',
-        message: 'Le prix ne peut pas être négatif',
-        match: true,
-    )]
     private ?int $price = null;
 
     #[ORM\Column(type: Types::TEXT)]
-//    #[Assert\NotBlank(message: 'Veuillez renseigner une description')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

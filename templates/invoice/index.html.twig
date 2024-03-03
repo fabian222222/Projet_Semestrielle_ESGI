@@ -4,54 +4,51 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Invoice index</h1>
+	<section>
+		{{ include('composants/header.html.twig') }}
+		<section class="ml-64 mt-32">
+ 			{% include 'composants/_adminSideBar.html.twig' with {'current_page': 'invoice'} %}
+			<div class='m-6'>
 
-	{% include "composants/_searchData.html.twig" with { form: form} only %}
-	{{ include('composants/_adminSideBar.html.twig') }}
+				<div
+					class='flex items-center justify-between'
+				>
+					<div
+						class='text-white flex'
+					>
+						<a class='bg-red-primary px-6 py-2 rounded-tl rounded-bl hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index') }}">Reset filtre</a>
+						<a class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Espèce'}) }}">Espèce</a>
+						<a class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Carte'}) }}">Carte</a>
+						<a class='bg-red-primary px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Chèque'}) }}">Chèque</a>
+					</div>
+					<div class='flex items-center gap-6'>
+						<div class='flex items-center rounded'>
+							{% include "composants/_searchData.html.twig" with { form: form} only %}
+						</div>
 
+						<input class='bg-red-primary text-white p-2 rounded' type="date">
+						
+						<div class='flex gap-2 bg-blue-primary rounded p-2 pointer'>
+							<span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white">add</span>
+							<a class='text-white mr-2' href="{{ path('app_invoice_new') }}">Create new</a>
+						</div>
+					</div>
+				</div>
 
+				{% include 'composants/_table.html.twig' with {'columns': [
+						['name', 'Name', true], 
+						['description', 'Description', true], 
+						['price', 'Price', true], 
+						['typePayment', 'Payment type', true],
+						['actions', 'Actions', false] 
+					], 
+					'datas': invoices,
+					'showAction': ['Show', 'app_invoice_show']
+					} 
+				%}
 
-
-	<section class="ml-64">
-		<div>
-			<a href="{{ path('app_invoice_index') }}">Reset filtre</a>
-			<a href="{{ path('app_invoice_index', {'typePayment': 'Espèce'}) }}">Espèce</a>
-			<a href="{{ path('app_invoice_index', {'typePayment': 'Carte'}) }}">Carte</a>
-			<a href="{{ path('app_invoice_index', {'typePayment': 'Chèque'}) }}">Chèque</a>
-		</div>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Description</th>
-					<th>Date</th>
-					<th>TypePayment</th>
-					<th>Price</th>
-					<th>actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for invoice in invoices %}
-					<tr>
-						<td>{{ invoice.id }}</td>
-						<td>{{ invoice.name }}</td>
-						<td>{{ invoice.description }}</td>
-						<td>{{ invoice.date ? invoice.date|date('Y-m-d') : '' }}</td>
-						<td>{{ invoice.typePayment }}</td>
-						<td>{{ invoice.price }}</td>
-						<td>
-							<a href="{{ path('app_invoice_show', {'id': invoice.id}) }}">show</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="7">no records found</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-			 <a href="{{ path('app_invoice_new') }}">Create new</a>
+			</div>
+		</section>
 	</section>
 
 	{% endblock %}

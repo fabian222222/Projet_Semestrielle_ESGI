@@ -3,33 +3,40 @@
 {% block title %}Contract{% endblock %}
 
 {% block body %}
-    <h1>Contract</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ contract.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ contract.name }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ contract.price }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ contract.description }}</td>
-            </tr>
-            <tr>
-                <th>ValidityDate</th>
-                <td>{{ contract.validityDate ? contract.validityDate|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {{ include('composants/header.html.twig') }}
 
-    <a href="{{ path('app_contract_index')}}">back to list</a>
-    <a href="{{ path('app_contract_pdf_show', { id: contract.id }) }}">PDF</a>
+    <section class='ml-64 mt-32'>
+        {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'contract'} %}
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ contract.id }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ contract.name }}</td>
+                </tr>
+                <tr>
+                    <th>Price</th>
+                    <td>{{ contract.price }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ contract.description }}</td>
+                </tr>
+                <tr>
+                    <th>ValidityDate</th>
+                    <td>{{ contract.validityDate ? contract.validityDate|date('Y-m-d') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_contract_index')}}">back to list</a>
+        <a href="{{ path('app_contract_pdf_show', { id: contract.id }) }}">PDF</a>
+
+    </section>
+
 {% endblock %}

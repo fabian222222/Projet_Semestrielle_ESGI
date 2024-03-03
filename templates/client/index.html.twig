@@ -5,50 +5,54 @@
 
 {% block body %}
 
-	{% include "composants/_searchData.html.twig" with { form: form} only %}
-	{{ include('composants/_adminSideBar.html.twig') }}
+	{# {% include "composants/_searchData.html.twig" with { form: form} only %} #}
 
-	<section class="ml-64">
-		<h1>Client index</h1>
+	<section>
+		{{ include('composants/header.html.twig') }}
+		<section class="ml-64 mt-32">
+			 {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
+			<div class='m-6'>
 
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Lastname</th>
-					<th>Email</th>
-					<th>Téléphone</th>
-					<th>N° de voie</th>
-					<th>Adresse</th>
-					<th>Ville</th>
-					<th>Code postal</th>
-					<th>actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for client in clients %}
-					<tr>
-						<td>{{ client.firstname }}</td>
-						<td>{{ client.lastname }}</td>
-						<td>{{ client.email }}</td>
-						<td>{{ client.phoneNumber }}</td>
-						<td>{{ client.Number }}</td>
-						<td>{{ client.address }}</td>
-						<td>{{ client.city }}</td>
-						<td>{{ client.zipCode }}</td>
-						<td>
-							<a href="{{ path('app_client_show', {'id': client.id}) }}">show</a>
-							<a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="5">no records found</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+				<div
+					class='flex items-center justify-between'
+				>
+					<div
+						class='text-white flex'
+					>
+						<button class='bg-red-primary px-6 py-2 rounded-tl rounded-bl hover:bg-opacity-80 transition ease-in-out duration-100'>All</button>
+						<button class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
+						<button class='bg-red-primary px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100'>Lorem</button>
+					</div>
+					<div class='flex items-center gap-6'>
+						<div class='flex items-center bg-red-primary rounded'>
+							<span class="material-symbols-outlined flex items-center justify-center w-5 h-5 text-white mr-2 p-5">search</span>
+							<input class='bg-transparent text-white placeholder-white border-transparent focus:border-transparent focus:ring-0' type="text" placeholder='Search by name'>
+						</div>
 
-		<a href="{{ path('app_client_new') }}">Create new</a>
+						<input class='bg-red-primary text-white p-2 rounded' type="date">
+						
+						<div class='flex gap-2 bg-blue-primary rounded p-2 pointer'>
+							<span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white">add</span>
+							<a class='text-white mr-2' href="{{ path('app_client_new') }}">Create new</a>
+						</div>
+					</div>
+				</div>
+
+				{% include 'composants/_table.html.twig' with {'columns': [
+						['firstname', 'Firstname', true], 
+						['lastname', 'Lastname', true], 
+						['email', 'Email', true], 
+						['phoneNumber', 'Phone', true],
+						['actions', 'Actions', false] 
+					], 
+					'datas': clients,
+					'showAction': ['Show', 'app_client_show'],
+					'updateAction': ['Update', 'app_client_edit'],
+                	'deleteAction': ['Delete', 'app_client_delete']
+					}
+				%}
+
+			</div>
+		</section>
 	</section>
 {% endblock %}
