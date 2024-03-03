@@ -1,7 +1,7 @@
 <div class="mx-12 bg-white dark:bg-dark-mode-primary rounded px-12 py-8">
     {% for element in elementsToDisplay %}
         <div class="mb-6">
-            <h2 class="text-2xl font-medium mb-2 text-black dark:text-primary"> {{ sections[loop.index0][0] }} </h2>
+            <h2 class="text-2xl font-medium mb-2 text-black dark:text-primary font-light"> {{ sections[loop.index0][0] }} </h2>
             <div class="flex flex-wrap justify-between text-black dark:text-third">
                 {% set parentIndex = loop.index0 %}
                 {% if sections[parentIndex][1] is not iterable %}
@@ -10,9 +10,7 @@
                             <div>
                                 {{ column[0] }}
                             </div>
-                            <div
-                                class="border border-[#B9B9B9] border-solid px-2 py-1 rounded"
-                            >
+                            <div class="border border-[#B9B9B9] border-solid px-2 py-1 rounded">
                                 {{ attribute(sections[parentIndex][1], column[1]) }}
                             </div>
                         </div>

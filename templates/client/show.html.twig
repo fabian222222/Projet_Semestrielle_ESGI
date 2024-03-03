@@ -5,52 +5,54 @@
 {% block body %}
 
     <section>
-        {{ include('composants/header.html.twig') }}
-		<section class="ml-64 mt-32">
-			 {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
 
-             {% include 'composants/_showElements.html.twig' with {
-                    'sections': [
-                        [
-                            "Information de l'utilisateur",
-                            client
-                        ],
-                        [
-                            "Contrat de l'utilisateur",
-                            contracts
-                        ],
-                        [
-                            "Facture de l'utilisateur",
-                            invoices
-                        ]
+        {{ include('composants/header.html.twig') }}
+        <section class="ml-64 mt-32">
+            {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
+            <div class='m-8'>
+                <h1 class="text-6xl text-five dark:text-third pb-8 font-light">Visualisation client</h1>
+            </div>
+            {% include 'composants/_showElements.html.twig' with {
+                'sections': [
+                    [
+                        "Information de l'utilisateur",
+                        client
                     ],
-                    'elementsToDisplay': [
-                        [
-                            ['Prénom', 'firstname'],
-                            ['Nom', 'lastname'],
-                            ['Mail', 'email'],
-                            ['Téléphone', 'phoneNumber'],
-                            ['Numéro de voie', 'number'],
-                            ['Adresse', 'address'],
-                            ['Ville', 'city'],
-                            ['Code Postal', 'zipCode'],
-                        ],
-                        [
-                            ['Numéro de contrat', 'id'],
-                            ['Nom', 'name'],
-                            ['Description', 'description'],
-                            ['Prix', 'price'],
-                        ],
-                        [
-                            ['Numéro de facture', 'id'],   
-                            ['Nom', 'name'],
-                            ['Description', 'description'],
-                            ['Prix', 'price'],
-                            ['Type de paiement', 'typePayment'],
-                        ]
+                    [
+                        "Contrat de l'utilisateur",
+                        contracts
+                    ],
+                    [
+                        "Facture de l'utilisateur",
+                        invoices
                     ]
-                }
-            %}
+                ],
+                'elementsToDisplay': [
+                    [
+                        ['Prénom', 'firstname'],
+                        ['Nom', 'lastname'],
+                        ['Mail', 'email'],
+                        ['Téléphone', 'phoneNumber'],
+                        ['Numéro de voie', 'number'],
+                        ['Adresse', 'address'],
+                        ['Ville', 'city'],
+                        ['Code Postal', 'zipCode'],
+                    ],
+                    [
+                        ['Numéro de contrat', 'id'],
+                        ['Nom', 'name'],
+                        ['Description', 'description'],
+                        ['Prix', 'price'],
+                    ],
+                    [
+                        ['Numéro de facture', 'id'],
+                        ['Nom', 'name'],
+                        ['Description', 'description'],
+                        ['Prix', 'price'],
+                        ['Type de paiement', 'typePayment'],
+                    ]
+                ]
+            } %}
 
         </section>
     </section>

@@ -26,13 +26,13 @@
                         <div class='absolute top-0 -left-2 hidden flex-col text-left pr-3 bg-white dark:bg-dark-mode-four border dark:border-dark-mode-five pl-2 action-menu -translate-x-full z-10'>
                             {% if showAction is defined %}
                                 <div class="flex gap-4 items-center justify-between text-[#21053D] dark:text-dark-light-purple">
-                                    <a href="{{ path(showAction[1], { 'id': data.id }) }}">{{ showAction[0] }}</a>
+                                    <a class='text-blue-primary dark:text-dark-light-purple' href="{{ path(showAction[1], { 'id': data.id }) }}">{{ showAction[0] }}</a>
                                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 transition duration-75">visibility</span>
                                 </div>
                             {% endif %}
                             {% if updateAction is defined %}    
                                 <div class="flex gap-4 items-center justify-between">
-                                    <a class='text-[#FF742C]' href="{{ path(updateAction[1], { 'id': data.id }) }}">{{ updateAction[0] }}</a>
+                                    <a class='text-orange-primary' href="{{ path(updateAction[1], { 'id': data.id }) }}">{{ updateAction[0] }}</a>
                                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-[#FF742C] transition duration-75">edit_square</span>
                                 </div>
                             {% endif %}
@@ -40,7 +40,7 @@
                                 <div class="flex gap-4 items-center justify-between">
                                     <form action="{{ path(deleteAction[1], {'id': data.id}) }}" method="POST">
                                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ data.id) }} }}">
-                                        <button class='text-[#EA3E2B]' type="submit">{{ deleteAction[0] }}</button>
+                                        <button class='text-red-secondary' type="submit">{{ deleteAction[0] }}</button>
                                     </form>
                                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-[#EA3E2B] transition duration-75">delete</span>
                                 </div>

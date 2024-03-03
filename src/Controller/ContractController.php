@@ -32,13 +32,21 @@ class ContractController extends AbstractController
         $form = $this->createForm(SearchType::class, $searchData);
         $form->handleRequest($request);
 
+        $contractFiltredLess = $request->query->get('contractFiltredLess');
+        $contractFiltredGreater = $request->query->get('contractFiltredGreater');
 
         if ($form->isSubmitted() && $form->isValid()) {
             $searchData->page = $request->query->getInt('page', 1);
             $contracts = $contractRepository->findByContractNameAndDescription($searchData->q, $schoolSelected);
+
+        } elseif ($contractFiltredLess) {
+            $contracts = $contractRepository->findContractLessThanPrice($contractFiltredLess, $schoolSelected);
+        } elseif ($contractFiltredGreater) {
+            $contracts = $contractRepository->findContractGreaterThanPrice($contractFiltredGreater, $schoolSelected);
         } else {
             $contracts = $contractRepository->findByDrivingSchool($schoolSelected);
         }
+
         return $this->render('contract/index.html.twig', [
             'form' => $form->createView(),
             'contracts' => $contracts,
@@ -77,12 +85,12 @@ class ContractController extends AbstractController
                 'contract' => $contract,
             ]);
 
-            $path = $this->getParameter('kernel.project_dir') .'/public/pdf/contrat/';
+            $path = $this->getParameter('kernel.project_dir') . '/public/pdf/contrat/';
 
-            $nomContrat = $path . 'contrat_' . $contract->getClient()->getFirstname() .'_' . $contract->getName() . "_" . $contract->getDrivingSchool()->getName();
+            $nomContrat = $path . 'contrat_' . $contract->getClient()->getFirstname() . '_' . $contract->getName() . "_" . $contract->getDrivingSchool()->getName();
             $pdfService->generatePDFFile($html, $nomContrat, $path);
 
-            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $contract, $nomContrat . '.pdf', 'Contract');
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') . '/assets/images/driving-school.png', $contract, $nomContrat . '.pdf', 'Contract');
 
             return $this->redirectToRoute('app_contract_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -93,6 +101,7 @@ class ContractController extends AbstractController
             'drivingSchool' => $schoolSelected,
         ]);
     }
+
     #[Route('/{id}', name: 'app_contract_show', methods: ['GET'])]
     public function show(Request $request, Contract $contract): Response
     {
@@ -118,6 +127,7 @@ class ContractController extends AbstractController
 
         $pdfService->showPdfFile($html);
     }
+
     #[Route('/new/{idClient}', name: 'app_contract_new_id_client', methods: ['GET', 'POST'])]
     #[Security('is_granted("ROLE_BOSS")')]
     public function newClient(Request $request, EntityManagerInterface $entityManager, Client $client, MailerService $mailerService, PdfService $pdfService): Response
@@ -153,13 +163,13 @@ class ContractController extends AbstractController
                 'drivingSchool' => $schoolSelected,
                 'contract' => $contract,
             ]);
-            
-            $path = $this->getParameter('kernel.project_dir') .'/public/pdf/contrat/';
 
-            $nomContrat = $path . 'contrat_' . $contract->getClient()->getFirstname() .'_' . $contract->getName() . "_" . $contract->getDrivingSchool()->getName();
+            $path = $this->getParameter('kernel.project_dir') . '/public/pdf/contrat/';
+
+            $nomContrat = $path . 'contrat_' . $contract->getClient()->getFirstname() . '_' . $contract->getName() . "_" . $contract->getDrivingSchool()->getName();
             $pdfService->generatePDFFile($html, $nomContrat, $path);
 
-            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') .'/assets/images/driving-school.png', $contract, $nomContrat . '.pdf', 'Contract');
+            $mailerService->sendContract($this->getParameter('address_mailer'), $this->getParameter('kernel.project_dir') . '/assets/images/driving-school.png', $contract, $nomContrat . '.pdf', 'Contract');
 
             return $this->redirectToRoute('app_contract_index', [], Response::HTTP_SEE_OTHER);
         }

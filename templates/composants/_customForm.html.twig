@@ -1,28 +1,28 @@
-<div class="mx-12 bg-white rounded px-12 py-8">
+<div class="mx-12 bg-primary dark:bg-dark-mode-secondary rounded px-12 py-8">
     {{ form_start(form, {'attr': {'class': 'flex flex-wrap justify-between'}}) }}
             {% for field in form %}
                 {% if field.vars.name != '_token' %}
                     <div class="w-[45%] flex-col flex mb-4">
                         {{ form_label(field, null) }}
-                        {{ form_widget(field, {'attr': {'class': 'border border-[#B9B9B9] border-solid px-2 py-1 rounded'}}) }}
+                        {{ form_widget(field, {'attr': {'class': 'dark:bg-dark-mode-third border border-[#B9B9B9] dark:border-dark-mode-five border-solid px-2 py-1 rounded'}}) }}
                         {{ form_errors(field) }}
                     </div>
                 {% endif %}
             {% endfor %}
 
         <section class="flex gap-4 self-end">
-           <div class='flex gap-2 bg-blue-primary rounded p-2 pointer'>
+           <div class='flex gap-2 bg-blue-primary hover:bg-blue-secondary rounded p-2 pointer'>
                 <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white">arrow_back</span>
-                <a class="text-white" href="{{ path(backAction) }}">back to list</a>
+                <a class="text-white" href="{{ path(backAction) }}">Retour à la liste</a>
             </div>
            {% if createAction is defined %}
-            	<div class='flex gap-2 bg-blue-primary rounded p-2 pointer'>
+            	<div class='flex gap-2 bg-green-primary hover:bg-green-secondary rounded p-2 pointer'>
                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white">add</span>
                     <button type="submit" class='text-white mr-2'>{{ createAction }}</button>
                 </div>
             {% endif %}
             {% if updateAction is defined %}    
-                <div class="flex gap-4 bg-[#FF742C] p-2 rounded items-center justify-between">
+                <div class="flex gap-4 bg-orange-primary hover:bg-orange-secondary p-2 rounded items-center justify-between">
                     <button type="submit" class='text-white'>{{ updateAction }}</button>
                     <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-white transition duration-75">edit_square</span>
                 </div>

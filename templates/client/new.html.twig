@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Client{% endblock %}
+{% block title %}Ajout Client{% endblock %}
 
 {% block body %}
 
     {{ include('composants/header.html.twig') }}
 
-    <section class='ml-64 mt-32'>
+    <section class='dark:bg-dark-mode-secondary ml-64 mt-32 dark:text-primary'>
         {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
-
-        {% 
-            include('composants/_customForm.html.twig') 
+        <div class='m-8'>
+            <h1 class="text-6xl text-five dark:text-third pb-8 font-light">Créer un client </h1>
+        </div>
+        {% include('composants/_customForm.html.twig')
             with {
-                'form': form,
-                'createAction': 'Créer',
-                'backAction': 'app_client_index'
-            } 
-        %}
+            'form': form,
+            'createAction': 'Créer',
+            'backAction': 'app_client_index'
+        } %}
     </section>
 {% endblock %}
