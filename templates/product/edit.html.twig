@@ -3,15 +3,15 @@
 {% block title %}Edit Product{% endblock %}
 
 {% block body %}
-    <h1>Edit Product</h1>
+    {{ include('composants/header.html.twig') }}
 
-    {{ include('composants/_adminSideBar.html.twig') }}
+		<section class="ml-64 mt-32">
+            {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'product'} %}
 
-    <section class="ml-64">
-        {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
+            {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
 
-        <a href="{{ path('app_product_index') }}">back to list</a>
+            <a href="{{ path('app_product_index') }}">back to list</a>
 
-        {{ include('product/_delete_form.html.twig') }}
+            {{ include('product/_delete_form.html.twig') }}
     </section>
 {% endblock %}

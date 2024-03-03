@@ -4,8 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{# {% include "composants/_searchData.html.twig" with { form: form} only %} #}
-
 	<section>
 		{{ include('composants/header.html.twig') }}
 		<section class="ml-64 mt-32">
@@ -24,10 +22,8 @@
 						<a class='bg-red-primary px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_invoice_index', {'typePayment': 'Chèque'}) }}">Chèque</a>
 					</div>
 					<div class='flex items-center gap-6'>
-						<div class='flex items-center bg-red-primary rounded'>
+						<div class='flex items-center rounded'>
 							{% include "composants/_searchData.html.twig" with { form: form} only %}
-							<span class="material-symbols-outlined flex items-center justify-center w-5 h-5 text-white mr-2 p-5">search</span>
-							<input class='bg-transparent text-white placeholder-white border-transparent focus:border-transparent focus:ring-0' type="text" placeholder='Search by name'>
 						</div>
 
 						<input class='bg-red-primary text-white p-2 rounded' type="date">
@@ -43,11 +39,12 @@
 						['name', 'Name', true], 
 						['description', 'Description', true], 
 						['price', 'Price', true], 
-						['validityDate', 'Validity', true],
 						['typePayment', 'Payment type', true],
 						['actions', 'Actions', false] 
 					], 
-					'datas': invoices} 
+					'datas': invoices,
+					'showAction': ['Show', 'app_invoice_show']
+					} 
 				%}
 
 			</div>

@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {{ include('composants/_adminSideBar.html.twig') }}
+    {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'product'} %}
 
     <section class="ml-64">
         <h1>Product</h1>

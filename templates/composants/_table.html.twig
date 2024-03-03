@@ -1,6 +1,4 @@
-{% set datePattern = '/^\d{4}-\d{2}-\d{2}$/i' %}
-
- <div class="bg-white w-full mt-6 rounded-lg pt-4 overflow-hidden">
+ <div class="bg-white w-full mt-6 rounded-lg pt-4 pb-24 overflow-hidden">
     <table class="table-auto w-full">
         <thead>
             <tr>
@@ -21,11 +19,34 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-                <td>
-                    <div class='flex justify-center pointer cursor-pointer'>
-                        <span class="material-symbols-outlined flex pointer justify-center items-center w-4 h-4 text-[19px] text-black border-2 border-[#C6C6C6] p-3 rounded">more_vert</span>
+                <td class='relative w-[50px]'>
+                    <div class='flex justify-center pointer cursor-pointer relative mx-[60px]'>
+                        <span class="material-symbols-outlined flex pointer justify-center items-center w-4 h-4 text-[19px] text-black border-2 border-[#C6C6C6] p-3 rounded action-menu-toggle">more_vert</span>
+
+                        <div class='absolute top-0 -left-2 hidden flex-col text-left pr-3 bg-white border pl-2 action-menu -translate-x-full z-10'>
+                            {% if showAction is defined %}
+                                <div class="flex gap-4 items-center justify-between">
+                                    <a class='text-[#21053D]' href="{{ path(showAction[1], { 'id': data.id }) }}">{{ showAction[0] }}</a>
+                                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 transition duration-75 text-[#21053D]">visibility</span>
+                                </div>
+                            {% endif %}
+                            {% if updateAction is defined %}    
+                                <div class="flex gap-4 items-center justify-between">
+                                    <a class='text-[#FF742C]' href="{{ path(updateAction[1], { 'id': data.id }) }}">{{ updateAction[0] }}</a>
+                                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-[#FF742C] transition duration-75">edit_square</span>
+                                </div>
+                            {% endif %}
+                            {% if deleteAction is defined %}
+                                <div class="flex gap-4 items-center justify-between">
+                                    <form action="{{ path(deleteAction[1], {'id': data.id}) }}" method="POST">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ data.id) }} }}">
+                                        <button class='text-[#EA3E2B]' type="submit">{{ deleteAction[0] }}</button>
+                                    </form>
+                                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-[#EA3E2B] transition duration-75">delete</span>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                    {# <a href="{{ path('app_invoice_convert', {'id': contract.id, 'clientId': contract.client.id}) }}">convert to invoice</a> #}
                 </td>
             </tr>
         {% else %}

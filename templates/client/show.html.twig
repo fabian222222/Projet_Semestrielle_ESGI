@@ -3,111 +3,55 @@
 {% block title %}Client{% endblock %}
 
 {% block body %}
-    <h1>Client</h1>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Name</th>
-            <td>{{ client.firstname }}</td>
-        </tr>
-        <tr>
-            <th>Lastname</th>
-            <td>{{ client.lastname }}</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>{{ client.email }}</td>
-        </tr>
-        <tr>
-            <th>Téléphone</th>
-            <td>{{ client.phoneNumber }}</td>
-        </tr>
-        <tr>
-            <th>N° de voie</th>
-            <td>{{ client.Number }}</td>
-        </tr>
-        <tr>
-            <th>Adresse</th>
-            <td>{{ client.address }}</td>
-        </tr>
-        <tr>
-            <th>Ville</th>
-            <td>{{ client.city }}</td>
-        </tr>
-        <tr>
-            <th>Code postal</th>
-            <td>{{ client.zipCode }}</td>
-        </tr>
-        </tbody>
-    </table>
-    <a href="{{ path('app_client_index') }}">back to list</a>
-    <a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
-    {{ include('client/_delete_form.html.twig') }}
+    <section>
+        {{ include('composants/header.html.twig') }}
+		<section class="ml-64 mt-32">
+			 {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'client'} %}
 
-   <!-- CONTRAT -->
-    <h1 class="text-2xl mt-8">Contrat de {{ client.firstname }} </h1>
-        <table class="table mx-5">
-            <thead>
-            <tr>
-                <th>Numéro de Contrat</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Validity</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for contract in contracts %}
-                <tr>
-                    <td>{{ contract.id }}</td>
-                    <td>{{ contract.name }}</td>
-                    <td>{{ contract.description }}</td>
-                    <td>{{ contract.price }}</td>
-                    <td>{{ contract.validityDate|date('Y-m-d') }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="6">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <a href="{{ path('app_contract_new') }}">Create new</a>
+             {% include 'composants/_showElements.html.twig' with {
+                    'sections': [
+                        [
+                            "User information",
+                            client
+                        ],
+                        [
+                            "User's contract",
+                            contracts
+                        ],
+                        [
+                            "User's invoice",
+                            invoices
+                        ]
+                    ],
+                    'elementsToDisplay': [
+                        [
+                            ['Prénom', 'firstname'],
+                            ['Nom', 'lastname'],
+                            ['Mail', 'email'],
+                            ['Téléphone', 'phoneNumber'],
+                            ['Numéro de voie', 'number'],
+                            ['Adresse', 'address'],
+                            ['Ville', 'city'],
+                            ['Code Postal', 'zipCode'],
+                        ],
+                        [
+                            ['Numéro de facture', 'id'],
+                            ['Nom', 'name'],
+                            ['Description', 'description'],
+                            ['Prix', 'price'],
+                        ],
+                        [
+                            ['Numéro de facture', 'id'],   
+                            ['Nom', 'name'],
+                            ['Description', 'description'],
+                            ['Prix', 'price'],
+                            ['Type de paiement', 'typePayment'],
+                        ]
+                    ]
+                }
+            %}
 
-    <!-- FACTURE -->
-    <h1 class="text-2xl mt-8">Facture de {{ client.firstname }} </h1>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Numéro de facture</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>TypePayment</th>
-                <th>Prix</th>
-                <th>actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for invoice in invoices %}
-                <tr>
-                    <td>{{ invoice.id }}</td>
-                    <td>{{ invoice.name }}</td>
-                    <td>{{ invoice.description }}</td>
-                    <td>{{ invoice.date ? invoice.date|date('Y-m-d') : '' }}</td>
-                    <td>{{ invoice.typePayment }}</td>
-                    <td>{{ invoice.price }}</td>
-                    <td>
-                        <a href="{{ path('app_invoice_show', {'id': invoice.id}) }}">show</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="7">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <a href="{{ path('app_invoice_new') }}">Create new</a>
+        </section>
+    </section>
 {% endblock %}

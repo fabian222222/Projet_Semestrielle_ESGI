@@ -6,7 +6,7 @@
   <section>
 		{{ include('composants/header.html.twig') }}
 		<section class="ml-64 mt-32">
-			 {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'product'} %}
+			{% include 'composants/_adminSideBar.html.twig' with {'current_page': 'product'} %}
 			<div class='m-6'>
 
 				<div
@@ -41,7 +41,11 @@
 						['productPrice', 'Price', true],
 						['actions', 'Actions', false] 
 					], 
-					'datas': products} 
+					'datas': products,
+					'showAction': ['Show', 'app_product_show'],
+					'updateAction': ['Update', 'app_product_edit'],
+                	'deleteAction': ['Delete', 'app_product_delete']
+					} 
 				%}
 
 			</div>

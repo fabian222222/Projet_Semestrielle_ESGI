@@ -6,7 +6,7 @@
     {{ include('composants/header.html.twig') }}
 
     <section class='ml-64 mt-32'>
-        {{ include('composants/_adminSideBar.html.twig') }}
+        {% include 'composants/_adminSideBar.html.twig' with {'current_page': 'product'} %}
 
         {{ include('product/_form.html.twig') }}
 

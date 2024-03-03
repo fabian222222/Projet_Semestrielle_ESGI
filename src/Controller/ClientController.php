@@ -28,7 +28,6 @@ class ClientController extends AbstractController
 
         $session = $request->getSession();
         $schoolSelected = $session->get('driving-school-selected');
-
         $searchData = new SearchData();
         $form = $this->createForm(SearchType::class, $searchData);
         $form->handleRequest($request);
