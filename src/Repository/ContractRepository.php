@@ -66,4 +66,16 @@ class ContractRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByContractNameAndDescription(string $search, $drivingSchool): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.name LIKE :name OR q.description LIKE :description')
+            ->andWhere('q.drivingSchool = :drivingSchool')
+            ->setParameter('name', '%' . $search . '%')
+            ->setParameter('description', '%' . $search . '%')
+            ->setParameter('drivingSchool', $drivingSchool)
+            ->getQuery()
+            ->getResult();
+    }
 }

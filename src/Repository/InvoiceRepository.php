@@ -35,22 +35,24 @@ class InvoiceRepository extends ServiceEntityRepository
             ->andWhere('i.drivingSchool = :drivingSchoolId')
             ->setParameter('drivingSchoolId', $drivingSchoolId)
             ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    public function findByInvoiceNameAndDescription(string $search): array
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.name LIKE :name')
-            ->orWhere('q.description LIKE :description')
-            ->setParameter('name', '%' . $search . '%')
-            ->setParameter('description', '%' . $search . '%')
-            ->getQuery()
             ->getResult();
     }
 
-    public function findInvoiceByClientId($clientId) {
+    public function findByInvoiceNameAndDescription(string $search, $drivingSchool): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.name LIKE :name OR q.description LIKE :description')
+            ->andWhere('q.drivingSchool = :drivingSchool')
+            ->setParameter('name', '%' . $search . '%')
+            ->setParameter('description', '%' . $search . '%')
+            ->setParameter('drivingSchool', $drivingSchool)
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    public function findInvoiceByClientId($clientId)
+    {
         return $this->createQueryBuilder('i')
             ->join('i.client', 'c')
             ->andWhere('c.id = :id')
@@ -59,7 +61,8 @@ class InvoiceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findInvoicesCreatedAfterDate(\DateTimeInterface $date): array   {
+    public function findInvoicesCreatedAfterDate(\DateTimeInterface $date): array
+    {
         return $this->createQueryBuilder('i')
             ->andWhere('i.date >= :date')
             ->setParameter('date', $date)
@@ -67,7 +70,8 @@ class InvoiceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findTotalPriceOfInvoicesCreatedAfterDate(\DateTimeInterface $date): float {
+    public function findTotalPriceOfInvoicesCreatedAfterDate(\DateTimeInterface $date): float
+    {
         $result = $this->createQueryBuilder('i')
             ->select('SUM(i.price) as total_price')
             ->andWhere('i.date >= :date')
@@ -75,16 +79,17 @@ class InvoiceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
 
-        return $result !== null ? (float) $result : 0.0;
+        return $result !== null ? (float)$result : 0.0;
     }
 
-    public function getTotalPriceOfAllInvoices(): float {
+    public function getTotalPriceOfAllInvoices(): float
+    {
         $result = $this->createQueryBuilder('i')
             ->select('SUM(i.price) as total_price')
             ->getQuery()
             ->getSingleScalarResult();
 
-        return $result !== null ? (float) $result : 0.0;
+        return $result !== null ? (float)$result : 0.0;
     }
 
     public function findByTypePayment(string $typePayment): array

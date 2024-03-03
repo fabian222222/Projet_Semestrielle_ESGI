@@ -1,54 +1,54 @@
 <aside id="default-sidebar" class="fixed top-24 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-white">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-secondary dark:bg-dark-mode-secondary">
         <ul class="space-y-2 font-medium">
             <li>
-                <a href="#" class="mb-6 mt-8 flex items-center p-2 rounded-lg hover:bg-gray-100 group {% if current_page == 'home' %} active {% endif %}">
-                    <span class="material-symbols-outlined flex items-center justify-center-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">home</span>
+                <a href="#" class="mb-6 mt-8 flex items-center p-2 text-black dark:text-primary rounded-lg hover:bg-gray-100 group dark:hover:bg-dark-mode-third {% if current_page == 'home' %} active {% endif %}">
+                    <span class="material-symbols-outlined flex items-center justify-center-0 w-5 h-5 text-gray-500 dark:text-third transition duration-75 group-hover:text-gray-900 dark:group-hover:text-secondary">home</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 font-medium text-opacity-60">Mon entreprise</span>
+                    <span class="font-medium text-opacity-60">Mon entreprise</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('app_contract_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100">
-                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">contract</span>
+                <a href="{{ path('app_contract_index') }}" class="mb-6 flex items-center p-2 text-black dark:text-primary rounded-lg hover:bg-gray-100 group dark:hover:bg-dark-mode-third">
+                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 dark:text-third transition duration-75 group-hover:text-gray-900 dark:group-hover:text-secondary">contract</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'contract' %} text-red-500 {% endif %}">Mes contrats</span>
+                    <span class="flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'contract' %} text-red-secondary dark:text-dark-light-purple {% endif %}">Mes contrats</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('app_invoice_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {% if current_page == 'invoice' %}active{% endif %} ">
-                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">library_books</span>
+                <a href="{{ path('app_invoice_index') }}" class="mb-6 flex items-center p-2 text-black dark:text-primary rounded-lg hover:bg-gray-100 group dark:hover:bg-dark-mode-third {% if current_page == 'invoice' %}active{% endif %} ">
+                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 dark:text-third transition duration-75 group-hover:text-gray-900 dark:group-hover:text-secondary">library_books</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'invoice' %} text-red-500 {% endif %}">Mes Factures</span>
+                    <span class="flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'invoice' %} text-red-secondary dark:text-dark-light-purple {% endif %}">Mes Factures</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('app_client_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {% if current_page == 'client' %}active{% endif %}">
-                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">group</span>
+                <a href="{{ path('app_client_index') }}" class="mb-6 flex items-center p-2 text-black dark:text-primary rounded-lg hover:bg-gray-100 group dark:hover:bg-dark-mode-third {% if current_page == 'client' %}active{% endif %}">
+                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 dark:text-third transition duration-75 group-hover:text-gray-900 dark:group-hover:text-secondary">group</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'client' %} text-red-500 {% endif %}">Mes Clients</span>
+                    <span class="flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'client' %} text-red-secondary dark:text-dark-light-purple {% endif %}">Mes Clients</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('app_product_index') }}" class="mb-6 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {% if current_page == 'product' %}active{% endif %}">
-                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">shopping_cart</span>
+                <a href="{{ path('app_product_index') }}" class="mb-6 flex items-center p-2 text-black dark:text-primary rounded-lg hover:bg-gray-100 group dark:hover:bg-dark-mode-third {% if current_page == 'product' %}active{% endif %}">
+                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 dark:text-third transition duration-75 group-hover:text-gray-900 dark:group-hover:text-secondary">shopping_cart</span>
                     <span class="h-6 bg-gray-500 mx-3 w-[2px]"></span>
-                    <span class="text-gray-400 flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'product' %} text-red-500 {% endif %}">Mes Produits </span>
+                    <span class="flex-1 whitespace-nowrap text-opacity-60 {% if current_page == 'product' %} text-red-secondary dark:text-dark-light-purple {% endif %}">Mes Produits </span>
                 </a>
             </li>
 
         </ul>
         <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
             <li>
-                <a href="/logout" class="mb-4 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">logout</span>
-                    <span class="text-gray-400 ms-3 flex-1 whitespace-nowrap">Déconnecter</span>
+                <a href="/logout" class="mb-4 flex items-center p-2 text-black dark:text-primary rounded-lg hover:bg-gray-100 group dark:hover:bg-dark-mode-third">
+                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 dark:text-third transition duration-75 group-hover:text-gray-900 dark:group-hover:text-secondary">logout</span>
+                    <span class=" ms-3 flex-1 whitespace-nowrap">Déconnecter</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 group">
-                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900">help</span>
-                    <span class="ms-3 text-gray-400">Aide</span>
+                <a href="#" class="flex items-center p-2 text-black dark:text-primary transition duration-75 rounded-lg hover:bg-gray-100 group dark:hover:bg-dark-mode-third">
+                    <span class="material-symbols-outlined flex-shrink-0 w-5 h-5 text-gray-500 dark:text-third transition duration-75 group-hover:text-gray-900 dark:group-hover:text-secondary">help</span>
+                    <span class="ms-3">Aide</span>
 
                 </a>
             </li>
