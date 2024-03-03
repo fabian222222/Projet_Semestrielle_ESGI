@@ -6,6 +6,9 @@
     {{ include('composants/header.html.twig') }}
 
 		<section class='dark:bg-dark-mode-secondary ml-64 mt-32 dark:text-primary'>
+            <div class='m-8'>
+                <h1 class="text-6xl text-five pb-8 font-light">Modification produit</h1>
+            </div>
             {% include('composants/_customForm.html.twig')
                 with {
                 'form': form,

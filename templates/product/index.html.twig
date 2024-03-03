@@ -8,16 +8,13 @@
 		<section class="ml-64 mt-32">
 			{% include 'composants/_adminSideBar.html.twig' with {'current_page': 'product'} %}
 			<div class='m-6'>
+				<h1 class="text-6xl text-five pb-8 font-light">Produit</h1>
 
-				<div
-					class='flex items-center justify-between'
-				>
-					<div
-						class='text-white flex'
-					>
-						<a class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index') }}">Tout</a>
-						<a class='bg-red-primary dark:bg-dark-dark-purple px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index', {'productFiltredLess': '700'}) }}"> > 700 € </a>
-						<a class='bg-red-primary dark:bg-dark-dark-purple  rounded-tr rounded-br px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index', {'productFiltredGreater': '700'}) }}"> < 700 € </a>
+				<div class='flex items-center justify-between'>
+					<div class='text-white flex'>
+						<a class='bg-red-primary px-6 py-2 rounded-tr rounded-br hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index') }}">Tout</a>
+						<a class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index', {'productFiltredLess': '700'}) }}"> > 700 € </a>
+						<a class='bg-red-primary px-6 py-2 hover:bg-opacity-80 transition ease-in-out duration-100' href="{{ path('app_product_index', {'productFiltredGreater': '700'}) }}"> < 700 € </a>
 					</div>
 					<div class='flex items-center gap-6'>
 						<div class='flex items-center bg-red-primary dark:bg-dark-dark-purple rounded'>

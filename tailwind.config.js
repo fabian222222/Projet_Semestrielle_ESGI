@@ -26,6 +26,7 @@ module.exports = {
         'secondary': '#f3f4f6',
         'third': '#e5e7eb',
         'four': '#d1d5db',
+        'five': '#9ca3af',
 
 
         'dark-mode-primary': '#1D1D1D',
